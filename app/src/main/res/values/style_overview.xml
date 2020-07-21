@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--- OverView fragment style -->
+
+    <style name="OverViewCardTitleStyle">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/font_normal</item>
+        <item name="android:padding">@dimen/spacing_small</item>
+    </style>
+
+    <style name="OverViewCardStyle">
+        <item name="cardCornerRadius">5dp</item>
+        <item name="android:layout_margin">@dimen/spacing_small</item>
+        <item name="cardPreventCornerOverlap">false</item>
+        <item name="cardUseCompatPadding">true</item>
+    </style>
+    <style name="FragmentOverViewImgBtnStyle">
+        <item name="android:padding">@dimen/spacing_small</item>
+    </style>
+
+
+
+    <style name="ItemAccountReducedTextStyle">
+        <item name="android:textSize">@dimen/font_small</item>
+        <item name="android:padding">@dimen/spacing_tiny</item>
+        <item name="android:layout_margin">@dimen/spacing_tiny</item>
+    </style>
+    <style name="ItemAccountReducedImgStyle">
+        <item name="android:padding">@dimen/spacing_small</item>
+        <item name="android:layout_margin">@dimen/spacing_small</item>
+    </style>
+
+    <style name="ItemTransactionReducedTextStyle">
+        <item name="android:textSize">@dimen/font_small</item>
+        <item name="android:padding">@dimen/spacing_tiny</item>
+        <item name="android:layout_margin">@dimen/spacing_tiny</item>
+    </style>
+
+    <style name="ItemTransactionReducedBigTextStyle">
+        <item name="android:textSize">@dimen/font_normal</item>
+        <item name="android:padding">@dimen/spacing_tiny</item>
+        <item name="android:layout_margin">@dimen/spacing_small</item>
+    </style>
+</resources>

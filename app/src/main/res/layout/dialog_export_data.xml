@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/spacing_normal">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start Date"
+        style="@style/style_export_data_text"/>
+    <TextView
+        android:id="@+id/export_data_start_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/style_export_data_field"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="End Date"
+        style="@style/style_export_data_text"/>
+
+    <TextView
+        android:id="@+id/export_data_end_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        style="@style/style_export_data_field"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Type"
+        style="@style/style_export_data_text"
+        />
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/export_data_type_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/entries_export_type"
+        android:padding="@dimen/spacing_small"
+         />
+
+
+
+</LinearLayout>

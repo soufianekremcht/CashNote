@@ -1,0 +1,125 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
+
+    lintOptions {
+        disable 'DefaultLocale'
+    }
+    defaultConfig {
+        applicationId "com.example.highcash"
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+            debug {
+                ext.enableCrashlytics = false
+                ext.alwaysUpdateBuildId = false
+                crunchPngs false
+            }
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+}
+
+dependencies {
+
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation "androidx.recyclerview:recyclerview:1.1.0"
+    implementation "com.google.android.material:material:1.1.0"
+    implementation "androidx.preference:preference:1.1.1"
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'com.google.android.material:material:1.1.0'
+
+    // butterKnife injection android x
+    implementation 'com.jakewharton:butterknife:10.2.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
+
+    //glide
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+
+
+    // charts
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    implementation(
+            'joda-time:joda-time:2.9.4',
+            'io.github.kobakei:ratethisapp:1.1.3',
+            'com.android.support:multidex:1.0.1'
+    )
+
+    implementation "com.opencsv:opencsv:4.0"
+
+
+
+
+    // ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel:"
+    implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version"
+
+    // LiveData
+    implementation "androidx.lifecycle:lifecycle-livedata:$lifecycle_version"
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+
+    // date time picker
+    implementation 'com.wdullaer:materialdatetimepicker:4.2.3'
+
+    // material dialogs
+    implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
+
+    // Gson
+    implementation 'com.google.code.gson:gson:2.8.6'
+
+    // room
+    implementation "androidx.room:room-rxjava2:$room_version"
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+
+
+    // rxjava
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.16'
+
+    // dexter permission
+    implementation 'com.karumi:dexter:6.0.1'
+
+    // dagger
+    implementation "com.google.dagger:dagger:$dagger_version"
+    implementation "com.google.dagger:dagger-android-support:$dagger_version"
+    annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$dagger_version"
+    implementation 'javax.inject:javax.inject:1'
+
+    // view
+    implementation 'com.mikhaellopez:circularimageview:4.2.0'
+    //implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+
+
+    debugImplementation 'cat.ereza:customactivityoncrash:2.2.0'
+
+    testImplementation 'junit:junit:4.12'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
+
+
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+}

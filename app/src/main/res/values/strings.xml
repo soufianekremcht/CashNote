@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">High Cash</string>
+    <string name="navigation_drawer_open">drawer_open</string>
+    <string name="navigation_drawer_close">drawer_close</string>
+    <string name="cancel">Cancel</string>
+    <string name="choose_color">Choose color</string>
+    <string name="default_string">DEFAULT</string>
+    <string name="transaction_date_field_error">the lastUpdatedDate is already passed , enter a new one</string>
+    <string name="transaction_description_error">the field is empty, you should enter something</string>
+    <string name="account_name_field_error">the field is empty, you should enter something</string>
+    <string name="string_delete_message">Are you sure you want to delete this item ?</string>
+    <string name="string_dialog_delete_title">Delete Transaction : </string>
+    <string name="confirm">Confirm</string>
+    <string name="show_transaction_created_at">Created At :</string>
+    <string name="balance_text">balance</string>
+    <string name="transactions_text">Transactions</string>
+    <string name="latest_accounts">Latest Accounts</string>
+    <string name="latest_transactions">Latest Transactions</string>
+    <string name="add_new_transaction_title">Add New Transaction</string>
+    <string name="add_new_transaction_description">Description :</string>
+    <string name="empty_string" />
+    <string name="edit_account">Edit Account :</string>
+    <string name="accounts">Accounts</string>
+    <string name="created_at">Created At :</string>
+    <string name="last_updated">Last Updated :</string>
+    <string name="income">Income</string>
+    <string name="expense">Expense</string>
+    <string name="all">All</string>
+    <string name="share_csv_file">Share File To :</string>
+</resources>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="entries_export_type" translatable="false">
+        <item>CSV</item>
+        <item>Excel</item>
+    </string-array>
+    <string-array name="values_export_type" translatable="false">
+        <item>CSV</item>
+        <item>EXCEL</item>
+    </string-array>
+</resources>

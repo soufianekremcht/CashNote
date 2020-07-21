@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+    <group
+        android:id="@+id/menu_top"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/drawer_menu_accounts"
+            android:title="Accounts"
+            android:icon="@drawable/ic_account_balance_wallet"/>
+        <item
+            android:id="@+id/drawer_menu_overview"
+            android:title="Over View"
+            android:icon="@drawable/ic_over_view_black_24dp"
+            />
+        <item
+            android:id="@+id/drawer_menu_filter"
+            android:title="Filter"
+            android:icon="@drawable/ic_calender_black_24dp"/>
+    </group>
+
+    <group
+        android:id="@+id/menu_bottom"
+        android:checkableBehavior="none">
+
+        <item android:id="@+id/drawer_menu_user"
+            android:title="User"
+            android:icon="@drawable/ic_account_circle"/>
+        <item android:id="@+id/drawer_menu_settings"
+            android:title="Settings"
+            android:icon="@drawable/ic_settings_black_24dp"/>
+
+
+    </group>
+
+</menu>

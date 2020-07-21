@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="style_export_data_text">
+        <item name="android:padding">@dimen/spacing_normal</item>
+
+    </style>
+
+    <style name="style_export_data_field">
+        <item name="android:padding">@dimen/spacing_small</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:background">?selectableItemBackground</item>
+        <item name="android:textAlignment">center</item>
+
+    </style>
+</resources>

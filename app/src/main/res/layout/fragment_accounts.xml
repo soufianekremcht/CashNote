@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/accounts_main_layout"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/accounts_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+    <include layout="@layout/view_empty_data"
+        android:id="@+id/accounts_empty_view_layout"
+        android:visibility="gone"/>
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_account_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_anchor="@id/accounts_recycler_view"
+        app:layout_anchorGravity="bottom|end"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_add_white_24dp"
+        />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

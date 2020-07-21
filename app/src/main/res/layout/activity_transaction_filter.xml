@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/main_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.ThemeOverLay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/transaction_filter_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:title=""
+            app:popupTheme="@style/AppTheme.PopUpOverLay"
+            >
+
+<!--            Show Bottom Sheet Or Dialog To Filter Data By Month-->
+            <TextView
+                android:id="@+id/month_filter_chooser_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Month"
+                android:drawableEnd="@drawable/ic_arrow_down"
+                android:padding="@dimen/spacing_normal"
+                android:textSize="@dimen/font_large"
+                android:textStyle="bold"
+                android:textColor="@color/mdtp_white"
+                android:background="?selectableItemBackground"
+
+                />
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        >
+        <TextView
+            android:id="@+id/transaction_filter_title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Transactions"
+            android:padding="@dimen/spacing_normal"
+            android:textSize="@dimen/font_large"
+            android:textStyle="bold"
+            />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/transactions_filter_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/transaction_filter_title_text"
+            />
+
+        <include layout="@layout/view_empty_data"
+            android:id="@+id/filter_empty_view"
+            android:visibility="gone"/>
+
+
+
+    </RelativeLayout>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

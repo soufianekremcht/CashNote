@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="style_filter_dialog_img">
+        <item name="android:padding">@dimen/spacing_normal</item>
+        <item name="android:layout_margin">@dimen/spacing_tiny</item>
+        <item name="android:background">?selectableItemBackground</item>
+    </style>
+    <style name="style_filter_dialog_text">
+        <item name="android:paddingTop">@dimen/spacing_normal</item>
+        <item name="android:paddingBottom">@dimen/spacing_normal</item>
+        <item name="android:layout_margin">@dimen/spacing_tiny</item>
+
+    </style>
+
+</resources>

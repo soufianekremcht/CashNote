@@ -1,0 +1,48 @@
+package com.example.highcash.di.component;
+
+
+import com.example.highcash.di.scope.ActivityScope;
+import com.example.highcash.di.module.ActivityModule;
+import com.example.highcash.ui.accounts.AccountsFragment;
+import com.example.highcash.ui.account_editor.AccountEditorActivity;
+import com.example.highcash.ui.transactions.search.SearchActivity;
+import com.example.highcash.ui.settings.export.ExportDataDialogFragment;
+import com.example.highcash.ui.transaction_editor.TransactionEditorActivity;
+import com.example.highcash.ui.main.MainActivity;
+import com.example.highcash.ui.overview.OverViewFragment;
+import com.example.highcash.ui.settings.SettingsActivity;
+import com.example.highcash.ui.settings.SettingsFragment;
+import com.example.highcash.ui.splash_screen.SplashScreenActivity;
+import com.example.highcash.ui.transaction_filter.TransactionFilterActivity;
+import com.example.highcash.ui.transactions.TransactionsFragment;
+
+import dagger.Component;
+
+@ActivityScope
+@Component(dependencies = AppComponent.class,modules = ActivityModule.class)
+public interface ActivityComponent {
+
+    void inject(MainActivity mainActivity);
+
+    void inject(AccountsFragment accountsFragment);
+
+    void inject(TransactionsFragment transactionFragment);
+
+    void inject(OverViewFragment overViewFragment);
+
+    void inject(SplashScreenActivity splashscreenActivity);
+
+    void inject(AccountEditorActivity accountEditorActivity);
+
+    void inject(TransactionEditorActivity transactionEditorActivity);
+
+    void inject(TransactionFilterActivity transactionFilterActivity);
+
+
+    void inject(SettingsActivity settingsActivity);
+    void inject(SettingsFragment settingsFragment);
+    void inject(ExportDataDialogFragment exportDataDialogFragment);
+
+    void inject(SearchActivity searchActivity);
+
+}

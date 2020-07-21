@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/spacing_large">
+
+
+    <ImageView
+        android:id="@+id/filter_arrow_right_img"
+        style="@style/style_filter_dialog_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="110dp"
+        android:layout_toEndOf="@+id/filter_year_text"
+        android:src="@drawable/ic_arrow_right_24dp" />
+    <TextView
+        android:id="@+id/filter_year_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="2020"
+        android:textSize="@dimen/font_normal"
+        style="@style/style_filter_dialog_text"/>
+
+    <ImageView
+        android:id="@+id/filter_arrow_left_img"
+        style="@style/style_filter_dialog_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginEnd="111dp"
+        android:layout_toStartOf="@+id/filter_year_text"
+        android:src="@drawable/ic_arrow_left_24dp" />
+
+
+    <GridView
+
+        android:id="@+id/filter_months_grid_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/filter_year_text"
+        android:numColumns="6"
+
+        />
+
+
+</RelativeLayout>

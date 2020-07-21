@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<com.example.highcash.ui.views.CheckableCircleView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/icon"
+    android:layout_width="50dp"
+    android:layout_height="50dp"
+    android:padding="10dp"
+    android:layout_gravity="center">
+
+</com.example.highcash.ui.views.CheckableCircleView>
