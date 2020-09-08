@@ -1,6 +1,7 @@
 package com.example.highcash.ui.accounts;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,9 +20,9 @@ import com.example.highcash.R;
 import com.example.highcash.data.app_preference.PrefConst;
 import com.example.highcash.data.db.model.CashAccount;
 import com.example.highcash.data.db.model.CashTransaction;
+import com.example.highcash.helper.DialogsUtil;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -42,7 +44,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.Accoun
     @NonNull
     @Override
     public AccountsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.cardview_accounts, parent, false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.card_accounts, parent, false);
         return new AccountsViewHolder(v);
     }
 
@@ -52,9 +54,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.Accoun
         holder.accountTitle.setText(currentAccount.getName());
         holder.accountTotalTransactions.setText(
                 String.format(Locale.US,"%d transactions",currentAccount.getTransactionsList().size()));
-        String balance = getAccountTotalBalance(position) +  MyApp.AppPref().getString(PrefConst.PREF_DEFAULT_CURRENCY,"$");
 
-        holder.accountBalance.setText(balance);
         holder.accountCategoryImg.setBorderColor(currentAccount.getColor());
 
         holder.accountCategoryImg.setImageDrawable(
@@ -74,20 +74,29 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.Accoun
             listener.onAccountClick(position);
         });
         holder.accountOptionsBtn.setOnClickListener(v -> {
-            listener.onAccountPopUpMenuShow(v,position);
+            // pop up
+            PopupMenu popupMenu = new PopupMenu(mContext,v);
+            popupMenu.inflate(R.menu.popup_menu_edit);
+            popupMenu.setOnMenuItemClickListener(item -> {
+                switch (item.getItemId()){
+                    case R.id.popup_menu_edit:
+                        listener.onAccountEdit(position);
+                        break;
+                    case R.id.popup_menu_delete:
+                        //show delete dialog;
+                        DialogsUtil.showBasicDialogWithListener((Activity) mContext,
+                                R.string.delete_message,
+                                R.string.dialog_delete_account_title,
+                                R.string.confirm,
+                                R.string.cancel,
+                                (dialog, which) -> deleteItem(position)).show();
+                        break;
+                }
+                return true;
+            });
+            popupMenu.show();
         });
-
     }
-    private int getAccountTotalBalance(int position){
-        int totalBalance = 0;
-        CashAccount account = accountList.get(position);
-        for (CashTransaction transaction : account.getTransactionsList()){
-            totalBalance += transaction.getBalance();
-        }
-        return totalBalance;
-    }
-
-
     public void addItems(List<CashAccount> accounts){
         accountList.clear();
         accountList.addAll(accounts);
@@ -95,12 +104,13 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.Accoun
     }
     public void deleteItem(int position){
         accountList.remove(position);
+        listener.onAccountDelete(position);
         notifyItemRemoved(position);
     }
+
     public List<CashAccount> getAccountList(){
         return accountList;
     }
-
 
     public void setAdapterListener(AccountsAdapterListener listener){
         this.listener = listener;
@@ -109,15 +119,13 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.Accoun
 
 
 
-    class AccountsViewHolder extends RecyclerView.ViewHolder{
+    static class AccountsViewHolder extends RecyclerView.ViewHolder{
         @BindView(R.id.account_card_view)
         CardView accountCardView;
         @BindView(R.id.card_account_title)
         TextView accountTitle;
         @BindView(R.id.card_account_total_transactions)
         TextView accountTotalTransactions;
-        @BindView(R.id.card_account_balance)
-        TextView accountBalance;
         @BindView(R.id.card_account_category_img)
         CircularImageView accountCategoryImg;
         @BindView(R.id.card_account_options_btn)
@@ -130,8 +138,9 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.Accoun
     }
 
     public interface AccountsAdapterListener{
-         void onAccountPopUpMenuShow(View view,int position);
-         void onAccountClick(int position);
+        void onAccountDelete(int position);
+        void onAccountEdit(int position);
+        void onAccountClick(int position);
 
     }
 }

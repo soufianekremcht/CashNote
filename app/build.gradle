@@ -116,8 +116,8 @@ dependencies {
     debugImplementation 'cat.ereza:customactivityoncrash:2.2.0'
 
     testImplementation 'junit:junit:4.12'
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0'
-    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
+    /* debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'*/
 
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

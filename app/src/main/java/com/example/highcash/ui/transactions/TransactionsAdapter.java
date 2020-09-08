@@ -49,7 +49,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
     @NonNull
     @Override
     public TransactionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.cardview_transaction,parent,false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.card_transaction,parent,false);
         return new TransactionViewHolder(v);
     }
 
@@ -62,6 +62,10 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         return transactionsList.size();
     }
 
+    public void setAdapterListener(TransactionsAdapterListener listener){
+        this.listener = listener;
+    }
+
 
     public void addItems(List<CashTransaction> transactions){
         transactionsList = new ArrayList<>();
@@ -70,10 +74,8 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
     }
     void deleteItem(int position){
         transactionsList.remove(position);
+        listener.onTransactionDelete(position);
         notifyItemRemoved(position);
-    }
-    public void setAdapterListener(TransactionsAdapterListener listener){
-        this.listener = listener;
     }
 
     // Selections
@@ -166,8 +168,6 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         TextView transactionMoneyTextView;
         @BindView(R.id.transaction_last_updated_date_txt)
         TextView transactionLastUpdatedDate;
-        @BindView(R.id.card_transaction_source_text)
-        TextView transactionSourceText;
         TransactionViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
@@ -179,36 +179,37 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
             CashTransaction transaction = transactionsList.get(currentPosition);
             transactionLastUpdatedDate.setText(String.format("%s %s",
                     mContext.getString(R.string.last_updated),
-                    AppUtils.formatDate(new Date(transaction.getDate()), AppUtils.MAIN_DATE_FORMAT)));
+                    AppUtils.formatDate(new Date(transaction.getLastUpdatedDate()), AppUtils.MAIN_DATE_FORMAT)));
 
 
-            String balance = transaction.getBalance() + MyApp.AppPref().getString(
-                    PrefConst.PREF_DEFAULT_CURRENCY,"$");;
+            String balance = transaction.getBalance() + " " + MyApp.AppPref().getString(
+                    PrefConst.PREF_DEFAULT_CURRENCY, "$");
+            ;
             transactionMoneyTextView.setText(balance);
-            transactionTitle.setText(String.format("%s",transaction.getTitle()));
+            transactionTitle.setText(String.format("%s", transaction.getName()));
             transactionCardView.setOnClickListener(v -> listener.onTransactionClick(currentPosition));
             transactionCardView.setOnLongClickListener(v -> listener.onTransactionLongClick(currentPosition));
 
-            if (transactionMoneyTextView.getText().toString().substring(0,1).equals("-"))
-                transactionMoneyTextView.setTextColor(AppUtils.getColor(mContext,R.color.piechart_red));
+            if (transactionMoneyTextView.getText().toString().substring(0, 1).equals("-"))
+                transactionMoneyTextView.setTextColor(AppUtils.getColor(mContext, R.color.piechart_red));
             else
-                transactionMoneyTextView.setTextColor(AppUtils.getColor(mContext,R.color.accent_green));
+                transactionMoneyTextView.setTextColor(AppUtils.getColor(mContext, R.color.accent_green));
 
             if (listener.getAccountCategory() != null)
                 transactionCategoryImg.setImageDrawable(mContext.getDrawable(listener.getAccountCategory().getCategoryImage()));
 
-            if (listener.getAccountSource() != null)
-                transactionSourceText.setText(String.format("Source : %s", listener.getAccountSource()));
-            applyIconAnimation(this,currentPosition);
+/*            if (listener.getAccountSource() != null)
+                transactionSourceText.setText(String.format("Source : %s", listener.getAccountSource()));*/
+
+
+            applyIconAnimation(this, currentPosition);
         }
-
-
     }
 
     public interface TransactionsAdapterListener{
         void onTransactionClick(int position);
         boolean onTransactionLongClick(int position);
-        String getAccountSource();
+        void onTransactionDelete(int position);
         AccountCategory getAccountCategory();
     }
 }

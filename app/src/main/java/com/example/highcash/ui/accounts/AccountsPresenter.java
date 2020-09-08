@@ -31,8 +31,12 @@ public class AccountsPresenter<V extends AccountsContract.View> extends BasePres
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(accounts -> {
+
                     getMvpView().setupAccountsAdapter(accounts);
 
+
+                },throwable -> {
+                    Log.e("Get Accounts", throwable.getMessage(), throwable);
                 }));
     }
     @Override
@@ -46,6 +50,6 @@ public class AccountsPresenter<V extends AccountsContract.View> extends BasePres
                             //getMvpView().showMessage("Delete account Successes");
                         },
                         throwable ->
-                                Log.e("deleteAccount", "Unable to update username", throwable)));
+                                Log.e("DeleteAccount", throwable.getMessage(), throwable)));
     }
 }

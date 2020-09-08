@@ -89,10 +89,12 @@
                     android:layout_height="wrap_content"
                     android:text="Category"
                     style="@style/account_text_view_style"/>
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/account_category_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:padding="5dp"
                     android:layout_margin="5dp"
                     />

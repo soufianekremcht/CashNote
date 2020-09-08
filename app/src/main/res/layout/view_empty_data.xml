@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/spacing_normal"
+    android:padding="@dimen/spacing_small">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/empty_view_img"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:src="@drawable/black_app_img"
+        android:src="@drawable/img_note"
         android:layout_centerInParent="true"
         />
 
@@ -19,7 +22,8 @@
         android:layout_centerHorizontal="true"
         android:text="Nothing Here."
         android:textSize="@dimen/font_larger"
-        android:textStyle="bold"
-        android:textColor="@color/accent_black" />
+        android:textColor="@color/accent_black"
+        android:layout_margin="@dimen/spacing_normal"
+        android:padding="@dimen/spacing_normal" />
 
 </RelativeLayout>

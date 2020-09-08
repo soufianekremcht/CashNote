@@ -38,7 +38,7 @@ public class AccountCategoryAdapter extends RecyclerView.Adapter<AccountCategory
     @NonNull
     @Override
     public AccountCategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.cardview_account_category, parent, false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.card_account_category, parent, false);
         return new AccountCategoryViewHolder(v);
     }
 

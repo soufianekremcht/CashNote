@@ -5,43 +5,43 @@ import android.os.Parcelable;
 
 public class CashTransaction implements Parcelable {
 
-    private String title;
+    private String name;
     private int balance;
     private long lastUpdatedDate;
-    private long date;
     private int accountSourceId;
     private boolean isExpense;
+    private String accountParentName;
 
 
     public CashTransaction() {
     }
 
-    public CashTransaction(String title, int balance, long lastUpdatedDate, int accountSourceId, long date, boolean isExpense) {
-        this.title = title;
+    public CashTransaction(String name, int balance, long lastUpdatedDate, int accountSourceId, boolean isExpense, String accountParentName) {
+        this.name = name;
         this.balance = balance;
         this.lastUpdatedDate = lastUpdatedDate;
         this.accountSourceId = accountSourceId;
-        this.date = date;
         this.isExpense = isExpense;
+        this.accountParentName = accountParentName;
     }
 
     protected CashTransaction(Parcel in) {
-        title = in.readString();
+        name = in.readString();
         balance = in.readInt();
         lastUpdatedDate = in.readLong();
         accountSourceId = in.readInt();
-        date = in.readLong();
         isExpense = in.readByte() != 0;
+        accountParentName = in.readString();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(title);
+        dest.writeString(name);
         dest.writeInt(balance);
         dest.writeLong(lastUpdatedDate);
         dest.writeInt(accountSourceId);
-        dest.writeLong(date);
         dest.writeByte((byte) (isExpense ? 1 : 0));
+        dest.writeString(accountParentName);
     }
 
     @Override
@@ -61,12 +61,12 @@ public class CashTransaction implements Parcelable {
         }
     };
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getBalance() {
@@ -93,19 +93,19 @@ public class CashTransaction implements Parcelable {
         this.accountSourceId = accountSourceId;
     }
 
-    public long getDate() {
-        return date;
-    }
-
-    public void setDate(long date) {
-        this.date = date;
-    }
-
     public boolean isExpense() {
         return isExpense;
     }
 
     public void setExpense(boolean expense) {
         isExpense = expense;
+    }
+
+    public String getAccountParentName() {
+        return accountParentName;
+    }
+
+    public void setAccountParentName(String accountParentName) {
+        this.accountParentName = accountParentName;
     }
 }

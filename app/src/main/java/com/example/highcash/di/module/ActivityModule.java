@@ -32,7 +32,7 @@ import com.example.highcash.ui.transaction_editor.TransactionEditorContract;
 import com.example.highcash.ui.transaction_editor.TransactionEditorPresenter;
 import com.example.highcash.ui.transaction_filter.TransactionFilterContract;
 import com.example.highcash.ui.transaction_filter.TransactionFilterPresenter;
-import com.example.highcash.ui.transactions.TransactionContract;
+import com.example.highcash.ui.transactions.TransactionsContract;
 import com.example.highcash.ui.transactions.TransactionsAdapter;
 import com.example.highcash.ui.transactions.TransactionsPresenter;
 import com.example.highcash.ui.transactions.search.SearchContract;
@@ -107,8 +107,8 @@ public class ActivityModule {
 
     // Transactions
     @Provides
-    TransactionContract.Presenter<TransactionContract.View> provideTransactionsPresenter(
-            TransactionsPresenter<TransactionContract.View> presenter){
+    TransactionsContract.Presenter<TransactionsContract.View> provideTransactionsPresenter(
+            TransactionsPresenter<TransactionsContract.View> presenter){
         return presenter;
     }
     @Provides

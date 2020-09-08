@@ -42,7 +42,7 @@ public class OverViewPresenter<V extends OverViewContract.View> extends BasePres
                         allTransactions.addAll(cashAccount.getTransactionsList());
                     }
                     Collections.sort(allTransactions, (o1, o2) -> {
-                        long c = o2.getDate() - o1.getDate();
+                        long c = o2.getLastUpdatedDate() - o1.getLastUpdatedDate();
                         if (c > 0) return 1;
                         else return -1;
 

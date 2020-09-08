@@ -15,20 +15,21 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
-import com.example.highcash.MyApp;
 import com.example.highcash.R;
-import com.example.highcash.data.view_model.SharedViewModel;
+
+import com.example.highcash.data.db.model.CashAccount;
+import com.example.highcash.helper.AppUtils;
+import com.example.highcash.ui.account_editor.AccountEditorActivity;
 import com.example.highcash.ui.accounts.AccountsFragment;
 import com.example.highcash.ui.base.BaseActivity;
-import com.example.highcash.ui.main.di.MainComponent;
 import com.example.highcash.ui.overview.OverViewFragment;
 import com.example.highcash.ui.settings.SettingsActivity;
 import com.example.highcash.ui.transaction_filter.TransactionFilterActivity;
-import com.example.highcash.ui.transactions.TransactionsFragment;
-import com.example.highcash.helper.AppUtils;
+
+import com.example.highcash.ui.transactions.TransactionsActivity;
 import com.example.highcash.ui.transactions.search.SearchActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 import javax.inject.Inject;
@@ -36,23 +37,20 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.example.highcash.helper.AppConst.ACCOUNT_PARENT_ID;
-
 public class MainActivity extends BaseActivity implements MainContract.View {
-    public static final String FRAGMENT_TRANSACTION_TAG ="fragment_transaction";
     public static final String FRAGMENT_ACCOUNT_TAG ="fragment_account";
-    private static final String FRAGMENT_OVERVIEW_TAG = "overViewFragment";
+    private static final String FRAGMENT_OVERVIEW_TAG = "overviewFragment";
 
 
     public static final int REFRESH_TRANSACTION_LIST_CODE = 55;
     public static final int REFRESH_ACCOUNT_LIST_CODE = 44;
     public static final int RESULT_T = 533;
     public static final int RESULT_A = 511;
+    public static final String ACCOUNT_PARENT = "account_parent";
 
     public int CurrentDaysCount = AppUtils.getCurrentDaysCount();
     public int CurrentYear = AppUtils.getCurrentYear();
 
-    MainComponent mainComponent;
 
 
     @BindView(R.id.main_drawer)
@@ -61,9 +59,10 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     NavigationView mainNavView;
     @BindView(R.id.main_toolbar)
     Toolbar mainToolbar;
+    @BindView(R.id.add_account_transaction_fab)
+    FloatingActionButton addAccountTransactionFab;
 
     private ActionBarDrawerToggle drawerToggle;
-    public SharedViewModel model;
 
     @Inject
     MainContract.Presenter<MainContract.View> presenter;
@@ -73,13 +72,10 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setUnBinder(ButterKnife.bind(this));
-        mainComponent = ((MyApp) getApplicationContext()).getComponent().mainComponent().create();
-        mainComponent.inject(this);
 
         getActivityComponent().inject(this);
 
         presenter.onAttach(this);
-        model = new ViewModelProvider(this).get(SharedViewModel.class);
         setupUi();
 
     }
@@ -113,10 +109,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_T) {
-            model.setAccountId(data.getIntExtra(ACCOUNT_PARENT_ID, -1));
-            showTransactionsFragment();
-        } else if (resultCode == RESULT_A){
+        if (resultCode == RESULT_A){
             showAccountFragment();
         }
     }
@@ -133,10 +126,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
 
     @Override
     public void onBackPressed() {
-        if (getCurrentFragment() instanceof TransactionsFragment)
-            showAccountFragment();
-        else
-            super.onBackPressed();
+        super.onBackPressed();
     }
 
 
@@ -184,20 +174,31 @@ public class MainActivity extends BaseActivity implements MainContract.View {
             }
             return false;
         });
-
+        setFabBtn();
         showAccountFragment();
     }
 
+    private void setFabBtn(){
+        if (getCurrentFragment() instanceof OverViewFragment)
+            addAccountTransactionFab.hide();
+        else
+            addAccountTransactionFab.show();
+            addAccountTransactionFab.setOnClickListener(v->{
+                Intent intent = new Intent(MainActivity.this, AccountEditorActivity.class);
+                startActivityForResult(intent,REFRESH_ACCOUNT_LIST_CODE);
+            });
 
+    }
     @Override
     public void showAccountFragment() {
         loadFragmentWithoutAnimations(AccountsFragment.newInstance(),FRAGMENT_ACCOUNT_TAG);
         setToolbarTitle(R.string.accounts);
     }
-
     @Override
-    public void showTransactionsFragment() {
-        loadFragment(TransactionsFragment.newInstance(),FRAGMENT_TRANSACTION_TAG);
+    public void showTransactionsActivity(CashAccount account) {
+        Intent transactionActivityIntent = new Intent(this, TransactionsActivity.class);
+        transactionActivityIntent.putExtra(ACCOUNT_PARENT,account);
+        startActivity(transactionActivityIntent);
     }
 
     @Override
@@ -212,8 +213,9 @@ public class MainActivity extends BaseActivity implements MainContract.View {
 
     public void loadFragment(Fragment fragment, String tag){
         getSupportFragmentManager().beginTransaction()
-                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left)
+                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,R.anim.enter_from_left,R.anim.exit_to_left)
                 .replace(R.id.fragment_container,fragment,tag)
+                .addToBackStack(null)
                 .commit();
     }
 
@@ -225,12 +227,6 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     }
     private Fragment getCurrentFragment(){
         return getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-    }
-
-
-
-    public void setToolbarTitle(String title){
-        mainToolbar.setTitle(title);
     }
     public void setToolbarTitle(@StringRes int stringResId){
         mainToolbar.setTitle(stringResId);

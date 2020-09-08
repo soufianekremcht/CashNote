@@ -5,7 +5,6 @@
     android:id="@+id/main_drawer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -36,6 +35,16 @@
            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"/>
 
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add_account_transaction_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_anchor="@id/fragment_container"
+            app:layout_anchorGravity="bottom|end"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:src="@drawable/ic_add_white_24dp"/>
+
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <com.google.android.material.navigation.NavigationView
@@ -43,7 +52,6 @@
         android:layout_width="275dp"
         android:layout_height="match_parent"
         android:layout_gravity ="start"
-        android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/drawer_menu"
         />

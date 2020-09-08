@@ -1,5 +1,6 @@
 package com.example.highcash.ui.transaction_filter;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import javax.inject.Inject;
@@ -19,14 +20,25 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.highcash.R;
+import com.example.highcash.data.db.model.CashAccount;
 import com.example.highcash.data.db.model.CashTransaction;
 import com.example.highcash.ui.account_editor.adapter.AccountCategory;
 import com.example.highcash.ui.base.BaseActivity;
 import com.example.highcash.ui.transaction_filter.filter.TransactionFilterDialog;
 import com.example.highcash.ui.transactions.TransactionsAdapter;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
+
+import static com.example.highcash.helper.AppUtils.CURRENT_YEAR;
 
 public class TransactionFilterActivity extends BaseActivity implements TransactionFilterContract.View {
 
@@ -39,8 +51,6 @@ public class TransactionFilterActivity extends BaseActivity implements Transacti
     @BindView(R.id.month_filter_chooser_btn)
     TextView monthFilterChooserBtn;
 
-    @BindView(R.id.transaction_filter_title_text)
-    TextView transactionFilterTitleText;
 
     @BindView(R.id.transactions_filter_recycler_view)
     RecyclerView transactionsFilteredRecyclerView;
@@ -48,6 +58,8 @@ public class TransactionFilterActivity extends BaseActivity implements Transacti
     @BindView(R.id.filter_empty_view)
     RelativeLayout filterEmptyView;
 
+    @BindView(R.id.month_summary_chart)
+    PieChart monthSummaryChart;
     private TransactionsAdapter transactionsAdapter;
     public int selected_month_position = -1;
     public int selected_year = 2020;
@@ -87,7 +99,6 @@ public class TransactionFilterActivity extends BaseActivity implements Transacti
         transactionFilterToolbar.setNavigationOnClickListener(v->{
             onBackPressed();
         });
-        transactionFilterToolbar.setTitle("");
         setSupportActionBar(transactionFilterToolbar);
 
         transactionsAdapter = new TransactionsAdapter(this,new ArrayList<>());
@@ -96,15 +107,15 @@ public class TransactionFilterActivity extends BaseActivity implements Transacti
         transactionsFilteredRecyclerView.setAdapter(transactionsAdapter);
         transactionsAdapter.setAdapterListener(this);
         monthFilterChooserBtn.setOnClickListener(v->{
-            showFilter();
+            showFilterDialog();
         });
-        transactionFilterTitleText.setText(R.string.all);
+        transactionFilterToolbar.setTitle("Filter By Month :");
         mPresenter.getTransactions("",-1,false);
 
 
     }
 
-    private void showFilter() {
+    private void showFilterDialog() {
         isFilterShown = true;
         TransactionFilterDialog filterDialog = new TransactionFilterDialog();
         filterDialog.show(getSupportFragmentManager(),"transaction_filter_dialog");
@@ -124,11 +135,12 @@ public class TransactionFilterActivity extends BaseActivity implements Transacti
 
     public void filterTransactionsByMonth(String month, int year){
         mPresenter.getTransactions(month,year,true);
-        transactionFilterTitleText.setText(String.format("%s %s",month,year));
+        transactionFilterToolbar.setTitle(String.format(" %s %s",month,year));
     }
 
     @Override
     public void showTransactions(List<CashTransaction> transactions) {
+        setSummaryChart(transactions);
         transactionsAdapter.addItems(transactions);
         checkEmptyView();
     }
@@ -154,13 +166,49 @@ public class TransactionFilterActivity extends BaseActivity implements Transacti
     }
 
     @Override
-    public String getAccountSource() {
-        return null;
+    public void onTransactionDelete(int position) {
+
     }
 
     @Override
     public AccountCategory getAccountCategory() {
         return null;
+    }
+
+
+    public void setSummaryChart(List<CashTransaction> transactions){
+        Calendar calendar = Calendar.getInstance();
+        float totalExpense = 1f;
+        float totalIncome = 1f;
+        Description desc = new Description();
+        desc.setText("Summary of this month's transaction");
+
+        monthSummaryChart.setDescription(desc);
+        ArrayList<PieEntry> values = new ArrayList<>();
+        List<CashTransaction> transactionsOfThisMonth = new ArrayList<>();
+
+        // check the transactions of this month
+        for (CashTransaction cashTransaction : transactions) {
+            if (cashTransaction.isExpense())
+                totalExpense -= cashTransaction.getBalance();
+            else
+                totalIncome += cashTransaction.getBalance();
+        }
+        // draw a chart for the summary of total income and expenses
+        values.add(new PieEntry(totalExpense,"Expense"));
+        values.add(new PieEntry(totalIncome,"Income"));
+
+        String summaryLabel = String.format(Locale.US," Summary for %d-%d",
+                selected_month_position+1,CURRENT_YEAR);
+
+        PieDataSet set1 = new PieDataSet(values, summaryLabel);
+        set1.setColors(ColorTemplate.createColors(new int[]{Color.RED,Color.GREEN}));
+        set1.setValueTextColor(Color.BLACK);
+        PieData pieData = new PieData(set1);
+
+        monthSummaryChart.animateXY(1000,1000);
+        monthSummaryChart.setData(pieData);
+
     }
 
 }

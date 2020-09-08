@@ -28,7 +28,8 @@
                 android:searchIcon="@null"
                 android:imeOptions="flagNoFullscreen"
                 android:searchHintIcon="@null"
-                tools:targetApi="lollipop_mr1">
+                tools:targetApi="lollipop_mr1"
+                >
 
             </SearchView>
         </androidx.appcompat.widget.Toolbar>

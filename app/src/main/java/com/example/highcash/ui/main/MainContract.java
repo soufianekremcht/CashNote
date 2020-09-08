@@ -1,5 +1,6 @@
 package com.example.highcash.ui.main;
 
+import com.example.highcash.data.db.model.CashAccount;
 import com.example.highcash.ui.base.BaseContract;
 
 public interface MainContract {
@@ -15,7 +16,7 @@ public interface MainContract {
 
     public static interface View extends BaseContract.MvpView {
         void showAccountFragment();
-        void showTransactionsFragment();
+        void showTransactionsActivity(CashAccount account);
         void showOverViewFragment();
         void setBalance(int balanceValue);
 

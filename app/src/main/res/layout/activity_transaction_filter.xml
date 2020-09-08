@@ -1,70 +1,176 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/main_app_bar"
+    android:orientation="vertical"
+    >
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.ThemeOverLay">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/transaction_filter_toolbar"
+        android:orientation="vertical">
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/main_app_bar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:title=""
-            app:popupTheme="@style/AppTheme.PopUpOverLay"
-            >
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.ThemeOverLay">
 
-<!--            Show Bottom Sheet Or Dialog To Filter Data By Month-->
-            <TextView
-                android:id="@+id/month_filter_chooser_btn"
-                android:layout_width="wrap_content"
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/transaction_filter_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:title="Filter By Month :"
+                app:popupTheme="@style/AppTheme.PopUpOverLay"
+                >
+
+                <!--            Show Bottom Sheet Or Dialog To Filter Data By Month-->
+                <TextView
+                    android:id="@+id/month_filter_chooser_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Month"
+                    android:drawableEnd="@drawable/ic_arrow_down"
+                    android:padding="@dimen/spacing_normal"
+                    android:textSize="@dimen/font_large"
+                    android:textStyle="bold"
+                    android:textColor="@color/mdtp_white"
+                    android:background="?selectableItemBackground"
+                    />
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+            >
+            <androidx.cardview.widget.CardView
+                android:id="@+id/summary_graph_card_view"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                style="@style/OverViewCardStyle"
+                android:padding="@dimen/spacing_small"
+                android:layout_margin="@dimen/spacing_normal">
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/month_summary_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    style="@style/overview_chart_style"/>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/month_info_card"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Month"
-                android:drawableEnd="@drawable/ic_arrow_down"
-                android:padding="@dimen/spacing_normal"
-                android:textSize="@dimen/font_large"
-                android:textStyle="bold"
-                android:textColor="@color/mdtp_white"
-                android:background="?selectableItemBackground"
+                android:padding="@dimen/spacing_small"
+                android:layout_margin="@dimen/spacing_normal"
+                android:layout_below="@id/summary_graph_card_view">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/fragment_info_card_text_layout_style"
+                        >
+                        <TextView
+                            android:id="@+id/account_total_balance_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Balance :"
+                            android:layout_centerHorizontal="true"
+                            style="@style/over_view_card_text_style"/>
+                        <TextView
+                            android:id="@+id/account_total_balance_value_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="200"
+                            android:layout_below="@id/account_total_balance_text"
+                            android:layout_centerHorizontal="true"
+                            style="@style/overview_card_text_style"
+                            />
+
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/fragment_info_card_text_layout_style">
+
+                        <TextView
+                            android:id="@+id/transactions_incomes_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Income:"
+                            android:layout_centerHorizontal="true"
+                            style="@style/over_view_card_text_style"/>
+                        <TextView
+                            android:id="@+id/transactions_incomes_value_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="2"
+                            android:layout_below="@id/transactions_incomes_text"
+                            android:layout_centerHorizontal="true"
+                            style="@style/overview_card_text_style"/>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/fragment_info_card_text_layout_style">
+                        <TextView
+                            android:id="@+id/transactions_expenses_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Expense :"
+                            android:layout_centerHorizontal="true"
+                            style="@style/over_view_card_text_style"/>
+                        <TextView
+                            android:id="@+id/transactions_expenses_value_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="200"
+                            android:layout_below="@id/transactions_expenses_text"
+                            android:layout_centerHorizontal="true"
+                            style="@style/overview_card_text_style"/>
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/transactions_filter_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/month_info_card"
+                android:layout_margin="@dimen/spacing_normal"
+                android:padding="@dimen/spacing_small"
+                />
+
+            <include layout="@layout/view_empty_data"
+                android:id="@+id/filter_empty_view"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_below="@id/month_info_card"
+                android:visibility="gone"
+                android:layout_margin="@dimen/spacing_normal"
+                android:padding="@dimen/spacing_small"
 
                 />
-        </androidx.appcompat.widget.Toolbar>
 
-    </com.google.android.material.appbar.AppBarLayout>
+        </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-        >
-        <TextView
-            android:id="@+id/transaction_filter_title_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="Transactions"
-            android:padding="@dimen/spacing_normal"
-            android:textSize="@dimen/font_large"
-            android:textStyle="bold"
-            />
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/transactions_filter_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/transaction_filter_title_text"
-            />
 
-        <include layout="@layout/view_empty_data"
-            android:id="@+id/filter_empty_view"
-            android:visibility="gone"/>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
 
-    </RelativeLayout>
-
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</ScrollView>

@@ -45,7 +45,7 @@ public class AccountEditorActivity extends BaseActivity implements AccountEditor
     Toolbar toolbar;
 
     @BindView(R.id.add_account_title_text)
-    TextView title;
+    TextView accountLayoutTitle;
 
     @BindView(R.id.account_name_field)
     EditText accountNameField;
@@ -113,7 +113,7 @@ public class AccountEditorActivity extends BaseActivity implements AccountEditor
         if (getIntent().getExtras() != null){
             accountToEditId= getIntent().getExtras().getInt(ACCOUNT_TO_EDIT_ID);
             if(accountToEditId != -1) {
-                title.setText(R.string.edit_account);
+                accountLayoutTitle.setText(R.string.edit_account);
                 presenter.getAccountToEdit(accountToEditId);
             }
 
@@ -123,7 +123,6 @@ public class AccountEditorActivity extends BaseActivity implements AccountEditor
     }
     @Override
     public void setEditedAccountInfo(CashAccount account){
-
         if (account != null){
             accountToEdit = account;
 
@@ -171,41 +170,11 @@ public class AccountEditorActivity extends BaseActivity implements AccountEditor
     private void setListeners(){
         //accountColorPicker.setOnClickListener(v -> colorChangeDialog());
         accountSaveFab.setOnClickListener(v -> {
-            if( accountName == null || accountName.length()<1) {
-                accountNameField.setError(
-                        getResources().getString(R.string.account_name_field_error));
-            }else{
                 onAccountSaved();
-            }
         });
     }
 
 
-
-    // Color Picker
-    private void colorChangeDialog(){
-        ColorAdapter adapter = new ColorAdapter(this,
-                ColorPreference.availableColors, accountColor,
-                (selectedColor) -> {
-                    // set account color
-                    accountColorPicker.setBackgroundColor(selectedColor);
-                    accountColor = selectedColor;
-                    if (colorDialog != null) colorDialog.dismiss();
-                });
-
-        GridView v = (GridView) getLayoutInflater().inflate(R.layout.dialog_color_grid, null);
-        v.setAdapter(adapter);
-        v.setOnItemClickListener(adapter);
-
-        int fab_skin = AppUtils.getColor(this,R.color.accent_amber);
-        colorDialog = new MaterialDialog.Builder(this)
-                .title(R.string.choose_color)
-                //.theme(getAppTheme().getMaterialDialogTheme())
-                .positiveColor(fab_skin)
-                .customView(v, false)
-                .autoDismiss(true)
-                .show();
-    }
 
 
     private boolean getData(){

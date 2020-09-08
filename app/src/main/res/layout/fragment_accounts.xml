@@ -5,24 +5,116 @@
     android:id="@+id/accounts_main_layout"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/accounts_recycler_view"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
-    <include layout="@layout/view_empty_data"
-        android:id="@+id/accounts_empty_view_layout"
-        android:visibility="gone"/>
-
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/add_account_fab"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_anchor="@id/accounts_recycler_view"
-        app:layout_anchorGravity="bottom|end"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_add_white_24dp"
-        />
+        android:orientation="vertical"
+        >
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/spacing_small"
+            android:layout_margin="@dimen/spacing_normal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+
+                android:gravity="center">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
+                    style="@style/fragment_info_card_text_layout_style"
+                    >
+                    <TextView
+                        android:id="@+id/total_balance_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Balance :"
+                        android:layout_centerHorizontal="true"
+                        style="@style/over_view_card_text_style"/>
+                    <TextView
+                        android:id="@+id/total_balance_value_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="200 $"
+                        android:layout_below="@id/total_balance_text"
+                        android:layout_centerHorizontal="true"
+                        style="@style/overview_card_text_style"
+                        />
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="0.3"
+                    android:layout_height="wrap_content"
+                    style="@style/fragment_info_card_text_layout_style">
+
+                    <TextView
+                        android:id="@+id/accounts_count_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Accounts:"
+                        android:layout_centerHorizontal="true"
+                        style="@style/over_view_card_text_style"/>
+                    <TextView
+                        android:id="@+id/accounts_count_value_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2"
+                        android:layout_below="@id/accounts_count_text"
+                        android:layout_centerHorizontal="true"
+                        style="@style/overview_card_text_style"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="0.3"
+                    android:layout_height="wrap_content"
+                    style="@style/fragment_info_card_text_layout_style">
+                    <TextView
+                        android:id="@+id/transactions_count_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Transactions :"
+                        android:layout_centerHorizontal="true"
+                        style="@style/over_view_card_text_style"/>
+                    <TextView
+                        android:id="@+id/transactions_count_value_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="200 $"
+                        android:layout_below="@id/transactions_count_text"
+                        android:layout_centerHorizontal="true"
+                        style="@style/overview_card_text_style"/>
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/accounts_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/spacing_normal"
+            android:padding="@dimen/spacing_small"
+            />
+        <include layout="@layout/view_empty_data"
+            android:id="@+id/accounts_empty_view_layout"
+            android:visibility="gone"/>
+
+
+
+
+    </LinearLayout>
+
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

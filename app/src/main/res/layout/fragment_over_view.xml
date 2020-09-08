@@ -18,7 +18,8 @@
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/monthly_summary_chart"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                style="@style/overview_chart_style"/>
 
         </androidx.cardview.widget.CardView>
 
@@ -84,7 +85,9 @@
                     android:id="@+id/expense_chart"
                     android:layout_below="@id/overview_transaction_chart_title"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp" />
+                    android:layout_height="200dp"
+                    style="@style/overview_chart_style"
+                    android:layout_margin="@dimen/spacing_normal"/>
             </RelativeLayout>
 
 
@@ -152,6 +155,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_below="@id/overview_balance_title"
+                    style="@style/overview_chart_style"
                     />
             </RelativeLayout>
 

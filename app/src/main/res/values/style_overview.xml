@@ -42,4 +42,9 @@
         <item name="android:padding">@dimen/spacing_tiny</item>
         <item name="android:layout_margin">@dimen/spacing_small</item>
     </style>
+
+    <style name="overview_chart_style">
+        <item name="android:layout_margin">@dimen/spacing_normal</item>
+        <item name="android:padding">@dimen/spacing_small</item>
+    </style>
 </resources>

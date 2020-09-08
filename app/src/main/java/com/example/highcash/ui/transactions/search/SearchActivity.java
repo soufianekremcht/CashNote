@@ -8,11 +8,13 @@ import android.widget.SearchView;
 
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.highcash.R;
 import com.example.highcash.data.db.model.CashTransaction;
 import com.example.highcash.helper.KeyboardUtils;
+import com.example.highcash.ui.account_editor.adapter.AccountCategory;
 import com.example.highcash.ui.base.BaseActivity;
 import com.example.highcash.ui.transactions.TransactionsAdapter;
 
@@ -63,12 +65,13 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
             @Override
             public boolean onQueryTextSubmit(String query) {
                 mPresenter.onQuerySubmitted(query);
-                return false;
+                return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                return false;
+                mPresenter.onQuerySubmitted(newText);
+                return true;
             }
         });
         searchView.setOnQueryTextFocusChangeListener((v, hasFocus) -> {
@@ -78,11 +81,15 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
 
         });
         searchView.requestFocus();
+        transactionsAdapter.setAdapterListener(this);
 
-
+        searchResultRecyclerView.setHasFixedSize(true);
+        searchResultRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        searchResultRecyclerView.setAdapter(transactionsAdapter);
 
 
     }
+
 
     @Override
     public void onDestroy() {
@@ -106,5 +113,30 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
             searchResultRecyclerView.setVisibility(View.GONE);
             searchEmptyView.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void onTransactionClick(int position) {
+
+    }
+
+    @Override
+    public boolean onTransactionLongClick(int position) {
+        return false;
+    }
+
+    @Override
+    public void onTransactionDelete(int position) {
+
+    }
+
+    @Override
+    public AccountCategory getAccountCategory() {
+        return null;
+    }
+
+    @Override
+    public void onTransactionEditClicked(View v, int position) {
+
     }
 }

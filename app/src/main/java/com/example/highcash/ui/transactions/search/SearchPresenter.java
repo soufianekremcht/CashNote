@@ -43,7 +43,7 @@ public class SearchPresenter<V extends SearchContract.View> extends BasePresente
                     List<CashTransaction> result = new ArrayList<>();
                     for (CashAccount account : cashAccounts){
                         for (CashTransaction transaction : account.getTransactionsList()){
-                            if (transaction.getTitle().contains(query))
+                            if (transaction.getName().contains(query))
                                 result.add(transaction);
                         }
                     }

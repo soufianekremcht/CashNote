@@ -16,8 +16,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class TransactionsPresenter<V extends TransactionContract.View> extends BasePresenter<V>
-        implements TransactionContract.Presenter<V> {
+public class TransactionsPresenter<V extends TransactionsContract.View> extends BasePresenter<V>
+        implements TransactionsContract.Presenter<V> {
 
     private List<CashTransaction> transactionsList;
     @Inject
@@ -33,8 +33,18 @@ public class TransactionsPresenter<V extends TransactionContract.View> extends B
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(cashAccount -> {
+                    double income = 0;
+                    double expense = 0;
+
                     transactionsList = cashAccount.getTransactionsList();
-                    getMvpView().setTransactions(transactionsList);
+                    for (CashTransaction transaction: transactionsList){
+                        if (transaction.isExpense()){
+                            expense += transaction.getBalance();
+                        }else{
+                            income += transaction.getBalance();
+                        }
+                    }
+                    getMvpView().notifyAdapter(transactionsList,income,expense);
                     getMvpView().setAccountParent(cashAccount);
                 }, throwable -> Log.e("Transaction Presenter",""+throwable.getMessage())));
 

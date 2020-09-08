@@ -135,11 +135,10 @@ public class ExportDataDialogFragment extends BaseDialogFragment implements Expo
 
             for (CashTransaction transaction : transactions){
                 String[] column = new String[4];
-                column[0] = transaction.getTitle();
+                column[0] = transaction.getName();
                 column[1] = String.format("%d %s", transaction.getBalance(),
                         MyApp.AppPref().getString(PrefConst.PREF_DEFAULT_CURRENCY, "$"));
-                column[2] = AppUtils.formatDate(new Date(transaction.getDate()),AppUtils.MAIN_DATE_FORMAT);
-                column[3] = AppUtils.formatDate(new Date(transaction.getLastUpdatedDate()),AppUtils.MAIN_DATE_FORMAT);
+                column[2] = AppUtils.formatDate(new Date(transaction.getLastUpdatedDate()),AppUtils.MAIN_DATE_FORMAT);
                 writer.writeNext(column);
             }
             writer.close();

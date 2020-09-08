@@ -29,8 +29,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
+import static com.example.highcash.ui.main.MainActivity.ACCOUNT_PARENT;
 import static com.example.highcash.ui.main.MainActivity.RESULT_T;
-import static com.example.highcash.helper.AppConst.ACCOUNT_PARENT_ID;
 import static com.example.highcash.helper.AppConst.TRANSACTION_ACCOUNT;
 import static com.example.highcash.helper.AppConst.TRANSACTION_IS_EDITING;
 import static com.example.highcash.helper.AppConst.TRANSACTION_TO_EDIT_POS;
@@ -124,7 +124,7 @@ public class TransactionEditorActivity extends BaseActivity
     @Override
     public void setOldTransactionInfo(CashTransaction transactionToEdit){
         if (transactionToEdit != null){
-            transactionDescription = transactionToEdit.getTitle();
+            transactionDescription = transactionToEdit.getName();
             transactionBalance = transactionToEdit.getBalance();
             if (transactionToEdit.getLastUpdatedDate() != 0)
                 transactionDate = new Date(transactionToEdit.getLastUpdatedDate());
@@ -158,18 +158,18 @@ public class TransactionEditorActivity extends BaseActivity
     }
 
     private void checkIntent(){
-        accountParent = getIntent().getExtras().getParcelable(TRANSACTION_ACCOUNT);
-        isEditing = getIntent().getBooleanExtra(TRANSACTION_IS_EDITING,false);
-        if (isEditing && accountParent != null){
-            transactionToEditPos = getIntent().getExtras().getInt(TRANSACTION_TO_EDIT_POS,-1);
-            transactionToEdit = accountParent.getTransactionsList().get(transactionToEditPos);
-            transactionNotesField.setText(AppUtils.formatDate(new Date(transactionToEdit.getDate()),MAIN_DATE_FORMAT));
-            //change title To Edit transaction
-            title.setText("Edit Transaction");
+        if (getIntent().getExtras() != null){
+            accountParent = getIntent().getExtras().getParcelable(TRANSACTION_ACCOUNT);
+            isEditing = getIntent().getBooleanExtra(TRANSACTION_IS_EDITING,false);
+            if (isEditing && accountParent != null){
+                transactionToEditPos = getIntent().getExtras().getInt(TRANSACTION_TO_EDIT_POS,-1);
+                transactionToEdit = accountParent.getTransactionsList().get(transactionToEditPos);
+                transactionNotesField.setText(AppUtils.formatDate(new Date(transactionToEdit.getLastUpdatedDate()),MAIN_DATE_FORMAT));
+                //change title To Edit transaction
+                title.setText(R.string.edit_transaction);
+            }
+            setOldTransactionInfo(transactionToEdit);
         }
-        setOldTransactionInfo(transactionToEdit);
-
-
     }
 
     private void setTransactionDateListener(){
@@ -245,15 +245,16 @@ public class TransactionEditorActivity extends BaseActivity
     private void saveTransaction(){
         if (CheckSubmittedData()){
             CashTransaction newTransaction = new CashTransaction();
-            newTransaction.setTitle(transactionDescription);
+            newTransaction.setName(transactionDescription);
             if (transactionDate != null) newTransaction.setLastUpdatedDate(transactionDate.getTime());
             if (transactionIsExpense && transactionBalance >0 || !transactionIsExpense && transactionBalance <0)
                 transactionBalance *= -1;
             newTransaction.setBalance((int) transactionBalance);
             newTransaction.setAccountSourceId(accountParent.getAccountId());
-            newTransaction.setDate(new Date().getTime());
             newTransaction.setLastUpdatedDate(new Date().getTime());
             newTransaction.setExpense(transactionIsExpense);
+            newTransaction.setAccountParentName(accountParent.getName());
+
             if (!isEditing){
                 accountParent.getTransactionsList().add(newTransaction);
             }else{
@@ -262,10 +263,10 @@ public class TransactionEditorActivity extends BaseActivity
             presenter.saveTransaction(accountParent);
 
 
-            Intent mainActivityIntent = new Intent();
+            Intent transactionActivityIntent = new Intent();
             // send the data back to The main activity
-            mainActivityIntent.putExtra(ACCOUNT_PARENT_ID, accountParent.getAccountId());
-            setResult(RESULT_T,mainActivityIntent);
+            transactionActivityIntent.putExtra(ACCOUNT_PARENT, accountParent);
+            setResult(RESULT_T,transactionActivityIntent);
             finish();
         }
 

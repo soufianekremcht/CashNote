@@ -64,7 +64,7 @@ public class TransactionFilterPresenter<V extends TransactionFilterContract.View
     }
 
     private boolean isChosen(CashTransaction transaction,String chosenMonth,int chosenYear){
-        Date date = new Date(transaction.getDate());
+        Date date = new Date(transaction.getLastUpdatedDate());
         DateTime dateTime = new DateTime(date);
         String month = dateTime.toString("MMM");
         int year = dateTime.year().get();

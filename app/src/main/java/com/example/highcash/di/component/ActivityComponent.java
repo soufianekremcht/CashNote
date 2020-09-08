@@ -5,6 +5,7 @@ import com.example.highcash.di.scope.ActivityScope;
 import com.example.highcash.di.module.ActivityModule;
 import com.example.highcash.ui.accounts.AccountsFragment;
 import com.example.highcash.ui.account_editor.AccountEditorActivity;
+import com.example.highcash.ui.transactions.TransactionsActivity;
 import com.example.highcash.ui.transactions.search.SearchActivity;
 import com.example.highcash.ui.settings.export.ExportDataDialogFragment;
 import com.example.highcash.ui.transaction_editor.TransactionEditorActivity;
@@ -14,7 +15,6 @@ import com.example.highcash.ui.settings.SettingsActivity;
 import com.example.highcash.ui.settings.SettingsFragment;
 import com.example.highcash.ui.splash_screen.SplashScreenActivity;
 import com.example.highcash.ui.transaction_filter.TransactionFilterActivity;
-import com.example.highcash.ui.transactions.TransactionsFragment;
 
 import dagger.Component;
 
@@ -26,9 +26,9 @@ public interface ActivityComponent {
 
     void inject(AccountsFragment accountsFragment);
 
-    void inject(TransactionsFragment transactionFragment);
+    void inject(TransactionsActivity transactionActivity);
 
-    void inject(OverViewFragment overViewFragment);
+    void inject(OverViewFragment overviewFragment);
 
     void inject(SplashScreenActivity splashscreenActivity);
 

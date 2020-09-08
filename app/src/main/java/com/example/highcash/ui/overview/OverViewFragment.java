@@ -183,7 +183,7 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
             float expenseValue = 0f;
             for (int j= 0; j<transactions.size(); j++) {
                 CashTransaction transaction = transactions.get(j);
-                calendar.setTimeInMillis(transaction.getDate());
+                calendar.setTimeInMillis(transaction.getLastUpdatedDate());
                 // get time of Creation in days if it created this year
                 int transactionLastUpdated  = checkCurrentYearDays(calendar);
 
@@ -208,7 +208,7 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
         /*
         dataSets.setDrawCircleHole(true);
          */
-        expenseChart.animateX(5000);
+        expenseChart.animateX(2000);
         LineData data = new LineData(dataSets);
         expenseChart.setData(data);
         expenseChart.invalidate();
@@ -271,8 +271,6 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
     public void setSummaryChart(List<CashAccount> accounts){
         float totalExpense = 1f;
         float totalIncome = 1f;
-        summaryChart.setCenterTextColor(AppUtils.getColor(getBaseActivity(),R.color.primary_green));
-        summaryChart.setCenterTextColor(Color.BLACK);
         Description desc = new Description();
         desc.setText("Summary of this month's transaction");
 
@@ -283,7 +281,7 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
         // check the transactions of this month
         for (CashAccount cashAccount :accounts) {
             for (CashTransaction cashTransaction : cashAccount.getTransactionsList()) {
-                calendar.setTimeInMillis(cashTransaction.getDate());
+                calendar.setTimeInMillis(cashTransaction.getLastUpdatedDate());
                 int year = calendar.get(Calendar.YEAR);
                 if (year == CURRENT_YEAR){
                     int month = calendar.get(Calendar.MONTH);
@@ -306,10 +304,11 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
                 currentMonth+1,CURRENT_YEAR);
 
         PieDataSet set1 = new PieDataSet(values, summaryLabel);
-        PieData pieData = new PieData(set1);
         set1.setColors(ColorTemplate.createColors(new int[]{Color.RED,Color.GREEN}));
+        set1.setValueTextColor(Color.BLACK);
+        PieData pieData = new PieData(set1);
 
-        summaryChart.animateXY(2000,2000);
+        summaryChart.animateXY(1000,1000);
         summaryChart.setData(pieData);
 
     }

@@ -45,13 +45,13 @@ public class RecentTransactionsAdapter extends RecyclerView.Adapter<RecentTransa
     @Override
     public void onBindViewHolder(@NonNull RecentTransactionsViewHolder holder, int position) {
         CashTransaction transaction = recentTransactions.get(position);
-        holder.recentTransactionTitle.setText(String.format("%s",transaction.getTitle()));
+        holder.recentTransactionTitle.setText(String.format("%s",transaction.getName()));
         String balance = transaction.getBalance() + " " + MyApp.AppPref().getString(PrefConst.PREF_DEFAULT_CURRENCY,"$");
 
         holder.recentTransactionBalance.setText(balance);
 
         holder.recentTransactionCreationDate.setText(AppUtils
-                .formatDate(new Date(transaction.getDate()),MAIN_DATE_FORMAT));
+                .formatDate(new Date(transaction.getLastUpdatedDate()),MAIN_DATE_FORMAT));
     }
 
     @Override
