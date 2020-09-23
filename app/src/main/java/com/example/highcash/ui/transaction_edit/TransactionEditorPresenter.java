@@ -1,4 +1,4 @@
-package com.example.highcash.ui.transaction_editor;
+package com.example.highcash.ui.transaction_edit;
 
 
 import android.util.Log;

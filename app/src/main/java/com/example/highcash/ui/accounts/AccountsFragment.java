@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,10 +18,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.highcash.R;
 import com.example.highcash.data.db.model.CashAccount;
 import com.example.highcash.data.db.model.CashTransaction;
-import com.example.highcash.ui.account_editor.AccountEditorActivity;
+import com.example.highcash.ui.account_edit.AccountEditorActivity;
 import com.example.highcash.ui.base.BaseFragment;
 import com.example.highcash.ui.main.MainActivity;
-import com.example.highcash.helper.DialogsUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +41,7 @@ public class AccountsFragment extends BaseFragment implements AccountsContract.V
     @BindView(R.id.accounts_empty_view_layout)
     RelativeLayout emptyView;
 
+    // Accounts General Info
     @BindView(R.id.total_balance_value_text)
     TextView totalBalanceValueText;
     @BindView(R.id.accounts_count_value_text)
@@ -53,10 +52,8 @@ public class AccountsFragment extends BaseFragment implements AccountsContract.V
 
     @Inject
     AccountsContract.Presenter<AccountsContract.View> presenter;
-
     @Inject
     AccountsAdapter accountsAdapter;
-
     @Inject
     LinearLayoutManager linearLayoutManager;
 

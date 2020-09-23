@@ -1,4 +1,4 @@
-package com.example.highcash.ui.transaction_editor;
+package com.example.highcash.ui.transaction_edit;
 
 import com.example.highcash.data.db.model.CashAccount;
 import com.example.highcash.data.db.model.CashTransaction;
@@ -10,7 +10,7 @@ public interface TransactionEditorContract {
 
     }
 
-    interface View extends BaseContract.MvpView {
+    interface View extends BaseContract.MvpView, TransactionCategoryAdapter.CategoryAdapterListener {
         void setOldTransactionInfo(CashTransaction transaction);
     }
 }

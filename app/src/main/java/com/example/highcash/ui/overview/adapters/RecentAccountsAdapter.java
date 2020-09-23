@@ -23,12 +23,12 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class RecentUsedAccountsAdapter extends RecyclerView.Adapter<RecentUsedAccountsAdapter.AccountReducedViewHolder> {
+public class RecentAccountsAdapter extends RecyclerView.Adapter<RecentAccountsAdapter.AccountReducedViewHolder> {
 
     private Context mContext;
     private List<CashAccount> recentAccountList;
 
-    public RecentUsedAccountsAdapter(Context mContext, List<CashAccount> accountList) {
+    public RecentAccountsAdapter(Context mContext, List<CashAccount> accountList) {
         this.mContext = mContext;
         this.recentAccountList = accountList;
     }
@@ -36,7 +36,7 @@ public class RecentUsedAccountsAdapter extends RecyclerView.Adapter<RecentUsedAc
     @NonNull
     @Override
     public AccountReducedViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.item_account_reduced,parent,false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.item_account_recent,parent,false);
         return new AccountReducedViewHolder(v);
     }
 
@@ -44,7 +44,7 @@ public class RecentUsedAccountsAdapter extends RecyclerView.Adapter<RecentUsedAc
     public void onBindViewHolder(@NonNull AccountReducedViewHolder holder, int position) {
         CashAccount cashAccount = recentAccountList.get(position);
         holder.accountName.setText(cashAccount.getName());
-        holder.account_category_img.setImageResource(cashAccount.getCategory().getCategoryImage());
+        holder.accountColorImg.setColorFilter(R.color.accent_amber);
         String balance = getAccountTotalBalance(position) + " " +
                 MyApp.AppPref().getString(PrefConst.PREF_DEFAULT_CURRENCY,"$");
 
@@ -75,13 +75,13 @@ public class RecentUsedAccountsAdapter extends RecyclerView.Adapter<RecentUsedAc
     }
 
     class AccountReducedViewHolder extends RecyclerView.ViewHolder{
-        @BindView(R.id.account_category_img_reduced)
-        ImageView account_category_img;
-        @BindView(R.id.account_name_text)
+        @BindView(R.id.recent_account_color_img)
+        ImageView accountColorImg;
+        @BindView(R.id.recent_account_name_text)
         TextView accountName;
-        @BindView(R.id.account_balance_text)
+        @BindView(R.id.recent_account_balance_text)
         TextView accountBalance;
-        @BindView(R.id.account_transaction_count)
+        @BindView(R.id.recent_account_transaction_count)
         TextView accountTransactionsCounter;
         /*@BindView(R.id.category_indicator)
         View category_indicator;*/

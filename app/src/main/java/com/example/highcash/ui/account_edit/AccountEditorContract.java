@@ -1,7 +1,6 @@
-package com.example.highcash.ui.account_editor;
+package com.example.highcash.ui.account_edit;
 
 import com.example.highcash.data.db.model.CashAccount;
-import com.example.highcash.ui.account_editor.adapter.AccountCategoryAdapter;
 import com.example.highcash.ui.base.BaseContract;
 
 public interface AccountEditorContract {
@@ -12,7 +11,7 @@ public interface AccountEditorContract {
 
     }
 
-    public static interface View extends BaseContract.MvpView, AccountCategoryAdapter.CategoryAdapterListener {
+    public static interface View extends BaseContract.MvpView{
         public void setEditedAccountInfo(CashAccount cashAccount);
 
     }

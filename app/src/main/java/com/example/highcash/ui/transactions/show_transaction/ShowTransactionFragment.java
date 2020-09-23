@@ -27,7 +27,7 @@ import butterknife.ButterKnife;
 import static com.example.highcash.helper.AppConst.ACCOUNT_PARENT_OF_TRANSACTION_SHOW;
 import static com.example.highcash.helper.AppConst.TRANSACTION_SHOW;
 
-public class TransactionBottomSheetDialog extends BottomSheetDialogFragment {
+public class ShowTransactionFragment extends BottomSheetDialogFragment {
 
     // widget
     @BindView(R.id.show_transaction_description_text)
@@ -107,7 +107,7 @@ public class TransactionBottomSheetDialog extends BottomSheetDialogFragment {
                         "Last Updated : %s",
                         AppUtils.formatDate(new Date(transactionToShow.getLastUpdatedDate()), AppUtils.MAIN_DATE_FORMAT))
         );
-        categoryImg.setImageResource(accountParent.getCategory().getCategoryImage());
+        categoryImg.setImageResource(transactionToShow.getCategory().getCategoryImage());
     }
 
 

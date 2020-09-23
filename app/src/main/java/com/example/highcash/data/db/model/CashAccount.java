@@ -9,8 +9,6 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 
-import com.example.highcash.ui.account_editor.adapter.AccountCategory;
-
 import java.util.List;
 
 @Entity(tableName = "account")
@@ -28,17 +26,26 @@ public class CashAccount implements Parcelable {
     private int type;
     @ColumnInfo(name = "color")
     private int color;
-    @ColumnInfo(name = "category")
-    private AccountCategory category;
-
-
 
     @ColumnInfo(name = "transaction_list")
     private List<CashTransaction> transactionsList;
 
+
+    public CashAccount(int accountId, String name, String description, int type, int color, List<CashTransaction> transactionsList) {
+        this.accountId = accountId;
+        this.name = name;
+        this.description = description;
+        this.type = type;
+        this.color = color;
+        this.transactionsList = transactionsList;
+    }
+
+
+
     @Ignore
     public CashAccount() {
     }
+
 
     @Ignore
     protected CashAccount(Parcel in) {
@@ -47,19 +54,7 @@ public class CashAccount implements Parcelable {
         description = in.readString();
         type = in.readInt();
         color = in.readInt();
-        category = (AccountCategory) in.readSerializable();
         transactionsList = in.createTypedArrayList(CashTransaction.CREATOR);
-    }
-
-
-    public CashAccount(int accountId, String name, String description, int type, int color, AccountCategory category, List<CashTransaction> transactionsList) {
-        this.accountId = accountId;
-        this.name = name;
-        this.description = description;
-        this.type = type;
-        this.color = color;
-        this.category = category;
-        this.transactionsList = transactionsList;
     }
 
     @Override
@@ -69,7 +64,6 @@ public class CashAccount implements Parcelable {
         dest.writeString(description);
         dest.writeInt(type);
         dest.writeInt(color);
-        dest.writeSerializable(category);
         dest.writeTypedList(transactionsList);
     }
 
@@ -89,7 +83,6 @@ public class CashAccount implements Parcelable {
             return new CashAccount[size];
         }
     };
-
 
     public int getAccountId() {
         return accountId;
@@ -129,13 +122,6 @@ public class CashAccount implements Parcelable {
 
     public void setColor(int color) {
         this.color = color;
-    }
-    public AccountCategory getCategory() {
-        return category;
-    }
-
-    public void setCategory(AccountCategory category) {
-        this.category = category;
     }
 
     public List<CashTransaction> getTransactionsList() {

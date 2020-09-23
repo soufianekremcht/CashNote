@@ -3,7 +3,7 @@ package com.example.highcash.ui.transactions;
 import com.example.highcash.data.db.model.CashAccount;
 import com.example.highcash.data.db.model.CashTransaction;
 import com.example.highcash.ui.base.BaseContract;
-import com.example.highcash.ui.transactions.show_transaction.TransactionBottomSheetDialog;
+import com.example.highcash.ui.transactions.show_transaction.ShowTransactionFragment;
 
 import java.util.List;
 
@@ -16,8 +16,7 @@ public interface TransactionsContract {
     }
 
     interface View extends BaseContract.MvpView, TransactionsAdapter.TransactionsAdapterListener,
-            TransactionBottomSheetDialog.ShowTransactionDialogListener {
-        void showTransactionEditorActivity();
+            ShowTransactionFragment.ShowTransactionDialogListener {
         void notifyAdapter(List<CashTransaction> transactionList, double income, double expense);
         void onTransactionEdit(int position);
         void onTransactionDelete(int position);

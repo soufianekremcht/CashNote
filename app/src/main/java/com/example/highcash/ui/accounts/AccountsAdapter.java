@@ -3,7 +3,6 @@ package com.example.highcash.ui.accounts;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +14,8 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.highcash.MyApp;
 import com.example.highcash.R;
-import com.example.highcash.data.app_preference.PrefConst;
 import com.example.highcash.data.db.model.CashAccount;
-import com.example.highcash.data.db.model.CashTransaction;
 import com.example.highcash.helper.DialogsUtil;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
@@ -44,7 +40,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.Accoun
     @NonNull
     @Override
     public AccountsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.card_accounts, parent, false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.item_card_account, parent, false);
         return new AccountsViewHolder(v);
     }
 
@@ -55,12 +51,9 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.Accoun
         holder.accountTotalTransactions.setText(
                 String.format(Locale.US,"%d transactions",currentAccount.getTransactionsList().size()));
 
-        holder.accountCategoryImg.setBorderColor(currentAccount.getColor());
+        holder.accountColorImg.setCircleColor(R.color.primary_amber);
+        holder.accountColorImg.setColorFilter(R.color.primary_green);
 
-        holder.accountCategoryImg.setImageDrawable(
-                mContext.getDrawable(currentAccount.getCategory().getCategoryImage()));
-
-        holder.accountCategoryImg.setCircleColor(Color.WHITE);
         setListeners(holder,position);
     }
     @Override
@@ -126,8 +119,8 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.Accoun
         TextView accountTitle;
         @BindView(R.id.card_account_total_transactions)
         TextView accountTotalTransactions;
-        @BindView(R.id.card_account_category_img)
-        CircularImageView accountCategoryImg;
+        @BindView(R.id.card_account_color_img)
+        CircularImageView accountColorImg;
         @BindView(R.id.card_account_options_btn)
         ImageView accountOptionsBtn;
 

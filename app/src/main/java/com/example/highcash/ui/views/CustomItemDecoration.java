@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-public class MyDividerItemDecoration extends RecyclerView.ItemDecoration {
+public class CustomItemDecoration extends RecyclerView.ItemDecoration {
 
         private static final int[] ATTRS = new int[]{
                 android.R.attr.listDivider
@@ -27,7 +27,7 @@ public class MyDividerItemDecoration extends RecyclerView.ItemDecoration {
         private Context context;
         private int margin;
 
-        public MyDividerItemDecoration(Context context, int orientation, int margin) {
+        public CustomItemDecoration(Context context, int orientation, int margin) {
             this.context = context;
             this.margin = margin;
             final TypedArray a = context.obtainStyledAttributes(ATTRS);

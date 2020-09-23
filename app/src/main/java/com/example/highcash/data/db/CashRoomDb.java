@@ -15,8 +15,9 @@ import com.example.highcash.data.db.model.BalanceHistory;
 import com.example.highcash.data.db.model.CashAccount;
 
 
-@Database(entities = {CashAccount.class, BalanceHistory.class},exportSchema = false,version =7)
+@Database(entities = {CashAccount.class, BalanceHistory.class},exportSchema = false,version =1)
 @TypeConverters({CashTransactionDBConverter.class, AccountCategoryDBConverter.class})
+
 public abstract class CashRoomDb extends RoomDatabase {
     private static final String DB_NAME = "high_cash.db";
     private static CashRoomDb instance ;

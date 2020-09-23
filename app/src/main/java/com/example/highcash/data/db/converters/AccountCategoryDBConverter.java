@@ -4,7 +4,7 @@ import android.text.TextUtils;
 
 import androidx.room.TypeConverter;
 
-import com.example.highcash.ui.account_editor.adapter.AccountCategory;
+import com.example.highcash.data.db.model.TransactionCategory;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -13,9 +13,9 @@ import java.lang.reflect.Type;
 public class AccountCategoryDBConverter {
 
     @TypeConverter
-    public static AccountCategory stringToAccountCategory(String string){
+    public static TransactionCategory stringToAccountCategory(String string){
         if (!TextUtils.isEmpty(string)){
-            Type listType = new TypeToken<AccountCategory>() {}.getType();
+            Type listType = new TypeToken<TransactionCategory>() {}.getType();
             return new Gson().fromJson(string,listType);
         }else{
             return null;
@@ -23,9 +23,9 @@ public class AccountCategoryDBConverter {
     }
 
     @TypeConverter
-    public static String fromAccountCategory(AccountCategory accountCategory){
+    public static String fromAccountCategory(TransactionCategory transactionCategory){
         Gson gson = new Gson();
-        return gson.toJson(accountCategory);
+        return gson.toJson(transactionCategory);
     }
 }
 

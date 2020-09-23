@@ -1,16 +1,16 @@
-package com.example.highcash.ui.account_editor.adapter;
+package com.example.highcash.data.db.model;
 
 import androidx.annotation.DrawableRes;
 
 import java.io.Serializable;
 
-public class AccountCategory implements Serializable {
+public class TransactionCategory implements Serializable {
 
     private String Name;
     @DrawableRes
     private int categoryImage;
 
-    public AccountCategory(String name, int categoryImage) {
+    public TransactionCategory(String name, int categoryImage) {
         Name = name;
         this.categoryImage = categoryImage;
     }

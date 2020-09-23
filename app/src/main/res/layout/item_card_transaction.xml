@@ -65,7 +65,7 @@
             >
 
             <TextView
-                android:id="@+id/card_transaction_title_text"
+                android:id="@+id/transaction_name_text"
                 style="@style/CardTransactionTitleStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -75,7 +75,7 @@
                 android:textStyle="bold"/>
 
             <TextView
-                android:id="@+id/transaction_last_updated_date_txt"
+                android:id="@+id/transaction_last_up_date_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Last Updated : "

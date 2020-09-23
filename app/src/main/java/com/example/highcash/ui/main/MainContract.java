@@ -7,7 +7,6 @@ public interface MainContract {
     public static interface Presenter<V extends View> extends BaseContract.MvpPresenter<V> {
         void onDrawerOptionOverViewClick();
         void onDrawerOptionAccountsClick();
-        void onViewInitialized();
         void setBalanceForCurrentDay();
         void saveBalanceToDb(int days, int year, int balanceValue);
 

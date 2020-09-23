@@ -19,10 +19,9 @@ import com.example.highcash.data.db.model.BalanceHistory;
 import com.example.highcash.data.db.model.CashAccount;
 import com.example.highcash.data.db.model.CashTransaction;
 import com.example.highcash.ui.base.BaseFragment;
+import com.example.highcash.ui.overview.adapters.RecentAccountsAdapter;
 import com.example.highcash.ui.overview.adapters.RecentTransactionsAdapter;
-import com.example.highcash.ui.overview.adapters.RecentUsedAccountsAdapter;
-import com.example.highcash.helper.AppUtils;
-import com.example.highcash.ui.views.MyDividerItemDecoration;
+import com.example.highcash.ui.views.CustomItemDecoration;
 import com.example.highcash.helper.chart.DayAxisValueFormatter;
 import com.example.highcash.helper.chart.MyValueFormatter;
 import com.github.mikephil.charting.charts.BarChart;
@@ -89,7 +88,7 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
     @Inject
     RecentTransactionsAdapter recentTransactionsAdapter;
     @Inject
-    RecentUsedAccountsAdapter recentUsedAccountsAdapter;
+    RecentAccountsAdapter recentAccountsAdapter;
 
 
     private Calendar calendar;
@@ -115,7 +114,7 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_over_view,container,false);
+        View v = inflater.inflate(R.layout.fragment_overview,container,false);
         if (getActivityComponent() != null){
             getActivityComponent().inject(this);
             setUnBinder(ButterKnife.bind(this,v));
@@ -130,16 +129,16 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
 
         reducedAccountListView.setHasFixedSize(true);
         reducedAccountListView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        reducedAccountListView.addItemDecoration(new MyDividerItemDecoration(getActivity()
-                ,MyDividerItemDecoration.VERTICAL_LIST,8));
-        reducedAccountListView.setAdapter(recentUsedAccountsAdapter);
+        reducedAccountListView.addItemDecoration(new CustomItemDecoration(getActivity()
+                , CustomItemDecoration.VERTICAL_LIST,8));
+        reducedAccountListView.setAdapter(recentAccountsAdapter);
 
 
 
         recentTransactionListView.setHasFixedSize(true);
         recentTransactionListView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recentTransactionListView.addItemDecoration(new MyDividerItemDecoration(getActivity(),
-                MyDividerItemDecoration.VERTICAL_LIST,8));
+        recentTransactionListView.addItemDecoration(new CustomItemDecoration(getActivity(),
+                CustomItemDecoration.VERTICAL_LIST,8));
         recentTransactionListView.setAdapter(recentTransactionsAdapter);
 
     }
@@ -320,7 +319,7 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
 
     @Override
     public void updateRecentAccounts(List<CashAccount> accounts) {
-        recentUsedAccountsAdapter.addItems(accounts);
+        recentAccountsAdapter.addItems(accounts);
     }
 
 

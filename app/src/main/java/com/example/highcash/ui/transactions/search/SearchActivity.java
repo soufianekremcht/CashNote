@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.highcash.R;
 import com.example.highcash.data.db.model.CashTransaction;
 import com.example.highcash.helper.KeyboardUtils;
-import com.example.highcash.ui.account_editor.adapter.AccountCategory;
+import com.example.highcash.data.db.model.TransactionCategory;
 import com.example.highcash.ui.base.BaseActivity;
 import com.example.highcash.ui.transactions.TransactionsAdapter;
 
@@ -129,12 +129,6 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
     public void onTransactionDelete(int position) {
 
     }
-
-    @Override
-    public AccountCategory getAccountCategory() {
-        return null;
-    }
-
     @Override
     public void onTransactionEditClicked(View v, int position) {
 

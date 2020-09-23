@@ -1,6 +1,5 @@
 package com.example.highcash.ui.transactions;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ActionMode;
@@ -20,11 +19,10 @@ import com.example.highcash.R;
 import com.example.highcash.data.db.model.CashAccount;
 import com.example.highcash.data.db.model.CashTransaction;
 import com.example.highcash.helper.DialogsUtil;
-import com.example.highcash.ui.account_editor.adapter.AccountCategory;
 import com.example.highcash.ui.base.BaseActivity;
-import com.example.highcash.ui.transaction_editor.TransactionEditorActivity;
+import com.example.highcash.ui.transaction_edit.TransactionEditorActivity;
 import com.example.highcash.ui.transactions.search.SearchActivity;
-import com.example.highcash.ui.transactions.show_transaction.TransactionBottomSheetDialog;
+import com.example.highcash.ui.transactions.show_transaction.ShowTransactionFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -81,7 +79,7 @@ public class TransactionsActivity extends BaseActivity implements TransactionsCo
     private int parentAccountId= 0;
 
 
-    TransactionBottomSheetDialog dialog;
+    ShowTransactionFragment dialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -190,7 +188,7 @@ public class TransactionsActivity extends BaseActivity implements TransactionsCo
             toggleSelection(position);
         }else{
             CashTransaction transactionToShow = transactions.get(position);
-            dialog = new TransactionBottomSheetDialog();
+            dialog = new ShowTransactionFragment();
             Bundle bundle = new Bundle();
             bundle.putParcelable(TRANSACTION_SHOW,transactionToShow);
             bundle.putParcelable(ACCOUNT_PARENT_OF_TRANSACTION_SHOW,accountParent);
@@ -205,20 +203,6 @@ public class TransactionsActivity extends BaseActivity implements TransactionsCo
     public boolean onTransactionLongClick(int position){
         enableActionMode(position);
         return true;
-    }
-
-    @Override
-    public void showTransactionEditorActivity(){
-        Intent intent = new Intent(this, TransactionEditorActivity.class);
-        Bundle bundle = new Bundle();
-        if (accountParent != null){
-            bundle.putParcelable(TRANSACTION_ACCOUNT, accountParent);
-            intent.putExtras(bundle);
-            startActivityForResult(intent,REFRESH_TRANSACTION_LIST_CODE);
-        }else{
-            showMessage("Account Parent is null");
-        }
-
     }
 
     @Override
@@ -261,12 +245,6 @@ public class TransactionsActivity extends BaseActivity implements TransactionsCo
     @Override
     public void setAccountParent(CashAccount account) {
         accountParent = account;
-    }
-
-
-    @Override
-    public AccountCategory getAccountCategory() {
-        return accountParent.getCategory();
     }
 
 

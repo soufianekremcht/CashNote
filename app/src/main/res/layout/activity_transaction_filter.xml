@@ -9,8 +9,9 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:orientation="vertical">
+
+
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/main_app_bar"
             android:layout_width="match_parent"
@@ -24,8 +25,6 @@
                 app:title="Filter By Month :"
                 app:popupTheme="@style/AppTheme.PopUpOverLay"
                 >
-
-                <!--            Show Bottom Sheet Or Dialog To Filter Data By Month-->
                 <TextView
                     android:id="@+id/month_filter_chooser_btn"
                     android:layout_width="wrap_content"
@@ -42,9 +41,10 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
             >
             <androidx.cardview.widget.CardView
@@ -66,82 +66,81 @@
                 android:id="@+id/month_info_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/spacing_small"
                 android:layout_margin="@dimen/spacing_normal"
-                android:layout_below="@id/summary_graph_card_view">
-                <LinearLayout
+                android:elevation="4dp">
+            <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:gravity="center">
 
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        style="@style/fragment_info_card_text_layout_style"
+                        android:layout_weight="0.3"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        style="@style/style_layout_info_card"
                         >
                         <TextView
-                            android:id="@+id/account_total_balance_text"
+                            android:id="@+id/total_balance_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Balance :"
-                            android:layout_centerHorizontal="true"
-                            style="@style/over_view_card_text_style"/>
+                            android:text="Balance"/>
                         <TextView
-                            android:id="@+id/account_total_balance_value_text"
+                            android:id="@+id/total_balance_value_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="200"
-                            android:layout_below="@id/account_total_balance_text"
-                            android:layout_centerHorizontal="true"
-                            style="@style/overview_card_text_style"
+                            android:text="200 "
+                            style="@style/accounts_balance_count_text_style"
                             />
 
-                    </RelativeLayout>
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
+                    </LinearLayout>
+
+
+                    <LinearLayout
                         android:layout_height="wrap_content"
-                        style="@style/fragment_info_card_text_layout_style">
+                        android:layout_width="0dp"
+                        android:layout_weight="0.3"
+
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        style="@style/style_layout_info_card">
 
                         <TextView
-                            android:id="@+id/transactions_incomes_text"
+                            android:id="@+id/accounts_count_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Income:"
-                            android:layout_centerHorizontal="true"
-                            style="@style/over_view_card_text_style"/>
+                            android:text="Accounts" />
                         <TextView
-                            android:id="@+id/transactions_incomes_value_text"
+                            android:id="@+id/accounts_count_value_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="2"
-                            android:layout_below="@id/transactions_incomes_text"
-                            android:layout_centerHorizontal="true"
-                            style="@style/overview_card_text_style"/>
-                    </RelativeLayout>
+                            style="@style/accounts_balance_count_text_style"
+                            />
+                    </LinearLayout>
 
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="0.3"
                         android:layout_height="wrap_content"
-                        style="@style/fragment_info_card_text_layout_style">
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        style="@style/style_layout_info_card">
                         <TextView
-                            android:id="@+id/transactions_expenses_text"
+                            android:id="@+id/transactions_count_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Expense :"
-                            android:layout_centerHorizontal="true"
-                            style="@style/over_view_card_text_style"/>
+                            android:text="Transactions" />
                         <TextView
-                            android:id="@+id/transactions_expenses_value_text"
+                            android:id="@+id/transactions_count_value_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="200"
-                            android:layout_below="@id/transactions_expenses_text"
-                            android:layout_centerHorizontal="true"
-                            style="@style/overview_card_text_style"/>
-                    </RelativeLayout>
-
-
+                            style="@style/accounts_balance_count_text_style"
+                            />
+                    </LinearLayout>
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
@@ -150,7 +149,6 @@
                 android:id="@+id/transactions_filter_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/month_info_card"
                 android:layout_margin="@dimen/spacing_normal"
                 android:padding="@dimen/spacing_small"
                 />
@@ -159,14 +157,13 @@
                 android:id="@+id/filter_empty_view"
                 android:layout_height="match_parent"
                 android:layout_width="match_parent"
-                android:layout_below="@id/month_info_card"
                 android:visibility="gone"
                 android:layout_margin="@dimen/spacing_normal"
                 android:padding="@dimen/spacing_small"
 
                 />
 
-        </RelativeLayout>
+        </LinearLayout>
 
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

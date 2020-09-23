@@ -1,25 +1,30 @@
-package com.example.highcash.ui.transaction_editor;
+package com.example.highcash.ui.transaction_edit;
 
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.highcash.R;
 import com.example.highcash.data.db.model.CashAccount;
 import com.example.highcash.data.db.model.CashTransaction;
+import com.example.highcash.data.db.model.TransactionCategory;
 import com.example.highcash.ui.base.BaseActivity;
 import com.example.highcash.helper.AppUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -69,6 +74,15 @@ public class TransactionEditorActivity extends BaseActivity
     @BindView(R.id.save_transaction_fab)
     FloatingActionButton saveTransactionFab;
 
+    @BindView(R.id.category_recycler_view)
+    RecyclerView categoryRecyclerView;
+
+    @BindView(R.id.category_selected_img)
+    ImageView categorySelectedImg;
+
+    private TransactionCategoryAdapter categoryAdapter;
+
+
 
     private CashAccount accountParent;
 
@@ -79,10 +93,12 @@ public class TransactionEditorActivity extends BaseActivity
 
 
     private String transactionDescription ="";
-    private String transactionNotes ="";
     private double transactionBalance = 0;
     private Date transactionDate = new Date();
     private boolean transactionIsExpense = false;
+    private String transactionNotes ="";
+    private TransactionCategory currentTransactionCategory;
+
 
 
     @Override
@@ -92,7 +108,6 @@ public class TransactionEditorActivity extends BaseActivity
         ButterKnife.bind(this);
 
         getActivityComponent().inject(this);
-
         setUnBinder(ButterKnife.bind(this));
 
         presenter.onAttach(this);
@@ -108,6 +123,10 @@ public class TransactionEditorActivity extends BaseActivity
     }
 
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
     @Override
     protected void onStop() {
@@ -115,8 +134,12 @@ public class TransactionEditorActivity extends BaseActivity
     }
 
     @Override
-    public void onBackPressed() {
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 
+    @Override
+    public void onBackPressed() {
         super.onBackPressed();
     }
 
@@ -154,6 +177,11 @@ public class TransactionEditorActivity extends BaseActivity
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_black_24dp);
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
+        categoryAdapter = new TransactionCategoryAdapter(this,new ArrayList<>(),this);
+        categoryRecyclerView.setHasFixedSize(true);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this,3);
+        categoryRecyclerView.setLayoutManager(gridLayoutManager);
+        categoryRecyclerView.setAdapter(categoryAdapter);
 
     }
 
@@ -243,7 +271,9 @@ public class TransactionEditorActivity extends BaseActivity
 
     }
     private void saveTransaction(){
-        if (CheckSubmittedData()){
+        if (currentTransactionCategory == null){
+            showMessage("You need to set A category !!");
+        }else if (CheckSubmittedData()){
             CashTransaction newTransaction = new CashTransaction();
             newTransaction.setName(transactionDescription);
             if (transactionDate != null) newTransaction.setLastUpdatedDate(transactionDate.getTime());
@@ -254,12 +284,13 @@ public class TransactionEditorActivity extends BaseActivity
             newTransaction.setLastUpdatedDate(new Date().getTime());
             newTransaction.setExpense(transactionIsExpense);
             newTransaction.setAccountParentName(accountParent.getName());
+            newTransaction.setNotes(transactionNotes);
+            newTransaction.setCategory(currentTransactionCategory);
 
-            if (!isEditing){
-                accountParent.getTransactionsList().add(newTransaction);
-            }else{
-                accountParent.getTransactionsList().set(transactionToEditPos,newTransaction);
-            }
+            //
+            if (!isEditing) accountParent.getTransactionsList().add(newTransaction);
+            else accountParent.getTransactionsList().set(transactionToEditPos,newTransaction);
+
             presenter.saveTransaction(accountParent);
 
 
@@ -269,6 +300,37 @@ public class TransactionEditorActivity extends BaseActivity
             setResult(RESULT_T,transactionActivityIntent);
             finish();
         }
+
+    }
+
+    @Override
+    public void animateCategory(TransactionCategory selectedCategory) {
+        /*This variable indicates the value by which the fab should rotate and the direction */
+        // TODO:Test Different Animations
+
+        currentTransactionCategory = selectedCategory;
+        int rotation = 180;
+        // Rise Animations
+        categorySelectedImg.animate()
+                //.rotationBy(rotation)        // rest 180 covered by "shrink" animation
+                .setDuration(100)
+                .scaleX(1.3f)           //Scaling to 130%
+                .scaleY(1.3f)
+                //.withLayer()
+                .withEndAction(() -> {
+                    //Changing the icon by the end of animation
+                    categorySelectedImg.setImageResource(selectedCategory.getCategoryImage());
+                    categorySelectedImg.animate()
+                            //.rotationBy(rotation)   //Complete the rest of the rotation
+                            .setDuration(100)
+                            .scaleX(1)              //Scaling back to what it was
+                            .scaleY(1)
+                            // hardware layout for optimizing animation (has some drawback)
+                            .start();
+
+                })
+                .start();
+        // Shrink Animation
 
     }
 

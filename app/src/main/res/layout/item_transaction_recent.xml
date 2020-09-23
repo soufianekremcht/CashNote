@@ -1,37 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="@dimen/spacing_small">
+    android:orientation="horizontal"
+    android:padding="@dimen/spacing_small"
+    >
 
-    <TextView
-        android:id="@+id/recent_transaction_description_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Transaction"
-        style="@style/ItemTransactionReducedTextStyle"/>
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:id="@+id/recent_transaction_category_img"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_done"
+        />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/recent_transaction_description_text"
-        android:text="@string/created_at"
-        style="@style/ItemTransactionReducedTextStyle"/>
-    <TextView
-        android:id="@+id/recent_transaction_balance_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Balance"
-        android:layout_alignParentEnd="true"
-        style="@style/ItemTransactionReducedTextStyle"/>
-    <TextView
-        android:id="@+id/transaction_creation_date_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Date "
-        android:layout_alignParentEnd="true"
-        android:layout_below="@id/recent_transaction_balance_text"
-        style="@style/ItemTransactionReducedTextStyle"/>
 
-</RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <TextView
+            android:id="@+id/recent_transaction_description_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Transaction"
+            style="@style/ItemTransactionReducedTextStyle"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/recent_transaction_description_text"
+            android:text="@string/created_at"
+            style="@style/ItemTransactionReducedTextStyle"/>
+        <TextView
+            android:id="@+id/recent_transaction_balance_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Balance"
+            android:layout_alignParentEnd="true"
+            style="@style/ItemTransactionReducedTextStyle"/>
+        <TextView
+            android:id="@+id/transaction_creation_date_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date "
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/recent_transaction_balance_text"
+            style="@style/ItemTransactionReducedTextStyle"/>
+
+
+
+    </RelativeLayout>
+
+</LinearLayout>

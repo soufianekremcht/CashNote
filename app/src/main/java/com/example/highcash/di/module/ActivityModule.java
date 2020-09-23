@@ -11,8 +11,8 @@ import com.example.highcash.di.scope.ActivityContext;
 import com.example.highcash.di.scope.ActivityScope;
 import com.example.highcash.helper.rx.AppSchedulerProvider;
 import com.example.highcash.helper.rx.SchedulerProvider;
-import com.example.highcash.ui.account_editor.AccountEditorContract;
-import com.example.highcash.ui.account_editor.AccountEditorPresenter;
+import com.example.highcash.ui.account_edit.AccountEditorContract;
+import com.example.highcash.ui.account_edit.AccountEditorPresenter;
 import com.example.highcash.ui.accounts.AccountsAdapter;
 import com.example.highcash.ui.accounts.AccountsContract;
 import com.example.highcash.ui.accounts.AccountsPresenter;
@@ -21,15 +21,15 @@ import com.example.highcash.ui.main.MainPresenter;
 import com.example.highcash.ui.overview.OverViewContract;
 import com.example.highcash.ui.overview.OverViewPresenter;
 import com.example.highcash.ui.overview.adapters.RecentTransactionsAdapter;
-import com.example.highcash.ui.overview.adapters.RecentUsedAccountsAdapter;
+import com.example.highcash.ui.overview.adapters.RecentAccountsAdapter;
 import com.example.highcash.ui.settings.SettingsContract;
 import com.example.highcash.ui.settings.SettingsPresenter;
 import com.example.highcash.ui.settings.export.ExportDataContract;
 import com.example.highcash.ui.settings.export.ExportDataPresenter;
 import com.example.highcash.ui.splash_screen.SplashScreenContract;
 import com.example.highcash.ui.splash_screen.SplashScreenPresenter;
-import com.example.highcash.ui.transaction_editor.TransactionEditorContract;
-import com.example.highcash.ui.transaction_editor.TransactionEditorPresenter;
+import com.example.highcash.ui.transaction_edit.TransactionEditorContract;
+import com.example.highcash.ui.transaction_edit.TransactionEditorPresenter;
 import com.example.highcash.ui.transaction_filter.TransactionFilterContract;
 import com.example.highcash.ui.transaction_filter.TransactionFilterPresenter;
 import com.example.highcash.ui.transactions.TransactionsContract;
@@ -127,8 +127,8 @@ public class ActivityModule {
         return new RecentTransactionsAdapter(mActivity,new ArrayList<>());
     }
     @Provides
-    RecentUsedAccountsAdapter provideRecentUsedAccountsAdapter(){
-        return new RecentUsedAccountsAdapter(mActivity, new ArrayList<>());
+    RecentAccountsAdapter provideRecentUsedAccountsAdapter(){
+        return new RecentAccountsAdapter(mActivity, new ArrayList<>());
     }
 
     // Account Editor

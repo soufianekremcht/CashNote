@@ -84,48 +84,22 @@
                     android:inputType="textMultiLine"
                     style="@style/account_edit_text_style"
                     android:importantForAutofill="no" />
+
+                <!--            Account Category Color-->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Category"
+                    android:text="Catogery Color"
                     style="@style/account_text_view_style"/>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/account_category_recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="5dp"
-                    android:layout_margin="5dp"
-                    />
-
                 <ImageView
-                    android:id="@+id/category_selected_img"
                     android:padding="8dp"
                     android:gravity="center"
-                    android:layout_margin="10dp"
+                    android:id="@+id/account_color_picker"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/category_home"
+                    android:background="@color/accent_blue"
                     android:layout_gravity="center"
                     />
-                <!--            Account Category Color-->
-
-
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Catogery Color"-->
-<!--                    style="@style/account_text_view_style"/>-->
-<!--                <ImageView-->
-<!--                    android:padding="8dp"-->
-<!--                    android:gravity="center"-->
-<!--                    android:id="@+id/account_color_picker"-->
-<!--                    android:layout_width="50dp"-->
-<!--                    android:layout_height="50dp"-->
-<!--                    android:background="@color/accent_blue"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    />-->
 
             </LinearLayout>
         </ScrollView>

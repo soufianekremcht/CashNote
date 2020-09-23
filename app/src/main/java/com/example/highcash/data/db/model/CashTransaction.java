@@ -11,18 +11,22 @@ public class CashTransaction implements Parcelable {
     private int accountSourceId;
     private boolean isExpense;
     private String accountParentName;
+    private TransactionCategory category;
+    private String notes;
 
 
     public CashTransaction() {
     }
 
-    public CashTransaction(String name, int balance, long lastUpdatedDate, int accountSourceId, boolean isExpense, String accountParentName) {
+    public CashTransaction(String name, int balance, long lastUpdatedDate, int accountSourceId, boolean isExpense, String accountParentName, TransactionCategory category, String notes) {
         this.name = name;
         this.balance = balance;
         this.lastUpdatedDate = lastUpdatedDate;
         this.accountSourceId = accountSourceId;
         this.isExpense = isExpense;
         this.accountParentName = accountParentName;
+        this.category = category;
+        this.notes = notes;
     }
 
     protected CashTransaction(Parcel in) {
@@ -32,6 +36,7 @@ public class CashTransaction implements Parcelable {
         accountSourceId = in.readInt();
         isExpense = in.readByte() != 0;
         accountParentName = in.readString();
+        notes = in.readString();
     }
 
     @Override
@@ -42,6 +47,7 @@ public class CashTransaction implements Parcelable {
         dest.writeInt(accountSourceId);
         dest.writeByte((byte) (isExpense ? 1 : 0));
         dest.writeString(accountParentName);
+        dest.writeString(notes);
     }
 
     @Override
@@ -107,5 +113,21 @@ public class CashTransaction implements Parcelable {
 
     public void setAccountParentName(String accountParentName) {
         this.accountParentName = accountParentName;
+    }
+
+    public TransactionCategory getCategory() {
+        return category;
+    }
+
+    public void setCategory(TransactionCategory category) {
+        this.category = category;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 }

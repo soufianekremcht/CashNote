@@ -1,11 +1,10 @@
-package com.example.highcash.ui.account_editor;
+package com.example.highcash.ui.account_edit;
 
 import android.util.Log;
 
 import com.example.highcash.data.DataManager;
 import com.example.highcash.data.db.model.CashAccount;
 import com.example.highcash.helper.rx.SchedulerProvider;
-import com.example.highcash.ui.account_editor.AccountEditorContract;
 import com.example.highcash.ui.base.BasePresenter;
 
 import javax.inject.Inject;

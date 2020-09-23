@@ -1,4 +1,4 @@
-package com.example.highcash.ui.account_editor.adapter;
+package com.example.highcash.ui.transaction_edit;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.highcash.R;
+import com.example.highcash.data.db.model.TransactionCategory;
 import com.example.highcash.ui.base.BaseViewHolder;
 import com.example.highcash.helper.AppUtils;
 
@@ -22,14 +23,14 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AccountCategoryAdapter extends RecyclerView.Adapter<AccountCategoryAdapter.AccountCategoryViewHolder> {
+public class TransactionCategoryAdapter extends RecyclerView.Adapter<TransactionCategoryAdapter.TransactionCategoryViewHolder> {
     Context mContext;
-    List<AccountCategory> categories;
+    List<TransactionCategory> categories;
     int selection_position = -1;
     private CategoryAdapterListener listener;
 
 
-    public AccountCategoryAdapter(Context mContext, List<AccountCategory> categories,CategoryAdapterListener listener) {
+    public TransactionCategoryAdapter(Context mContext, List<TransactionCategory> categories, CategoryAdapterListener listener) {
         this.categories = categories;
         this.mContext = mContext;
         this.listener = listener;
@@ -37,14 +38,14 @@ public class AccountCategoryAdapter extends RecyclerView.Adapter<AccountCategory
 
     @NonNull
     @Override
-    public AccountCategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public TransactionCategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(mContext).inflate(R.layout.card_account_category, parent, false);
-        return new AccountCategoryViewHolder(v);
+        return new TransactionCategoryViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AccountCategoryViewHolder holder, int position) {
-        AccountCategory category = categories.get(position);
+    public void onBindViewHolder(@NonNull TransactionCategoryViewHolder holder, int position) {
+        TransactionCategory category = categories.get(position);
         holder.categoryTitle.setText(category.getName());
         Glide.with(mContext)
                 .load(category.getCategoryImage())
@@ -77,15 +78,15 @@ public class AccountCategoryAdapter extends RecyclerView.Adapter<AccountCategory
 
 
 
-    public class AccountCategoryViewHolder extends BaseViewHolder {
-        @BindView(R.id.account_category_card)
+    public class TransactionCategoryViewHolder extends BaseViewHolder {
+        @BindView(R.id.transaction_category_card)
         CardView categoryCard;
-        @BindView(R.id.account_category_title)
+        @BindView(R.id.transaction_category_name_text)
         TextView categoryTitle;
-        @BindView(R.id.account_category_image)
+        @BindView(R.id.transaction_category_img)
         ImageView categoryImg;
 
-        public AccountCategoryViewHolder(@NonNull View itemView) {
+        public TransactionCategoryViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
 
@@ -93,6 +94,6 @@ public class AccountCategoryAdapter extends RecyclerView.Adapter<AccountCategory
     }
 
     public interface CategoryAdapterListener{
-        void animateCategory(AccountCategory category);
+        void animateCategory(TransactionCategory category);
     }
 }

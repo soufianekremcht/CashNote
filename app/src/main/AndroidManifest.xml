@@ -31,11 +31,11 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.transaction_editor.TransactionEditorActivity"
+            android:name=".ui.transaction_edit.TransactionEditorActivity"
             android:parentActivityName=".ui.main.MainActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".ui.account_editor.AccountEditorActivity"
+            android:name=".ui.account_edit.AccountEditorActivity"
             android:parentActivityName=".ui.main.MainActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".ui.settings.SettingsActivity" />

@@ -17,7 +17,7 @@ import com.example.highcash.MyApp;
 import com.example.highcash.R;
 import com.example.highcash.data.app_preference.PrefConst;
 import com.example.highcash.data.db.model.CashTransaction;
-import com.example.highcash.ui.account_editor.adapter.AccountCategory;
+import com.example.highcash.data.db.model.TransactionCategory;
 import com.example.highcash.helper.AppUtils;
 import com.example.highcash.ui.base.BaseViewHolder;
 import com.example.highcash.ui.views.FlipAnimator;
@@ -49,7 +49,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
     @NonNull
     @Override
     public TransactionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.card_transaction,parent,false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.item_card_transaction,parent,false);
         return new TransactionViewHolder(v);
     }
 
@@ -162,12 +162,14 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         CircularImageView transactionCategoryImg;
         @BindView(R.id.icon_back)
         RelativeLayout iconBack;
-        @BindView(R.id.card_transaction_title_text)
-        TextView transactionTitle;
+        @BindView(R.id.transaction_name_text)
+        TextView transactionName;
         @BindView(R.id.transaction_money_text)
         TextView transactionMoneyTextView;
-        @BindView(R.id.transaction_last_updated_date_txt)
+        @BindView(R.id.transaction_last_up_date_txt)
         TextView transactionLastUpdatedDate;
+
+
         TransactionViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
@@ -177,6 +179,8 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         public void onBind(int currentPosition) {
             super.onBind(currentPosition);
             CashTransaction transaction = transactionsList.get(currentPosition);
+            transactionName.setText(String.format("%s", transaction.getName()));
+
             transactionLastUpdatedDate.setText(String.format("%s %s",
                     mContext.getString(R.string.last_updated),
                     AppUtils.formatDate(new Date(transaction.getLastUpdatedDate()), AppUtils.MAIN_DATE_FORMAT)));
@@ -186,21 +190,19 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
                     PrefConst.PREF_DEFAULT_CURRENCY, "$");
             ;
             transactionMoneyTextView.setText(balance);
-            transactionTitle.setText(String.format("%s", transaction.getName()));
-            transactionCardView.setOnClickListener(v -> listener.onTransactionClick(currentPosition));
-            transactionCardView.setOnLongClickListener(v -> listener.onTransactionLongClick(currentPosition));
+
+            transactionCategoryImg.setImageDrawable(mContext.
+                    getDrawable(transaction.getCategory().getCategoryImage()));
+
 
             if (transactionMoneyTextView.getText().toString().substring(0, 1).equals("-"))
                 transactionMoneyTextView.setTextColor(AppUtils.getColor(mContext, R.color.piechart_red));
             else
                 transactionMoneyTextView.setTextColor(AppUtils.getColor(mContext, R.color.accent_green));
 
-            if (listener.getAccountCategory() != null)
-                transactionCategoryImg.setImageDrawable(mContext.getDrawable(listener.getAccountCategory().getCategoryImage()));
-
-/*            if (listener.getAccountSource() != null)
-                transactionSourceText.setText(String.format("Source : %s", listener.getAccountSource()));*/
-
+            // Listener
+            transactionCardView.setOnClickListener(v -> listener.onTransactionClick(currentPosition));
+            transactionCardView.setOnLongClickListener(v -> listener.onTransactionLongClick(currentPosition));
 
             applyIconAnimation(this, currentPosition);
         }
@@ -210,6 +212,5 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         void onTransactionClick(int position);
         boolean onTransactionLongClick(int position);
         void onTransactionDelete(int position);
-        AccountCategory getAccountCategory();
     }
 }

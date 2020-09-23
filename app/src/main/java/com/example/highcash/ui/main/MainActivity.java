@@ -20,7 +20,7 @@ import com.example.highcash.R;
 
 import com.example.highcash.data.db.model.CashAccount;
 import com.example.highcash.helper.AppUtils;
-import com.example.highcash.ui.account_editor.AccountEditorActivity;
+import com.example.highcash.ui.account_edit.AccountEditorActivity;
 import com.example.highcash.ui.accounts.AccountsFragment;
 import com.example.highcash.ui.base.BaseActivity;
 import com.example.highcash.ui.overview.OverViewFragment;

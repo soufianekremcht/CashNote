@@ -5,7 +5,7 @@
     android:layout_height="75dp">
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/account_category_img_reduced"
+        android:id="@+id/recent_account_color_img"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:src="@drawable/category_home"
@@ -15,23 +15,23 @@
         />
 
     <LinearLayout
-        android:id="@+id/account_info"
+        android:id="@+id/recent_account_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_centerVertical="true"
         android:padding="10dp"
-        android:layout_toEndOf="@id/account_category_img_reduced"
+        android:layout_toEndOf="@id/recent_account_color_img"
         >
         <TextView
-            android:id="@+id/account_name_text"
+            android:id="@+id/recent_account_name_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Account Name"
             style="@style/ItemAccountReducedTextStyle"/>
 
         <TextView
-            android:id="@+id/account_transaction_count"
+            android:id="@+id/recent_account_transaction_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Account transaction counts"
@@ -39,7 +39,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/account_balance_text"
+        android:id="@+id/recent_account_balance_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="00.00 $"

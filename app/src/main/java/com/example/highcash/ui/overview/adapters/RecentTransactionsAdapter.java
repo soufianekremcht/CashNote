@@ -16,6 +16,7 @@ import com.example.highcash.data.app_preference.PrefConst;
 import com.example.highcash.data.db.model.CashTransaction;
 import com.example.highcash.ui.base.BaseViewHolder;
 import com.example.highcash.helper.AppUtils;
+import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.util.Date;
 import java.util.List;
@@ -49,7 +50,7 @@ public class RecentTransactionsAdapter extends RecyclerView.Adapter<RecentTransa
         String balance = transaction.getBalance() + " " + MyApp.AppPref().getString(PrefConst.PREF_DEFAULT_CURRENCY,"$");
 
         holder.recentTransactionBalance.setText(balance);
-
+        holder.recentTransactionCategoryImg.setImageAlpha(transaction.getCategory().getCategoryImage());
         holder.recentTransactionCreationDate.setText(AppUtils
                 .formatDate(new Date(transaction.getLastUpdatedDate()),MAIN_DATE_FORMAT));
     }
@@ -73,6 +74,8 @@ public class RecentTransactionsAdapter extends RecyclerView.Adapter<RecentTransa
         TextView recentTransactionCreationDate;
         @BindView(R.id.recent_transaction_balance_text)
         TextView recentTransactionBalance;
+        @BindView(R.id.recent_transaction_category_img)
+        CircularImageView recentTransactionCategoryImg;
         RecentTransactionsViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);

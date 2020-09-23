@@ -20,9 +20,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.highcash.R;
-import com.example.highcash.data.db.model.CashAccount;
 import com.example.highcash.data.db.model.CashTransaction;
-import com.example.highcash.ui.account_editor.adapter.AccountCategory;
+import com.example.highcash.data.db.model.TransactionCategory;
 import com.example.highcash.ui.base.BaseActivity;
 import com.example.highcash.ui.transaction_filter.filter.TransactionFilterDialog;
 import com.example.highcash.ui.transactions.TransactionsAdapter;
@@ -168,11 +167,6 @@ public class TransactionFilterActivity extends BaseActivity implements Transacti
     @Override
     public void onTransactionDelete(int position) {
 
-    }
-
-    @Override
-    public AccountCategory getAccountCategory() {
-        return null;
     }
 
 

@@ -1,4 +1,4 @@
-package com.example.highcash.ui.account_editor.adapter;
+package com.example.highcash.ui.account_edit.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
