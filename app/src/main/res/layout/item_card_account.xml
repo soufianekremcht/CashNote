@@ -19,16 +19,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.mikhaellopez.circularimageview.CircularImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/card_account_color_img"
             android:layout_width="@dimen/icon_size"
             android:layout_height="@dimen/icon_size"
-            android:src="@drawable/category_car"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:layout_margin="@dimen/spacing_normal"
-            app:civ_border_color="#4CAF50"
-            app:civ_border_width="@dimen/spacing_tiny"
+            android:src="@drawable/bg_circle"
             />
 
         <LinearLayout

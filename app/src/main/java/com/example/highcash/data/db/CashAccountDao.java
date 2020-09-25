@@ -6,7 +6,6 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.example.highcash.data.db.model.BalanceHistory;
 import com.example.highcash.data.db.model.CashAccount;
 
 import java.util.List;
@@ -22,19 +21,19 @@ public interface CashAccountDao {
     Completable addAccount(CashAccount account);
 
     @Update
-    public  Completable updateAccount(CashAccount account);
+    Completable updateAccount(CashAccount account);
 
     @Delete
-    public Completable deleteAccount(CashAccount account);
+    Completable deleteAccount(CashAccount account);
 
     @Query("Select * from account Where account_id =:id LIMIT 1")
-    public  Flowable<CashAccount> getAccount(int id);
+    Flowable<CashAccount> getAccount(int id);
 
     @Query("Select * from account")
-    public  Flowable<List<CashAccount>> getAccounts();
+    Flowable<List<CashAccount>> getAccounts();
 
     @Query("Delete from account")
-    public void deleteTables();
+    void deleteTables();
 
 
 

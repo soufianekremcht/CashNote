@@ -1,26 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="75dp">
-    <ImageView
-        android:id="@+id/nav_header_background_img"
-        android:layout_width="55dp"
-        android:layout_height="25dp"
-        android:src="@drawable/splash_img"
-        android:layout_centerVertical="true"
-        android:layout_margin="10dp"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:layout_margin="@dimen/spacing_small"
+    android:padding="@dimen/spacing_normal">
 
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="HIGH"
+        android:textSize="@dimen/font_large"
+        android:textStyle="bold"
+        android:textColor="@color/accent_amber"
+
+        android:padding="@dimen/spacing_tiny"
         />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/app_name_upper_case"
+        android:text="CASH"
         android:textSize="@dimen/font_large"
         android:textStyle="bold"
-        android:layout_margin="10dp"
-        android:padding="@dimen/spacing_small"
-        android:layout_toEndOf="@id/nav_header_background_img"
-        android:layout_centerVertical="true"/>
+        android:textColor="@color/colorPrimary"
 
-</RelativeLayout>
+        android:padding="@dimen/spacing_tiny"
+        />
+
+</LinearLayout>

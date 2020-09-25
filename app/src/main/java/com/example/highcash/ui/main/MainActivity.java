@@ -2,10 +2,9 @@ package com.example.highcash.ui.main;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -52,7 +51,6 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     public int CurrentYear = AppUtils.getCurrentYear();
 
 
-
     @BindView(R.id.main_drawer)
     DrawerLayout drawerLayout;
     @BindView(R.id.main_nav_view)
@@ -79,6 +77,29 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         setupUi();
 
     }
+
+
+    private void setupUi(){
+        setSupportActionBar(mainToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        drawerToggle = new ActionBarDrawerToggle(this,drawerLayout,mainToolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+        drawerToggle.setDrawerSlideAnimationEnabled(true);
+        drawerToggle.syncState();
+        mainNavView.setNavigationItemSelectedListener(this);
+
+
+        if (getCurrentFragment() instanceof OverViewFragment) addAccountTransactionFab.hide();
+        else addAccountTransactionFab.show();
+
+        addAccountTransactionFab.setOnClickListener(v->{
+            Intent intent = new Intent(MainActivity.this, AccountEditorActivity.class);
+            startActivityForResult(intent,REFRESH_ACCOUNT_LIST_CODE);
+        });
+
+        showAccountFragment();
+    }
+
 
     @Override
     protected void onResume() {
@@ -136,59 +157,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         super.onDestroy();
     }
 
-    private void setupUi(){
-        setSupportActionBar(mainToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        drawerToggle = new ActionBarDrawerToggle(this,drawerLayout,mainToolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
-        drawerToggle.setDrawerSlideAnimationEnabled(true);
-        drawerToggle.syncState();
-
-
-        // change header color
-        View header = mainNavView.getHeaderView(0);
-        ImageView header_back_img = header.findViewById(R.id.nav_header_background_img);
-        header_back_img.setBackgroundColor(AppUtils.getColor(this,R.color.colorPrimary));
-
-
-        mainNavView.setNavigationItemSelectedListener(menuItem -> {
-            switch (menuItem.getItemId()){
-                case R.id.drawer_menu_overview:
-                    presenter.onDrawerOptionOverViewClick();
-                    drawerLayout.closeDrawer(GravityCompat.START);
-                    mainNavView.setCheckedItem(R.id.drawer_menu_overview);
-                    return true;
-                case R.id.drawer_menu_accounts:
-                    presenter.onDrawerOptionAccountsClick();
-                    drawerLayout.closeDrawer(GravityCompat.START);
-                    mainNavView.setCheckedItem(R.id.drawer_menu_accounts);
-                    return true;
-                case R.id.drawer_menu_filter:
-                    startActivity(new Intent(this, TransactionFilterActivity.class));
-                    mainNavView.setCheckedItem(R.id.drawer_menu_filter);
-                    return true;
-                case R.id.drawer_menu_settings:
-                    startActivity(new Intent(this,SettingsActivity.class));
-                    return true;
-
-            }
-            return false;
-        });
-        setFabBtn();
-        showAccountFragment();
-    }
-
-    private void setFabBtn(){
-        if (getCurrentFragment() instanceof OverViewFragment)
-            addAccountTransactionFab.hide();
-        else
-            addAccountTransactionFab.show();
-            addAccountTransactionFab.setOnClickListener(v->{
-                Intent intent = new Intent(MainActivity.this, AccountEditorActivity.class);
-                startActivityForResult(intent,REFRESH_ACCOUNT_LIST_CODE);
-            });
-
-    }
     @Override
     public void showAccountFragment() {
         loadFragmentWithoutAnimations(AccountsFragment.newInstance(),FRAGMENT_ACCOUNT_TAG);
@@ -233,4 +202,30 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     }
 
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.drawer_menu_overview:
+                presenter.onDrawerOptionOverViewClick();
+                mainNavView.setCheckedItem(R.id.drawer_menu_overview);
+                break;
+            case R.id.drawer_menu_accounts:
+                presenter.onDrawerOptionAccountsClick();
+                mainNavView.setCheckedItem(R.id.drawer_menu_accounts);
+                break;
+            case R.id.drawer_menu_filter:
+                startActivity(new Intent(this, TransactionFilterActivity.class));
+                mainNavView.setCheckedItem(R.id.drawer_menu_filter);
+
+                break;
+            case R.id.drawer_menu_settings:
+                startActivity(new Intent(this,SettingsActivity.class));
+                break;
+        }
+        new Handler().postDelayed(() -> {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        },250);
+        return true;
+    }
 }

@@ -15,10 +15,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
+
+
         <activity android:name=".ui.transaction_filter.TransactionFilterActivity"
             android:parentActivityName=".ui.main.MainActivity"/>
         <activity
-            android:name=".ui.splash_screen.SplashScreenActivity"
+            android:name=".ui.splash.SplashScreenActivity"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,7 +31,7 @@
         <activity
             android:name=".ui.main.MainActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".ui.transaction_edit.TransactionEditorActivity"
             android:parentActivityName=".ui.main.MainActivity"

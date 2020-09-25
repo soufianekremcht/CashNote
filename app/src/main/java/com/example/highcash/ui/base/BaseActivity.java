@@ -23,10 +23,9 @@ import com.example.highcash.di.module.ActivityModule;
 import com.google.android.material.snackbar.Snackbar;
 
 import butterknife.Unbinder;
+import es.dmoral.toasty.Toasty;
 
 public abstract class BaseActivity extends AppCompatActivity implements BaseContract.MvpView {
-
-
 
     private Unbinder mUnBinder;
     private ActivityComponent mActivityComponent;
@@ -41,6 +40,16 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseCont
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        hideKeyboard();
+        super.onStop();
+    }
 
     @TargetApi(Build.VERSION_CODES.M)
     public void requestPermissionsSafely(String[] permissions, int requestCode) {
@@ -59,6 +68,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseCont
     public void onError(String message) {
         if (message != null) {
             Log.e(this.getLocalClassName(),message);
+            Toasty.error(this,message,Toast.LENGTH_LONG).show();
         } else {
             Log.e("Error" ,"message = null");
         }
@@ -72,9 +82,9 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseCont
     @Override
     public void showMessage(String message) {
         if (message != null) {
-            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+            Toasty.info(this, message, Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
+            Toasty.info(this, "Error", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -88,9 +98,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseCont
 
     @Override
     protected void onDestroy() {
-        if (mUnBinder != null) {
-            mUnBinder.unbind();
-        }
+        if (mUnBinder != null) mUnBinder.unbind();
         super.onDestroy();
     }
 
@@ -98,12 +106,6 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseCont
         return mActivityComponent;
     }
 
-    private void showSnackBar(String message) {
-        Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content),
-                message, Snackbar.LENGTH_SHORT);
-        View sbView = snackbar.getView();
-        snackbar.show();
-    }
 
     public void hideKeyboard() {
         View view = this.getCurrentFocus();
@@ -117,4 +119,12 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseCont
     public void setUnBinder(Unbinder unBinder) {
         mUnBinder = unBinder;
     }
+
+    public void showSnackBar(String message) {
+        Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content),
+                message, Snackbar.LENGTH_SHORT);
+        View sbView = snackbar.getView();
+        snackbar.show();
+    }
+
 }

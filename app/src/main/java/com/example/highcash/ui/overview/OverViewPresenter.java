@@ -58,7 +58,7 @@ public class OverViewPresenter<V extends OverViewContract.View> extends BasePres
                     getMvpView().updateRecentAccounts(cashAccounts);
                     getMvpView().updateRecentTransactions(recentTransaction);
 
-                    getMvpView().setExpenseChart(allTransactions);
+                    getMvpView().setExpenseIncomeChart(allTransactions);
                     getMvpView().setSummaryChart(cashAccounts);
 
                 }, throwable ->

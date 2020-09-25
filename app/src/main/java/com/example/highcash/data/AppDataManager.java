@@ -2,7 +2,6 @@ package com.example.highcash.data;
 
 import android.content.Context;
 
-import com.example.highcash.data.app_preference.PreferencesHelper;
 import com.example.highcash.data.db.CashRoomDb;
 import com.example.highcash.di.scope.ApplicationContext;
 

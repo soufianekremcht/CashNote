@@ -3,17 +3,11 @@ package com.example.highcash.helper;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.LocationManager;
-import android.provider.Settings;
 import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 
-import com.example.highcash.R;
-import com.example.highcash.ui.base.BaseActivity;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;

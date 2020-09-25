@@ -7,8 +7,6 @@ import android.content.Context;
 import com.example.highcash.MyApp;
 import com.example.highcash.data.AppDataManager;
 import com.example.highcash.data.DataManager;
-import com.example.highcash.data.app_preference.AppPreferencesHelper;
-import com.example.highcash.data.app_preference.PreferencesHelper;
 import com.example.highcash.di.scope.ApplicationContext;
 import com.example.highcash.di.scope.PreferenceInfo;
 import com.example.highcash.helper.AppConst;

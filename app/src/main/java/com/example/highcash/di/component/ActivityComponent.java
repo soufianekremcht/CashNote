@@ -13,7 +13,7 @@ import com.example.highcash.ui.main.MainActivity;
 import com.example.highcash.ui.overview.OverViewFragment;
 import com.example.highcash.ui.settings.SettingsActivity;
 import com.example.highcash.ui.settings.SettingsFragment;
-import com.example.highcash.ui.splash_screen.SplashScreenActivity;
+import com.example.highcash.ui.splash.SplashScreenActivity;
 import com.example.highcash.ui.transaction_filter.TransactionFilterActivity;
 
 import dagger.Component;

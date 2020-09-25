@@ -6,27 +6,29 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.highcash.R;
 import com.example.highcash.data.db.model.CashAccount;
 import com.example.highcash.data.db.model.CashTransaction;
 import com.example.highcash.data.db.model.TransactionCategory;
+import com.example.highcash.helper.CategoryUtils;
 import com.example.highcash.ui.base.BaseActivity;
 import com.example.highcash.helper.AppUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -36,17 +38,14 @@ import butterknife.ButterKnife;
 
 import static com.example.highcash.ui.main.MainActivity.ACCOUNT_PARENT;
 import static com.example.highcash.ui.main.MainActivity.RESULT_T;
-import static com.example.highcash.helper.AppConst.TRANSACTION_ACCOUNT;
+import static com.example.highcash.helper.AppConst.TRANSACTION_ACCOUNT_PARENT;
 import static com.example.highcash.helper.AppConst.TRANSACTION_IS_EDITING;
 import static com.example.highcash.helper.AppConst.TRANSACTION_TO_EDIT_POS;
 import static com.example.highcash.helper.AppUtils.MAIN_DATE_FORMAT;
 
 public class TransactionEditorActivity extends BaseActivity
         implements DatePickerDialog.OnDateSetListener
-                , TransactionEditorContract.View {
-
-
-
+        , TransactionEditorContract.View {
     @Inject
     TransactionEditorContract.Presenter<TransactionEditorContract.View> presenter;
 
@@ -63,7 +62,7 @@ public class TransactionEditorActivity extends BaseActivity
     EditText transactionBalanceField;
 
     @BindView(R.id.expense_or_income_switch)
-    Switch expenseOrIncomeSwitch;
+    SwitchCompat expenseOrIncomeSwitch;
 
     @BindView(R.id.transaction_date_field)
     TextView transactionDateField;
@@ -83,7 +82,6 @@ public class TransactionEditorActivity extends BaseActivity
     private TransactionCategoryAdapter categoryAdapter;
 
 
-
     private CashAccount accountParent;
 
     private CashTransaction transactionToEdit;
@@ -91,20 +89,18 @@ public class TransactionEditorActivity extends BaseActivity
     private boolean isEditing;
 
 
-
-    private String transactionDescription ="";
+    private String transactionDescription = "";
     private double transactionBalance = 0;
     private Date transactionDate = new Date();
     private boolean transactionIsExpense = false;
-    private String transactionNotes ="";
+    private String transactionNotes = "";
     private TransactionCategory currentTransactionCategory;
-
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_transaction_editor);
+        setContentView(R.layout.activity_transaction_edit);
         ButterKnife.bind(this);
 
         getActivityComponent().inject(this);
@@ -119,6 +115,22 @@ public class TransactionEditorActivity extends BaseActivity
         saveTransactionFab.setOnClickListener(v -> {
             saveTransaction();
         });
+
+    }
+    private void setupUi() {
+        toolbar.setTitle(R.string.empty_string);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white);
+        }
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
+        List<TransactionCategory> transactionCategories = CategoryUtils.getAllCategories();
+        categoryAdapter = new TransactionCategoryAdapter(this, transactionCategories, this);
+        categoryRecyclerView.setHasFixedSize(true);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 4);
+        categoryRecyclerView.setLayoutManager(gridLayoutManager);
+        categoryRecyclerView.setAdapter(categoryAdapter);
 
     }
 
@@ -145,54 +157,41 @@ public class TransactionEditorActivity extends BaseActivity
 
 
     @Override
-    public void setOldTransactionInfo(CashTransaction transactionToEdit){
-        if (transactionToEdit != null){
+    public void setOldTransactionInfo(CashTransaction transactionToEdit) {
+        if (transactionToEdit != null) {
             transactionDescription = transactionToEdit.getName();
             transactionBalance = transactionToEdit.getBalance();
-            if (transactionToEdit.getLastUpdatedDate() != 0)
-                transactionDate = new Date(transactionToEdit.getLastUpdatedDate());
+
+            if (transactionToEdit.getLastUpdatedDate() != 0) transactionDate = new Date(transactionToEdit.getLastUpdatedDate());
             transactionIsExpense = transactionToEdit.isExpense();
+            currentTransactionCategory = transactionToEdit.getCategory();
             transactionDescriptionField.setText(transactionDescription);
             transactionBalanceField.setText(String.valueOf(transactionToEdit.getBalance()));
         }
         //update widget
+        categoryAdapter.setSelectedCategoryPosition(currentTransactionCategory);
         setTransactionDateField();
         expenseOrIncomeSwitch.setChecked(!transactionIsExpense);
-        transactionBalanceField.setTextColor(transactionIsExpense ? Color.RED:Color.GREEN);
+        transactionBalanceField.setTextColor(transactionIsExpense ? Color.RED : Color.GREEN);
     }
 
     // date picker listener
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        setTransactionDate(year,monthOfYear,dayOfMonth);
+        setTransactionDate(year, monthOfYear, dayOfMonth);
     }
 
 
 
-    private void setupUi() {
-        toolbar.setTitle(R.string.empty_string);
-        //remove the shadows
-        //getActionBar().setElevation(0);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_black_24dp);
-        toolbar.setNavigationOnClickListener(v -> onBackPressed());
-        categoryAdapter = new TransactionCategoryAdapter(this,new ArrayList<>(),this);
-        categoryRecyclerView.setHasFixedSize(true);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this,3);
-        categoryRecyclerView.setLayoutManager(gridLayoutManager);
-        categoryRecyclerView.setAdapter(categoryAdapter);
 
-    }
-
-    private void checkIntent(){
-        if (getIntent().getExtras() != null){
-            accountParent = getIntent().getExtras().getParcelable(TRANSACTION_ACCOUNT);
-            isEditing = getIntent().getBooleanExtra(TRANSACTION_IS_EDITING,false);
-            if (isEditing && accountParent != null){
-                transactionToEditPos = getIntent().getExtras().getInt(TRANSACTION_TO_EDIT_POS,-1);
+    private void checkIntent() {
+        if (getIntent().getExtras() != null) {
+            accountParent = getIntent().getExtras().getParcelable(TRANSACTION_ACCOUNT_PARENT);
+            isEditing = getIntent().getBooleanExtra(TRANSACTION_IS_EDITING, false);
+            if (isEditing && accountParent != null) {
+                transactionToEditPos = getIntent().getExtras().getInt(TRANSACTION_TO_EDIT_POS, -1);
                 transactionToEdit = accountParent.getTransactionsList().get(transactionToEditPos);
-                transactionNotesField.setText(AppUtils.formatDate(new Date(transactionToEdit.getLastUpdatedDate()),MAIN_DATE_FORMAT));
+                transactionNotesField.setText(AppUtils.formatDate(new Date(transactionToEdit.getLastUpdatedDate()), MAIN_DATE_FORMAT));
                 //change title To Edit transaction
                 title.setText(R.string.edit_transaction);
             }
@@ -200,8 +199,7 @@ public class TransactionEditorActivity extends BaseActivity
         }
     }
 
-    private void setTransactionDateListener(){
-
+    private void setTransactionDateListener() {
         transactionDateField.setOnClickListener(v -> {
             Calendar now = Calendar.getInstance();
             DatePickerDialog dbp = DatePickerDialog
@@ -211,17 +209,18 @@ public class TransactionEditorActivity extends BaseActivity
                             now.get(Calendar.DAY_OF_MONTH));
             dbp.setOkColor(Color.WHITE);
             dbp.setCancelColor(Color.WHITE);
-            dbp.show(getSupportFragmentManager(),"DatePickerDialog");
+            dbp.show(getSupportFragmentManager(), "DatePickerDialog");
         });
     }
-    private void setIncomeToExpenseSwitch(){
+
+    private void setIncomeToExpenseSwitch() {
         expenseOrIncomeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             transactionIsExpense = !isChecked;
-            if (!transactionIsExpense){
+            if (!transactionIsExpense) {
                 expenseOrIncomeSwitch.setText(R.string.income);
                 transactionBalanceField.setTextColor(Color.GREEN);
 
-            }else{
+            } else {
                 expenseOrIncomeSwitch.setText(R.string.expense);
                 transactionBalanceField.setTextColor(Color.RED);
             }
@@ -229,17 +228,17 @@ public class TransactionEditorActivity extends BaseActivity
     }
 
 
-    private void setTransactionDateField(){
-        transactionDateField.setText(AppUtils.formatDate(transactionDate,MAIN_DATE_FORMAT));
+    private void setTransactionDateField() {
+        transactionDateField.setText(AppUtils.formatDate(transactionDate, MAIN_DATE_FORMAT));
     }
 
 
-    private void setTransactionDate(int year, int monthOfYear, int dayOfMonth){
+    private void setTransactionDate(int year, int monthOfYear, int dayOfMonth) {
         Calendar calendar = Calendar.getInstance();
-        int hour,minute;
+        int hour, minute;
 
         if (calendar.before(Calendar.getInstance())) return;
-        calendar.set(year,monthOfYear,dayOfMonth);
+        calendar.set(year, monthOfYear, dayOfMonth);
 
         if (transactionDate != null) calendar.setTime(transactionDate);
 
@@ -253,31 +252,35 @@ public class TransactionEditorActivity extends BaseActivity
     }
 
 
-    private boolean CheckSubmittedData(){
-        transactionBalance = Integer.parseInt(transactionBalanceField.getText().toString());
-        transactionDescription = transactionDescriptionField.getText().toString();
+    private boolean CheckSubmittedData() {
 
-        if (transactionDescription.equals("")){
-            transactionBalanceField.setError("You need to put A description !!");
+
+        if (transactionDescriptionField.getText().toString().isEmpty() ||
+                transactionBalanceField.getText().toString().isEmpty()) {
+            transactionBalanceField.setError("You need to put some Data  !!");
             return false;
-        }else if (transactionDate != null && transactionDate.before(new Date())) {
+
+        } else if (transactionDate != null && transactionDate.before(new Date())) {
             Toast.makeText(TransactionEditorActivity.this,
                     getResources().getString(R.string.transaction_date_field_error),
                     Toast.LENGTH_SHORT).show();
             return false;
-        }
+        } else if (currentTransactionCategory == null)
+            showMessage("You need to set A category !!");
+        transactionDescription = transactionDescriptionField.getText().toString();
         transactionNotes = transactionNotesField.getText().toString();
+        transactionBalance = Integer.parseInt(transactionBalanceField.getText().toString());
         return true;
 
     }
-    private void saveTransaction(){
-        if (currentTransactionCategory == null){
-            showMessage("You need to set A category !!");
-        }else if (CheckSubmittedData()){
+
+    private void saveTransaction() {
+        if (CheckSubmittedData()) {
             CashTransaction newTransaction = new CashTransaction();
             newTransaction.setName(transactionDescription);
-            if (transactionDate != null) newTransaction.setLastUpdatedDate(transactionDate.getTime());
-            if (transactionIsExpense && transactionBalance >0 || !transactionIsExpense && transactionBalance <0)
+            if (transactionDate != null)
+                newTransaction.setLastUpdatedDate(transactionDate.getTime());
+            if (transactionIsExpense && transactionBalance > 0 || !transactionIsExpense && transactionBalance < 0)
                 transactionBalance *= -1;
             newTransaction.setBalance((int) transactionBalance);
             newTransaction.setAccountSourceId(accountParent.getAccountId());
@@ -289,19 +292,17 @@ public class TransactionEditorActivity extends BaseActivity
 
             //
             if (!isEditing) accountParent.getTransactionsList().add(newTransaction);
-            else accountParent.getTransactionsList().set(transactionToEditPos,newTransaction);
+            else accountParent.getTransactionsList().set(transactionToEditPos, newTransaction);
 
             presenter.saveTransaction(accountParent);
-
-
             Intent transactionActivityIntent = new Intent();
             // send the data back to The main activity
             transactionActivityIntent.putExtra(ACCOUNT_PARENT, accountParent);
-            setResult(RESULT_T,transactionActivityIntent);
+            setResult(RESULT_T, transactionActivityIntent);
             finish();
         }
-
     }
+
 
     @Override
     public void animateCategory(TransactionCategory selectedCategory) {
@@ -309,7 +310,6 @@ public class TransactionEditorActivity extends BaseActivity
         // TODO:Test Different Animations
 
         currentTransactionCategory = selectedCategory;
-        int rotation = 180;
         // Rise Animations
         categorySelectedImg.animate()
                 //.rotationBy(rotation)        // rest 180 covered by "shrink" animation
@@ -319,7 +319,11 @@ public class TransactionEditorActivity extends BaseActivity
                 //.withLayer()
                 .withEndAction(() -> {
                     //Changing the icon by the end of animation
-                    categorySelectedImg.setImageResource(selectedCategory.getCategoryImage());
+                    Glide.with(this)
+                            .asDrawable()
+                            .load(selectedCategory.getCategoryImage())
+                            .into(categorySelectedImg);
+
                     categorySelectedImg.animate()
                             //.rotationBy(rotation)   //Complete the rest of the rotation
                             .setDuration(100)

@@ -19,11 +19,11 @@ public interface BalanceHistoryDao {
 
     //TODO : NEED TO FIX THIS && ADD CLEAN DB AFTER 30 DAYS
     @Query("Select * from balance_history")
-    public Flowable<List<BalanceHistory>> getBalanceHistoryList();
+    Flowable<List<BalanceHistory>> getBalanceHistoryList();
 
 
     @Query("Select * from balance_history Where days =:days And year=:year  LIMIT 1")
-    public Flowable<BalanceHistory> getBalanceHistory(int days,int year);
+    Flowable<BalanceHistory> getBalanceHistory(int days, int year);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     Completable addBalance(BalanceHistory balance);

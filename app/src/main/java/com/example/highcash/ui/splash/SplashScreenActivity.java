@@ -1,4 +1,4 @@
-package com.example.highcash.ui.splash_screen;
+package com.example.highcash.ui.splash;
 
 import android.content.Intent;
 import android.os.Bundle;

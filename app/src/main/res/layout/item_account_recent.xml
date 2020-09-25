@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="75dp">
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/recent_account_color_img"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@drawable/category_home"
+        android:src="@drawable/bg_circle"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
-        style="@style/ItemAccountReducedImgStyle"
+        style="@style/recent_account_img_style"
         />
 
     <LinearLayout
@@ -28,14 +29,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Account Name"
-            style="@style/ItemAccountReducedTextStyle"/>
+            style="@style/recent_account_text_style"/>
 
         <TextView
             android:id="@+id/recent_account_transaction_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Account transaction counts"
-            style="@style/ItemAccountReducedTextStyle"/>
+            style="@style/recent_account_text_style"/>
     </LinearLayout>
 
     <TextView
@@ -46,7 +47,7 @@
         android:layout_centerVertical="true"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="16dp"
-        style="@style/ItemTransactionReducedBigTextStyle"/>
+        style="@style/recent_transaction_big_text_style"/>
 
 
 

@@ -43,7 +43,7 @@
                     android:src="@drawable/ic_done" />
             </RelativeLayout>
 
-            <com.mikhaellopez.circularimageview.CircularImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/transaction_category_img"
                 android:layout_width="@dimen/icon_size"
                 android:layout_height="@dimen/icon_size"

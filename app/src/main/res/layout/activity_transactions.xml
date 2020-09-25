@@ -10,7 +10,8 @@
         android:id="@+id/transactions_main_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        >
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
@@ -42,7 +43,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.3"
-                        style="@style/style_layout_info_card">
+                        style="@style/style_layout_info_layout">
                         <TextView
                             android:id="@+id/recent_account_balance_text"
                             android:layout_width="wrap_content"
@@ -65,7 +66,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.3"
-                        style="@style/style_layout_info_card">
+                        style="@style/style_layout_info_layout">
 
                         <TextView
                             android:id="@+id/account_incomes_text"
@@ -88,7 +89,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.3"
-                        style="@style/style_layout_info_card">
+                        style="@style/style_layout_info_layout">
                         <TextView
                             android:id="@+id/account_expenses_text"
                             android:layout_width="wrap_content"
@@ -133,7 +134,8 @@
         app:layout_anchor="@id/transactions_main_layout"
         app:layout_anchorGravity="bottom|end"
         android:layout_margin="@dimen/activity_horizontal_margin"
-        android:src="@drawable/ic_add_white_24dp"/>
+        android:src="@drawable/ic_add_white_24dp"
+        app:layout_behavior="com.google.android.material.floatingactionbutton.FloatingActionButton$Behavior"/>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

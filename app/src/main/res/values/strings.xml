@@ -30,4 +30,6 @@
     <string name="share_csv_file">Share File To :</string>
     <string name="app_name_upper_case">HIGH CASH</string>
     <string name="edit_transaction">Edit Transaction</string>
+    <string name="go_back">Go back</string>
+    <string name="colors">Colors</string>
 </resources>

@@ -16,6 +16,7 @@ import com.example.highcash.R;
 import com.example.highcash.data.app_preference.PrefConst;
 import com.example.highcash.data.db.model.CashAccount;
 import com.example.highcash.data.db.model.CashTransaction;
+import com.example.highcash.ui.base.BaseViewHolder;
 
 import java.util.List;
 import java.util.Locale;
@@ -74,7 +75,7 @@ public class RecentAccountsAdapter extends RecyclerView.Adapter<RecentAccountsAd
         notifyDataSetChanged();
     }
 
-    class AccountReducedViewHolder extends RecyclerView.ViewHolder{
+    public class AccountReducedViewHolder extends BaseViewHolder {
         @BindView(R.id.recent_account_color_img)
         ImageView accountColorImg;
         @BindView(R.id.recent_account_name_text)
@@ -83,11 +84,27 @@ public class RecentAccountsAdapter extends RecyclerView.Adapter<RecentAccountsAd
         TextView accountBalance;
         @BindView(R.id.recent_account_transaction_count)
         TextView accountTransactionsCounter;
-        /*@BindView(R.id.category_indicator)
-        View category_indicator;*/
+
+
         AccountReducedViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
+        }
+
+        @Override
+        public void onBind(int currentPosition) {
+            super.onBind(currentPosition);
+            CashAccount cashAccount = recentAccountList.get(currentPosition);
+            accountName.setText(cashAccount.getName());
+            accountColorImg.setColorFilter(R.color.accent_amber);
+            String balance = getAccountTotalBalance(currentPosition) + " " +
+                    MyApp.AppPref().getString(PrefConst.PREF_DEFAULT_CURRENCY,"$");
+
+            accountBalance.setText(balance);
+
+            accountTransactionsCounter.setText(String.format(Locale.US,
+                    "%d transactions" ,cashAccount.getTransactionsList().size()));
+            //holder.category_indicator.setBackgroundColor(cashAccount.getColor());
         }
     }
 }

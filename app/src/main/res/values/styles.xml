@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorPrimaryDark</item>
+        <item name="colorSecondary">@color/accent_amber</item>
         <item name="colorOnSecondary">@color/mdtp_white</item>
         <item name="colorSurface">@color/mdtp_white</item>
 
@@ -66,7 +67,7 @@
         <item name="android:layout_margin">@dimen/spacing_small</item>
     </style>
 
-    <style name="style_layout_info_card">
+    <style name="style_layout_info_layout">
         <item name="background">?selectableItemBackground</item>
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>

@@ -2,9 +2,10 @@ package com.example.highcash.ui.main;
 
 import com.example.highcash.data.db.model.CashAccount;
 import com.example.highcash.ui.base.BaseContract;
+import com.google.android.material.navigation.NavigationView;
 
 public interface MainContract {
-    public static interface Presenter<V extends View> extends BaseContract.MvpPresenter<V> {
+    interface Presenter<V extends View> extends BaseContract.MvpPresenter<V> {
         void onDrawerOptionOverViewClick();
         void onDrawerOptionAccountsClick();
         void setBalanceForCurrentDay();
@@ -13,7 +14,7 @@ public interface MainContract {
 
     }
 
-    public static interface View extends BaseContract.MvpView {
+    interface View extends BaseContract.MvpView , NavigationView.OnNavigationItemSelectedListener {
         void showAccountFragment();
         void showTransactionsActivity(CashAccount account);
         void showOverViewFragment();

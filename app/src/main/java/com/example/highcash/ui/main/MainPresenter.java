@@ -36,10 +36,6 @@ public class MainPresenter<V extends MainContract.View> extends BasePresenter<V>
         getMvpView().showAccountFragment();
     }
 
-    @Override
-    public void onViewInitialized() {
-
-    }
 
     @Override
     public void setBalanceForCurrentDay() {

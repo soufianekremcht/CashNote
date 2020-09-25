@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     >
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -43,7 +43,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
             >
@@ -51,7 +51,7 @@
                 android:id="@+id/summary_graph_card_view"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                style="@style/OverViewCardStyle"
+                style="@style/overview_card_style"
                 android:padding="@dimen/spacing_small"
                 android:layout_margin="@dimen/spacing_normal">
                 <com.github.mikephil.charting.charts.PieChart
@@ -80,18 +80,18 @@
                         android:layout_weight="0.3"
                         android:orientation="vertical"
                         android:gravity="center"
-                        style="@style/style_layout_info_card"
+                        style="@style/style_layout_info_layout"
                         >
                         <TextView
-                            android:id="@+id/total_balance_text"
+                            android:id="@+id/expense_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Balance"/>
+                            android:text="Expense"/>
                         <TextView
-                            android:id="@+id/total_balance_value_text"
+                            android:id="@+id/expense_value_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="200 "
+                            android:text="O"
                             style="@style/accounts_balance_count_text_style"
                             />
 
@@ -105,18 +105,18 @@
 
                         android:orientation="vertical"
                         android:gravity="center"
-                        style="@style/style_layout_info_card">
+                        style="@style/style_layout_info_layout">
 
                         <TextView
-                            android:id="@+id/accounts_count_text"
+                            android:id="@+id/income_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Accounts" />
+                            android:text="Income" />
                         <TextView
-                            android:id="@+id/accounts_count_value_text"
+                            android:id="@+id/income_value_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="2"
+                            android:text="0"
                             style="@style/accounts_balance_count_text_style"
                             />
                     </LinearLayout>
@@ -127,7 +127,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:gravity="center"
-                        style="@style/style_layout_info_card">
+                        style="@style/style_layout_info_layout">
                         <TextView
                             android:id="@+id/transactions_count_text"
                             android:layout_width="wrap_content"
@@ -137,7 +137,7 @@
                             android:id="@+id/transactions_count_value_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="200"
+                            android:text="0"
                             style="@style/accounts_balance_count_text_style"
                             />
                     </LinearLayout>
@@ -151,13 +151,14 @@
                 android:layout_height="match_parent"
                 android:layout_margin="@dimen/spacing_normal"
                 android:padding="@dimen/spacing_small"
+                android:visibility="gone"
                 />
 
             <include layout="@layout/view_empty_data"
                 android:id="@+id/filter_empty_view"
                 android:layout_height="match_parent"
                 android:layout_width="match_parent"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:layout_margin="@dimen/spacing_normal"
                 android:padding="@dimen/spacing_small"
 

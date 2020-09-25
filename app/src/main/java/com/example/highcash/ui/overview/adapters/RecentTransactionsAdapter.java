@@ -10,19 +10,20 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.highcash.MyApp;
 import com.example.highcash.R;
 import com.example.highcash.data.app_preference.PrefConst;
 import com.example.highcash.data.db.model.CashTransaction;
 import com.example.highcash.ui.base.BaseViewHolder;
 import com.example.highcash.helper.AppUtils;
-import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.example.highcash.helper.AppUtils.MAIN_DATE_FORMAT;
 
@@ -45,14 +46,7 @@ public class RecentTransactionsAdapter extends RecyclerView.Adapter<RecentTransa
 
     @Override
     public void onBindViewHolder(@NonNull RecentTransactionsViewHolder holder, int position) {
-        CashTransaction transaction = recentTransactions.get(position);
-        holder.recentTransactionTitle.setText(String.format("%s",transaction.getName()));
-        String balance = transaction.getBalance() + " " + MyApp.AppPref().getString(PrefConst.PREF_DEFAULT_CURRENCY,"$");
-
-        holder.recentTransactionBalance.setText(balance);
-        holder.recentTransactionCategoryImg.setImageAlpha(transaction.getCategory().getCategoryImage());
-        holder.recentTransactionCreationDate.setText(AppUtils
-                .formatDate(new Date(transaction.getLastUpdatedDate()),MAIN_DATE_FORMAT));
+       holder.onBind(position);
     }
 
     @Override
@@ -67,7 +61,7 @@ public class RecentTransactionsAdapter extends RecyclerView.Adapter<RecentTransa
     }
 
 
-    class RecentTransactionsViewHolder extends BaseViewHolder {
+    public class RecentTransactionsViewHolder extends BaseViewHolder {
         @BindView(R.id.recent_transaction_description_text)
         TextView recentTransactionTitle;
         @BindView(R.id.transaction_creation_date_text)
@@ -75,10 +69,29 @@ public class RecentTransactionsAdapter extends RecyclerView.Adapter<RecentTransa
         @BindView(R.id.recent_transaction_balance_text)
         TextView recentTransactionBalance;
         @BindView(R.id.recent_transaction_category_img)
-        CircularImageView recentTransactionCategoryImg;
+        CircleImageView recentTransactionCategoryImg;
+
         RecentTransactionsViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
+        }
+
+        @Override
+        public void onBind(int currentPosition) {
+            super.onBind(currentPosition);
+
+            CashTransaction transaction = recentTransactions.get(currentPosition);
+            recentTransactionTitle.setText(String.format("%s",transaction.getName()));
+            String balance = transaction.getBalance() + " " + MyApp.AppPref().getString(PrefConst.PREF_DEFAULT_CURRENCY,"$");
+
+            recentTransactionBalance.setText(balance);
+            if (transaction.getCategory() != null)
+                Glide.with(context)
+                        .asDrawable()
+                        .load(transaction.getCategory().getCategoryImage())
+                        .into(recentTransactionCategoryImg);
+            recentTransactionCreationDate.setText(AppUtils
+                    .formatDate(new Date(transaction.getLastUpdatedDate()),MAIN_DATE_FORMAT));
         }
     }
 

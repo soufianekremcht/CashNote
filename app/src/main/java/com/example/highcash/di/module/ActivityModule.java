@@ -26,8 +26,8 @@ import com.example.highcash.ui.settings.SettingsContract;
 import com.example.highcash.ui.settings.SettingsPresenter;
 import com.example.highcash.ui.settings.export.ExportDataContract;
 import com.example.highcash.ui.settings.export.ExportDataPresenter;
-import com.example.highcash.ui.splash_screen.SplashScreenContract;
-import com.example.highcash.ui.splash_screen.SplashScreenPresenter;
+import com.example.highcash.ui.splash.SplashScreenContract;
+import com.example.highcash.ui.splash.SplashScreenPresenter;
 import com.example.highcash.ui.transaction_edit.TransactionEditorContract;
 import com.example.highcash.ui.transaction_edit.TransactionEditorPresenter;
 import com.example.highcash.ui.transaction_filter.TransactionFilterContract;
@@ -181,7 +181,7 @@ public class ActivityModule {
 
     @Provides
     LinearLayoutManager provideLinearLayoutManager(){
-        return new LinearLayoutManager(provideContext(), RecyclerView.VERTICAL,false);
+        return new LinearLayoutManager(mActivity, RecyclerView.VERTICAL,false);
     }
 
 

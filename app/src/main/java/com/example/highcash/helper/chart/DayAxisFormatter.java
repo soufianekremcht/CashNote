@@ -3,7 +3,7 @@ package com.example.highcash.helper.chart;
 import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 
-public class DayAxisValueFormatter extends ValueFormatter {
+public class DayAxisFormatter extends ValueFormatter {
 
     private final String[] mMonths = new String[]{
             "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
@@ -11,7 +11,7 @@ public class DayAxisValueFormatter extends ValueFormatter {
 
     private final BarLineChartBase<?> chart;
 
-    public DayAxisValueFormatter(BarLineChartBase<?> chart) {
+    public DayAxisFormatter(BarLineChartBase<?> chart) {
         this.chart = chart;
     }
 
@@ -32,9 +32,9 @@ public class DayAxisValueFormatter extends ValueFormatter {
         } else {
             // day of Month
             int dayOfMonth = determineDayOfMonth(days, month + 12 * (year - 2020));
-
             String appendix = "th";
 
+            /*
             switch (dayOfMonth) {
                 case 1:
                 case 21:
@@ -50,8 +50,9 @@ public class DayAxisValueFormatter extends ValueFormatter {
                     appendix = "rd";
                     break;
             }
+            */
 
-            return dayOfMonth == 0 ? "" : dayOfMonth + appendix + " " + monthName;
+            return dayOfMonth == 0 ? "" : dayOfMonth + " " + monthName;
         }
     }
 

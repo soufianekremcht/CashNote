@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.bumptech.glide.Glide;
 import com.example.highcash.R;
 import com.example.highcash.data.db.model.CashAccount;
 import com.example.highcash.data.db.model.CashTransaction;
@@ -46,11 +47,11 @@ public class ShowTransactionFragment extends BottomSheetDialogFragment {
     FloatingActionButton editBtn;
 
 
-
     private ShowTransactionDialogListener listener;
     private CashTransaction transactionToShow;
     private CashAccount accountParent;
     private int position;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,11 +61,10 @@ public class ShowTransactionFragment extends BottomSheetDialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dialog_show_transaction,container,false);
-        ButterKnife.bind(this,view);
+        View view = inflater.inflate(R.layout.dialog_show_transaction, container, false);
+        ButterKnife.bind(this, view);
         return view;
     }
-
 
 
     @Override
@@ -72,8 +72,6 @@ public class ShowTransactionFragment extends BottomSheetDialogFragment {
         super.onViewCreated(view, savedInstanceState);
         initView(view);
     }
-
-
 
 
     @Override
@@ -88,38 +86,42 @@ public class ShowTransactionFragment extends BottomSheetDialogFragment {
     }
 
 
-    private void initView(View dialogView){
-
-
+    private void initView(View dialogView) {
 
         editBtn.setOnClickListener(v -> {
             if (listener != null)
-                listener.onTransactionEditClicked(dialogView,position);
+                listener.onTransactionEditClicked(dialogView, position);
         });
 
         descriptionText.setText(transactionToShow.getName());
         transactionSourceText.setText(String.format("Source : %s", accountParent.getName()));
 
-        balanceValueText.setText(String.format(Locale.US,"Balance : %d $",transactionToShow.getBalance()));
+        balanceValueText.setText(String.format(Locale.US, "Balance : %d $", transactionToShow.getBalance()));
 
         lastUpdatedDateText.setText(
                 String.format(
                         "Last Updated : %s",
                         AppUtils.formatDate(new Date(transactionToShow.getLastUpdatedDate()), AppUtils.MAIN_DATE_FORMAT))
         );
-        categoryImg.setImageResource(transactionToShow.getCategory().getCategoryImage());
+        if (transactionToShow.getCategory() != null)
+            Glide.with(getActivity())
+                    .asDrawable()
+                    .load(transactionToShow.getCategory().getCategoryImage())
+                    .into(categoryImg);
+
     }
 
 
-    private void handleIntents(){
-        transactionToShow = getArguments().getParcelable(TRANSACTION_SHOW);
-        accountParent = getArguments().getParcelable(ACCOUNT_PARENT_OF_TRANSACTION_SHOW);
-        position = getArguments().getInt("transaction_to_show_position");
+    private void handleIntents() {
+        if (getArguments() != null)
+            transactionToShow = getArguments().getParcelable(TRANSACTION_SHOW);
+            accountParent = getArguments().getParcelable(ACCOUNT_PARENT_OF_TRANSACTION_SHOW);
+            position = getArguments().getInt("transaction_to_show_position");
     }
-    public void setDialogListener(ShowTransactionDialogListener listener){
+
+    public void setDialogListener(ShowTransactionDialogListener listener) {
         this.listener = listener;
     }
-
 
 
     public interface ShowTransactionDialogListener {

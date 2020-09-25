@@ -450,9 +450,7 @@ public final class Money implements Comparable<Money>{
         Money other = (Money) obj;
         if (!mAmount.equals(other.mAmount))
             return false;
-        if (!mCashCurrency.equals(other.mCashCurrency))
-            return false;
-        return true;
+        return mCashCurrency.equals(other.mCashCurrency);
     }
 
     @Override
@@ -478,7 +476,7 @@ public final class Money implements Comparable<Money>{
         return mAmount.compareTo(BigDecimal.ZERO) == 0;
     }
 
-    public class CurrencyMismatchException extends IllegalArgumentException{
+    public static class CurrencyMismatchException extends IllegalArgumentException{
         @Override
         public String getMessage() {
             return "Cannot perform operation on Money instances with different currencies";

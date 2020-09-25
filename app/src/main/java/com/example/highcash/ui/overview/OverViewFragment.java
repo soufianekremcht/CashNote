@@ -22,8 +22,8 @@ import com.example.highcash.ui.base.BaseFragment;
 import com.example.highcash.ui.overview.adapters.RecentAccountsAdapter;
 import com.example.highcash.ui.overview.adapters.RecentTransactionsAdapter;
 import com.example.highcash.ui.views.CustomItemDecoration;
-import com.example.highcash.helper.chart.DayAxisValueFormatter;
-import com.example.highcash.helper.chart.MyValueFormatter;
+import com.example.highcash.helper.chart.DayAxisFormatter;
+import com.example.highcash.helper.chart.BalanceValueFormatter;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -59,6 +59,7 @@ import static com.example.highcash.helper.AppUtils.checkCurrentYearDays;
 
 public class OverViewFragment extends BaseFragment implements OverViewContract.View {
 
+
     public static void main(String[]args){
         Calendar calendar = Calendar.getInstance();
         calendar.set(2019,2,11);
@@ -89,6 +90,10 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
     RecentTransactionsAdapter recentTransactionsAdapter;
     @Inject
     RecentAccountsAdapter recentAccountsAdapter;
+
+    @Inject
+    LinearLayoutManager linearLayoutManager;
+
 
 
     private Calendar calendar;
@@ -128,7 +133,7 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
         super.onViewCreated(view, savedInstanceState);
 
         reducedAccountListView.setHasFixedSize(true);
-        reducedAccountListView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        reducedAccountListView.setLayoutManager(linearLayoutManager);
         reducedAccountListView.addItemDecoration(new CustomItemDecoration(getActivity()
                 , CustomItemDecoration.VERTICAL_LIST,8));
         reducedAccountListView.setAdapter(recentAccountsAdapter);
@@ -136,7 +141,7 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
 
 
         recentTransactionListView.setHasFixedSize(true);
-        recentTransactionListView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recentTransactionListView.setLayoutManager(linearLayoutManager);
         recentTransactionListView.addItemDecoration(new CustomItemDecoration(getActivity(),
                 CustomItemDecoration.VERTICAL_LIST,8));
         recentTransactionListView.setAdapter(recentTransactionsAdapter);
@@ -144,10 +149,21 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onStart() {
+        super.onStart();
         presenter.getOverView();
         presenter.getBalanceHistory(currentDay,6);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
     }
 
     @Override
@@ -157,9 +173,9 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
     }
 
     @Override
-    public void setExpenseChart(List<CashTransaction> transactions){
+    public void setExpenseIncomeChart(List<CashTransaction> transactions){
         // Customize The Chart
-        ValueFormatter xAxisFormatter = new DayAxisValueFormatter(expenseChart);
+        ValueFormatter xAxisFormatter = new DayAxisFormatter(expenseChart);
 
         XAxis xAxis = expenseChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.TOP);
@@ -169,8 +185,20 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
         xAxis.setLabelCount(7);
         xAxis.setValueFormatter(xAxisFormatter);
         Description desc = new Description();
-        desc.setText("Transactions per day");
+        desc.setText(String.format("Transactions per day in %s",
+                MyApp.AppPref().getString(PrefConst.PREF_DEFAULT_CURRENCY,"USD")));
         expenseChart.setDescription(desc);
+
+        YAxis leftAxis = expenseChart.getAxisLeft();
+        leftAxis.setLabelCount(6, false);
+        ValueFormatter customValueFormatter = new BalanceValueFormatter();
+        leftAxis.setValueFormatter(customValueFormatter);
+        leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
+        leftAxis.setSpaceTop(15f);
+
+
+        YAxis rightAxis = expenseChart.getAxisRight();
+        rightAxis.setEnabled(false);
 
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         ArrayList<Entry> ExpenseValues = new ArrayList<>();
@@ -217,7 +245,7 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
     @Override
     public void setBalanceChart(List<BalanceHistory> balances,int days){
         balanceChart.setMaxVisibleValueCount(7);
-        ValueFormatter xAxisFormatter = new DayAxisValueFormatter(balanceChart);
+        ValueFormatter xAxisFormatter = new DayAxisFormatter(balanceChart);
 
         XAxis xAxis = balanceChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -227,26 +255,33 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
         xAxis.setLabelCount(7);
         xAxis.setValueFormatter(xAxisFormatter);
         // Currency suffix
-        ValueFormatter custom = new MyValueFormatter(
-                MyApp.AppPref().getString(PrefConst.PREF_DEFAULT_CURRENCY,"$"));
+
+        YAxis rightAxis = balanceChart.getAxisRight();
+        rightAxis.setEnabled(false);
 
         YAxis leftAxis = balanceChart.getAxisLeft();
         //leftAxis.setTypeface(tfLight);
-        leftAxis.setLabelCount(8, false);
-        leftAxis.setValueFormatter(custom);
+        leftAxis.setLabelCount(6, false);
+        ValueFormatter customValueFormatter = new BalanceValueFormatter();
+        leftAxis.setValueFormatter(customValueFormatter);
         leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
         leftAxis.setSpaceTop(15f);
 
         // this replaces setStartAtZero(true)
 
-        YAxis rightAxis = balanceChart.getAxisRight();
+  /*      YAxis rightAxis = balanceChart.getAxisRight();
         rightAxis.setDrawGridLines(false);
         //rightAxis.setTypeface(tfLight);
-        rightAxis.setLabelCount(8, false);
-        rightAxis.setValueFormatter(custom);
+        rightAxis.setLabelCount(5, false);
+        rightAxis.setValueFormatter(customValueFormatter);
         rightAxis.setSpaceTop(15f);
+        */
+
+
         Description desc = new Description();
-        desc.setText("Balance per day");
+        desc.setText(String.format("Balance per day in %s",
+                MyApp.AppPref().getString(PrefConst.PREF_DEFAULT_CURRENCY,"$")));
+
         balanceChart.setDescription(desc);
 
 
@@ -274,6 +309,9 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
         desc.setText("Summary of this month's transaction");
 
         summaryChart.setDescription(desc);
+        summaryChart.setCenterTextColor(Color.BLACK);
+        summaryChart.setEntryLabelColor(Color.BLACK);
+        summaryChart.setDrawEntryLabels(false);
         ArrayList<PieEntry> values = new ArrayList<>();
         List<CashTransaction> transactionsOfThisMonth = new ArrayList<>();
 

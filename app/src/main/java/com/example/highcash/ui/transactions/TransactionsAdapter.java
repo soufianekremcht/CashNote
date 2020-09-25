@@ -13,15 +13,14 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.highcash.MyApp;
 import com.example.highcash.R;
 import com.example.highcash.data.app_preference.PrefConst;
 import com.example.highcash.data.db.model.CashTransaction;
-import com.example.highcash.data.db.model.TransactionCategory;
 import com.example.highcash.helper.AppUtils;
 import com.example.highcash.ui.base.BaseViewHolder;
 import com.example.highcash.ui.views.FlipAnimator;
-import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,6 +28,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapter.TransactionViewHolder> {
     private Context mContext;
@@ -159,7 +159,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         @BindView(R.id.transactions_card_view)
         CardView transactionCardView;
         @BindView(R.id.transaction_category_img)
-        CircularImageView transactionCategoryImg;
+        CircleImageView transactionCategoryImg;
         @BindView(R.id.icon_back)
         RelativeLayout iconBack;
         @BindView(R.id.transaction_name_text)
@@ -190,9 +190,11 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
                     PrefConst.PREF_DEFAULT_CURRENCY, "$");
             ;
             transactionMoneyTextView.setText(balance);
-
-            transactionCategoryImg.setImageDrawable(mContext.
-                    getDrawable(transaction.getCategory().getCategoryImage()));
+            if (transaction.getCategory() != null)
+                Glide.with(mContext)
+                        .asDrawable()
+                        .load(transaction.getCategory().getCategoryImage())
+                        .into(transactionCategoryImg);
 
 
             if (transactionMoneyTextView.getText().toString().substring(0, 1).equals("-"))

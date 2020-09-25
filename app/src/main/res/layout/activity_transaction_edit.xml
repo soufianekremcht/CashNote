@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical"
+
+
+    >
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/add_transaction_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.ThemeOverLay"
+        app:elevation="0dp">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/add_transaction_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            style="@style/MainToolbarStyle"
+            app:popupTheme="@style/AppTheme.PopUpOverLay"
+            />
+    </com.google.android.material.appbar.AppBarLayout>
+    <LinearLayout
+        android:id="@+id/create_transaction_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <TextView
+            android:id="@+id/add_transaction_title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/add_new_transaction_title"
+            android:textStyle="bold"
+            android:textSize="30sp"
+            android:padding="20dp"
+            android:layout_margin="5dp"
+            android:textColor="@color/mdtp_white"
+            android:orientation="vertical"
+            />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/mdtp_white">
+
+            <LinearLayout
+                android:id="@+id/transaction_fields_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="30dp"
+
+                >
+                <!--            android:background="@drawable/rounded_corner_bg"-->
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_new_transaction_description"
+                    style="@style/account_text_view_style"
+                    />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/transaction_description_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Description"
+                    android:maxLines="1"
+                    android:inputType="text"
+                    android:minLines="1"
+                    style="@style/account_edit_text_style"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Balance :"
+                    style="@style/account_text_view_style"
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_margin="8dp">
+                    <ImageView
+                        android:id="@+id/dollar_img_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:src="@drawable/ic_attach_money_black_24dp"/>
+
+                    <EditText
+                        android:id="@+id/transaction_amount_field"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:inputType="numberDecimal"
+                        android:autofillHints=""
+                        android:maxEms="8"
+                        android:maxLength="8"
+                        />
+
+                    <ImageView
+                        android:id="@+id/split_transaction_img_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_call_split_black_24dp" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/expense_or_income_switch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_margin="4dp"
+                        android:text="Income"
+                        android:checked="true"
+                        />
+
+                </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Account Source : (Still In Development)"
+                    style="@style/account_text_view_style"
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_margin="8dp">
+
+                    <ImageView
+                        android:id="@+id/trans_arrow_img_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_transfer" />
+
+                    <TextView
+                        android:id="@+id/set_transaction_source"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?selectableItemBackground"
+
+                        />
+
+                </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Date :"
+                    style="@style/CardTransactionTextStyle"
+                    />
+                <LinearLayout
+                    android:id="@+id/transaction_account_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_margin="8dp">
+
+                    <ImageView
+                        android:id="@+id/transaction_clock_img_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_clock_black_24dp"
+                        />
+
+                    <TextView
+                        android:id="@+id/transaction_date_field"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?selectableItemBackground"
+                        android:focusable="true"
+                        android:gravity="center"
+                        android:importantForAutofill="no"
+                        android:padding="@dimen/spacing_normal"
+                        android:layout_margin="@dimen/spacing_tiny" />
+
+
+                </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Notes :"
+                    style="@style/account_text_view_style"
+                    />
+                <LinearLayout
+                    android:id="@+id/transaction_notes_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_margin="8dp">
+
+                    <ImageView
+                        android:id="@+id/notes_img_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_subject_black_24dp"/>
+
+                    <EditText
+                        android:id="@+id/transaction_notes_field"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="textMultiLine"
+                        android:textSize="@dimen/font_small"
+                        android:padding="@dimen/spacing_normal"
+                        style=""/>
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Category"
+                    style="@style/account_text_view_style"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/category_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_small"
+
+                    android:layout_gravity="center"
+                    android:padding="@dimen/spacing_small"
+
+
+                    />
+
+                <ImageView
+                    android:id="@+id/category_selected_img"
+                    android:padding="8dp"
+                    android:gravity="center"
+                    android:layout_margin="10dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/category_home"
+                    android:layout_gravity="center"
+                    />
+            </LinearLayout>
+
+        </ScrollView>
+
+
+    </LinearLayout>
+
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/save_transaction_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_anchor="@id/create_transaction_layout"
+        app:layout_anchorGravity="bottom|end"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_check_white_24dp"
+        />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,4 +1,4 @@
-package com.example.highcash.ui.splash_screen;
+package com.example.highcash.ui.splash;
 
 import com.example.highcash.data.DataManager;
 import com.example.highcash.ui.base.BasePresenter;

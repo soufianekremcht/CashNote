@@ -7,14 +7,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 
-import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.color.ColorChooserDialog;
 import com.example.highcash.R;
 import com.example.highcash.data.db.model.CashAccount;
 import com.example.highcash.ui.base.BaseActivity;
-import com.example.highcash.helper.AppUtils;
 import com.example.highcash.helper.KeyboardUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -41,7 +41,7 @@ public class AccountEditorActivity extends BaseActivity implements AccountEditor
     @BindView(R.id.account_name_field)
     EditText accountNameField;
 
-    @BindView(R.id.account_description_field)
+    @BindView(R.id.account_desc_field)
     EditText accountDescriptionField;
 
     @BindView(R.id.account_save_fab)
@@ -51,38 +51,58 @@ public class AccountEditorActivity extends BaseActivity implements AccountEditor
     ImageView accountColorPicker;
 
 
-
     @Inject
     AccountEditorContract.Presenter<AccountEditorContract.View> presenter;
 
-    private MaterialDialog colorDialog;
+    private ColorChooserDialog colorChooserDialog;
+;
+
     private CashAccount accountToEdit;
-    private int accountToEditId;
+
+
     private String accountName;
     private String accountDescription;
-    private int accountColor;
+    private int accountColor = R.color.colorPrimary;
     private int accountType;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_account_editor);
+        setContentView(R.layout.activity_account_edit);
         getActivityComponent().inject(this);
         setUnBinder(ButterKnife.bind(this));
         presenter.onAttach(this);
         checkIntents();
         setupUi();
-        KeyboardUtils.showSoftInput(this, accountDescriptionField);
         KeyboardUtils.showSoftInput(this, accountNameField);
+    }
 
-        setListeners();
+
+    private void setupUi() {
+        setSupportActionBar(toolbar);
+        toolbar.setTitle("Add Account");
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
+
+        accountSaveFab.setOnClickListener(v -> {
+            onAccountSaved();
+
+        });
+        accountColorPicker.setOnClickListener( v-> showColorDialog());
+
+
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
     }
+
     @Override
     protected void onStop() {
         super.onStop();
@@ -94,93 +114,95 @@ public class AccountEditorActivity extends BaseActivity implements AccountEditor
         super.onDestroy();
     }
 
-    private void checkIntents(){
-        if (getIntent().getExtras() != null){
-            accountToEditId= getIntent().getExtras().getInt(ACCOUNT_TO_EDIT_ID);
-            if(accountToEditId != -1) {
+    private void checkIntents() {
+        if (getIntent().getExtras() != null) {
+            int accountToEditId = getIntent().getExtras().getInt(ACCOUNT_TO_EDIT_ID);
+            if (accountToEditId != -1) {
                 accountLayoutTitle.setText(R.string.edit_account);
                 presenter.getAccountToEdit(accountToEditId);
             }
 
-        }else{
+        } else {
             showMessage("Account To Edit is " + accountToEdit);
         }
     }
+
     @Override
-    public void setEditedAccountInfo(CashAccount account){
-        if (account != null){
+    public void setEditedAccountInfo(CashAccount account) {
+        if (account != null) {
             accountToEdit = account;
 
             accountName = account.getName();
             accountDescription = account.getDescription();
             accountType = 0;
             accountColor = account.getColor();
-        }else{
+        } else {
             accountType = 0;
         }
 
-        int currentColor = R.color.accent_blue;
-        accountColor = AppUtils.getColor(this, currentColor);
         accountNameField.setText(accountName);
         accountDescriptionField.setText(accountDescription);
     }
 
 
-
-    private void setupUi() {
-        setSupportActionBar(toolbar);
-        toolbar.setTitle("Add Account");
-        toolbar.setNavigationOnClickListener(v -> onBackPressed());
-        if  (getSupportActionBar() != null){
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_black_24dp);
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
-        }
-
-
-    }
-
-    private void setListeners(){
-        //accountColorPicker.setOnClickListener(v -> colorChangeDialog());
-        accountSaveFab.setOnClickListener(v -> {
-                onAccountSaved();
-        });
-    }
-
-
-
-
-    private boolean getData(){
+    private boolean getData() {
         accountName = accountNameField.getText().toString();
-        if (accountName.equals("")){
+        if (accountName.equals("")) {
             accountNameField.setError("You need to set A name for the account !!");
             return false;
         }
         return true;
     }
 
-    public void onAccountSaved(){
-        if (getData()){
-                if (accountToEdit != null){
-                    accountToEdit.setName(accountName);
-                    accountToEdit.setDescription(accountDescription);
-                    accountToEdit.setColor(accountColor);
-                    accountToEdit.setType(accountType);
-                    presenter.saveEditedAccount(accountToEdit);
-                }else {
-                    accountToEdit = new CashAccount();
-                    accountToEdit.setTransactionsList(new ArrayList<>());
-                    accountToEdit.setName(accountName);
-                    accountToEdit.setDescription(accountDescription);
-                    accountToEdit.setColor(accountColor);
-                    accountToEdit.setType(accountType);
-                    presenter.saveNewAccount(accountToEdit);
-                }
-                Intent i = new Intent();
-                setResult(RESULT_A,i);
-                finish();
+    public void onAccountSaved() {
+        if (getData()) {
+            if (accountToEdit != null) {
+                accountToEdit.setName(accountName);
+                accountToEdit.setDescription(accountDescription);
+                accountToEdit.setColor(accountColor);
+                accountToEdit.setType(accountType);
+                presenter.saveEditedAccount(accountToEdit);
+            } else {
+                accountToEdit = new CashAccount();
+                accountToEdit.setTransactionsList(new ArrayList<>());
+                accountToEdit.setName(accountName);
+                accountToEdit.setDescription(accountDescription);
+                accountToEdit.setColor(accountColor);
+                accountToEdit.setType(accountType);
+                presenter.saveNewAccount(accountToEdit);
             }
-
+            Intent i = new Intent();
+            setResult(RESULT_A, i);
+            finish();
         }
 
+    }
+
+    public void showColorDialog(){
+        // Pass a context, along with the title of the dialog
+        boolean accentMode = false;
+
+        colorChooserDialog =
+                new ColorChooserDialog.Builder(this, R.string.choose_color)
+                .titleSub(R.string.colors)  // title of dialog when viewing shades of a color
+                .accentMode(false)  // when true, will display accent palette instead of primary palette
+                .doneButton(R.string.confirm)  // changes label of the done button
+                .cancelButton(R.string.cancel)  // changes label of the cancel button
+                .backButton(R.string.go_back)  // changes label of the back button
+                // .preselect(accentMode ? accentPreselect : primaryPreselect)  // optionally preselects a color
+                .dynamicButtonColor(true)  // defaults to true, false will disable changing action buttons' color to currently selected color
+                .show(this); // an AppCompatActivity which implements ColorCallback
+
+    }
+
+    @Override
+    public void onColorSelection(@NonNull ColorChooserDialog dialog, int selectedColor) {
+        accountColor = selectedColor;
+
+    }
+
+    @Override
+    public void onColorChooserDismissed(@NonNull ColorChooserDialog dialog) {
+        accountColorPicker.setColorFilter(accountColor);
+    }
 }

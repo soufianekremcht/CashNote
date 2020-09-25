@@ -1,7 +1,5 @@
 package com.example.highcash.ui.transaction_filter.filter;
 
-import android.app.Dialog;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,13 +11,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
 
 import com.example.highcash.R;
 import com.example.highcash.data.db.model.CashTransaction;
-import com.example.highcash.helper.AppUtils;
-import com.example.highcash.ui.base.BaseDialogFragment;
-import com.example.highcash.ui.settings.SettingsContract;
 import com.example.highcash.ui.transaction_filter.TransactionFilterActivity;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
@@ -100,7 +94,7 @@ public class TransactionFilterDialog extends BottomSheetDialogFragment {
 
 
     private static void filterByMonth(){
-        CashTransaction cashTransaction = new CashTransaction("moe",200,new Date().getTime(),0,false,"");
+        CashTransaction cashTransaction = new CashTransaction("moe",200,new Date().getTime(),0,false,"",null,"");
 
         Date date = new Date(cashTransaction.getLastUpdatedDate());
         DateTime dateTime = new DateTime(date);

@@ -26,7 +26,7 @@ import butterknife.ButterKnife;
 public class TransactionCategoryAdapter extends RecyclerView.Adapter<TransactionCategoryAdapter.TransactionCategoryViewHolder> {
     Context mContext;
     List<TransactionCategory> categories;
-    int selection_position = -1;
+    int selected_position = -1;
     private CategoryAdapterListener listener;
 
 
@@ -50,7 +50,7 @@ public class TransactionCategoryAdapter extends RecyclerView.Adapter<Transaction
         Glide.with(mContext)
                 .load(category.getCategoryImage())
                 .into(holder.categoryImg);
-        if (position == selection_position){
+        if (position == selected_position){
             holder.categoryCard.setCardBackgroundColor(AppUtils.getColor(mContext,R.color.colorPrimary));
             holder.categoryTitle.setTextColor(Color.WHITE);
         } else{
@@ -60,8 +60,8 @@ public class TransactionCategoryAdapter extends RecyclerView.Adapter<Transaction
 
 
         holder.categoryCard.setOnClickListener(v -> {
-            if (selection_position != position){
-                selection_position = position;
+            if (selected_position != position){
+                selected_position = position;
                 notifyDataSetChanged();
                 listener.animateCategory(category);
             }
@@ -76,9 +76,18 @@ public class TransactionCategoryAdapter extends RecyclerView.Adapter<Transaction
         return categories.size();
     }
 
+    public void setSelectedCategoryPosition(TransactionCategory category){
+        for (int i = 0 ;i<categories.size();i++){
+            if(categories.get(i).getName().equals(category.getName())){
+                selected_position = i;
+                notifyDataSetChanged();
+            }
+        }
+    }
 
 
-    public class TransactionCategoryViewHolder extends BaseViewHolder {
+
+    public static class TransactionCategoryViewHolder extends BaseViewHolder {
         @BindView(R.id.transaction_category_card)
         CardView categoryCard;
         @BindView(R.id.transaction_category_name_text)

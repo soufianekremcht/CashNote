@@ -14,7 +14,6 @@ import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
-import com.example.highcash.MyApp;
 import com.example.highcash.R;
 import com.example.highcash.data.app_preference.PrefConst;
 import com.example.highcash.di.component.ActivityComponent;

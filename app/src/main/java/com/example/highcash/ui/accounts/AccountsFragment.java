@@ -102,23 +102,26 @@ public class AccountsFragment extends BaseFragment implements AccountsContract.V
 
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        presenter.getAccounts();
+    }
 
     @Override
     public void onResume() {
         super.onResume();
-        presenter.getAccounts();
-
-
     }
 
     @Override
     public void onDestroyView() {
-        presenter.onDetach();
+        accountsRecyclerView.setAdapter(null);
         super.onDestroyView();
     }
+
     @Override
     public void onDestroy() {
-
+        presenter.onDetach();
         super.onDestroy();
     }
 

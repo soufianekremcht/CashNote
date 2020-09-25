@@ -17,13 +17,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.highcash.R;
 import com.example.highcash.data.db.model.CashAccount;
 import com.example.highcash.helper.DialogsUtil;
-import com.mikhaellopez.circularimageview.CircularImageView;
+
 
 import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.AccountsViewHolder> {
 
@@ -51,9 +52,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.Accoun
         holder.accountTotalTransactions.setText(
                 String.format(Locale.US,"%d transactions",currentAccount.getTransactionsList().size()));
 
-        holder.accountColorImg.setCircleColor(R.color.primary_amber);
-        holder.accountColorImg.setColorFilter(R.color.primary_green);
-
+        holder.accountColorImg.setColorFilter(currentAccount.getColor());
         setListeners(holder,position);
     }
     @Override
@@ -112,7 +111,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.Accoun
 
 
 
-    static class AccountsViewHolder extends RecyclerView.ViewHolder{
+    class AccountsViewHolder extends RecyclerView.ViewHolder{
         @BindView(R.id.account_card_view)
         CardView accountCardView;
         @BindView(R.id.card_account_title)
@@ -120,7 +119,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.Accoun
         @BindView(R.id.card_account_total_transactions)
         TextView accountTotalTransactions;
         @BindView(R.id.card_account_color_img)
-        CircularImageView accountColorImg;
+        CircleImageView accountColorImg;
         @BindView(R.id.card_account_options_btn)
         ImageView accountOptionsBtn;
 

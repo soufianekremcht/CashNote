@@ -6,11 +6,13 @@
     android:padding="@dimen/spacing_small"
     >
 
-    <com.mikhaellopez.circularimageview.CircularImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/recent_transaction_category_img"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@drawable/ic_done"
+        android:src="@drawable/bg_circle"
+        style="@style/recent_account_img_style"
+        android:layout_gravity="center_vertical"
         />
 
 
@@ -24,21 +26,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Transaction"
-            style="@style/ItemTransactionReducedTextStyle"/>
+            style="@style/recent_transaction_text_style"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/recent_transaction_description_text"
             android:text="@string/created_at"
-            style="@style/ItemTransactionReducedTextStyle"/>
+            style="@style/recent_transaction_text_style"/>
         <TextView
             android:id="@+id/recent_transaction_balance_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Balance"
             android:layout_alignParentEnd="true"
-            style="@style/ItemTransactionReducedTextStyle"/>
+            style="@style/recent_transaction_text_style"/>
         <TextView
             android:id="@+id/transaction_creation_date_text"
             android:layout_width="wrap_content"
@@ -46,7 +48,7 @@
             android:text="Date "
             android:layout_alignParentEnd="true"
             android:layout_below="@id/recent_transaction_balance_text"
-            style="@style/ItemTransactionReducedTextStyle"/>
+            style="@style/recent_transaction_text_style"/>
 
 
 

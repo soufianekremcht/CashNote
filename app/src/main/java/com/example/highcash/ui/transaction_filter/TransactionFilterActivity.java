@@ -21,7 +21,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.highcash.R;
 import com.example.highcash.data.db.model.CashTransaction;
-import com.example.highcash.data.db.model.TransactionCategory;
 import com.example.highcash.ui.base.BaseActivity;
 import com.example.highcash.ui.transaction_filter.filter.TransactionFilterDialog;
 import com.example.highcash.ui.transactions.TransactionsAdapter;
@@ -176,8 +175,9 @@ public class TransactionFilterActivity extends BaseActivity implements Transacti
         float totalIncome = 1f;
         Description desc = new Description();
         desc.setText("Summary of this month's transaction");
-
         monthSummaryChart.setDescription(desc);
+        monthSummaryChart.setCenterTextColor(Color.BLACK);
+        monthSummaryChart.setEntryLabelColor(Color.BLACK);
         ArrayList<PieEntry> values = new ArrayList<>();
         List<CashTransaction> transactionsOfThisMonth = new ArrayList<>();
 

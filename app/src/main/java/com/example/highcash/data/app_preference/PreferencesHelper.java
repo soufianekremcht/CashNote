@@ -1,7 +1,5 @@
 package com.example.highcash.data.app_preference;
 
-import android.content.SharedPreferences;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 

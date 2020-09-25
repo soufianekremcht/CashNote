@@ -35,7 +35,7 @@ import butterknife.ButterKnife;
 
 import static com.example.highcash.helper.AppConst.ACCOUNT_PARENT_ID;
 import static com.example.highcash.helper.AppConst.ACCOUNT_PARENT_OF_TRANSACTION_SHOW;
-import static com.example.highcash.helper.AppConst.TRANSACTION_ACCOUNT;
+import static com.example.highcash.helper.AppConst.TRANSACTION_ACCOUNT_PARENT;
 import static com.example.highcash.helper.AppConst.TRANSACTION_IS_EDITING;
 import static com.example.highcash.helper.AppConst.TRANSACTION_SHOW;
 import static com.example.highcash.helper.AppConst.TRANSACTION_TO_EDIT_POS;
@@ -94,6 +94,28 @@ public class TransactionsActivity extends BaseActivity implements TransactionsCo
 
     }
 
+    private void setupUi(){
+
+        transactionsToolbar.setTitle("Transactions");
+        setSupportActionBar(transactionsToolbar);
+        if(getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        transactionsToolbar.setNavigationOnClickListener( v-> onBackPressed());
+
+        addTransactionFab.setOnClickListener( v->{
+            Intent intent = new Intent(TransactionsActivity.this,TransactionEditorActivity.class);
+            intent.putExtra(TRANSACTION_ACCOUNT_PARENT,accountParent);
+            startActivity(intent);
+        });
+        actionModeCallback = new ActionModeTransactions();
+        // recycler_view
+        transactions = new ArrayList<>();
+        transactionsAdapter.setAdapterListener(this);
+        transactionsRecyclerView.setHasFixedSize(true);
+        transactionsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        transactionsRecyclerView.setAdapter(transactionsAdapter);
+
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu,menu);
@@ -122,43 +144,15 @@ public class TransactionsActivity extends BaseActivity implements TransactionsCo
         }
     }
 
-    private void setupUi(){
-
-        transactionsToolbar.setTitle("Transactions");
-        setSupportActionBar(transactionsToolbar);
-        if(getSupportActionBar() != null)
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        transactionsToolbar.setNavigationOnClickListener( v-> onBackPressed());
-        //fab
-        addTransactionFab.setOnClickListener( v->{
-            Intent intent = new Intent(TransactionsActivity.this,TransactionEditorActivity.class);
-            intent.putExtra(ACCOUNT_PARENT,accountParent);
-            startActivity(intent);
-        });
-        actionModeCallback = new ActionModeTransactions();
-
-        // recycler_view
-        transactions = new ArrayList<>();
-        transactionsAdapter.setAdapterListener(this);
-        transactionsRecyclerView.setHasFixedSize(true);
-        transactionsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        transactionsRecyclerView.setAdapter(transactionsAdapter);
-
-
-
-
-    }
     @Override
-    public void onResume() {
-        super.onResume();
+    protected void onStart() {
+        super.onStart();
         onFetchTransactions(accountParent);
     }
 
     @Override
-    public void onDestroy() {
-        // detach The View From the presenter
-        super.onDestroy();
+    public void onResume() {
+        super.onResume();
 
     }
 
@@ -168,10 +162,19 @@ public class TransactionsActivity extends BaseActivity implements TransactionsCo
             dialog.setDialogListener(null);
             dialog.onDestroy();
         }
-        presenter.onDetach();
         super.onStop();
 
     }
+
+    @Override
+    public void onDestroy() {
+        // detach The View From the presenter
+        presenter.onDetach();
+        super.onDestroy();
+
+    }
+
+
 
 
     @Override
@@ -217,10 +220,9 @@ public class TransactionsActivity extends BaseActivity implements TransactionsCo
 
     @Override
     public void onTransactionEdit(int position){
-
         Intent intent = new Intent(this, TransactionEditorActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putParcelable(TRANSACTION_ACCOUNT, accountParent);
+        bundle.putParcelable(TRANSACTION_ACCOUNT_PARENT, accountParent);
         bundle.putBoolean(TRANSACTION_IS_EDITING,true);
         bundle.putInt(TRANSACTION_TO_EDIT_POS,position);
         intent.putExtras(bundle);
