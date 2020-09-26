@@ -15,7 +15,7 @@ import com.example.highcash.MyApp;
 import com.example.highcash.R;
 import com.example.highcash.data.app_preference.PrefConst;
 import com.example.highcash.data.db.model.CashTransaction;
-import com.example.highcash.ui.base.BaseViewHolder;
+import com.example.highcash.ui.a_base.BaseViewHolder;
 import com.example.highcash.helper.AppUtils;
 
 import java.util.Date;

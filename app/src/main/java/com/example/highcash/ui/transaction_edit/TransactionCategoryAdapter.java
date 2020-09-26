@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.highcash.R;
 import com.example.highcash.data.db.model.TransactionCategory;
-import com.example.highcash.ui.base.BaseViewHolder;
+import com.example.highcash.ui.a_base.BaseViewHolder;
 import com.example.highcash.helper.AppUtils;
 
 import java.util.List;
@@ -48,8 +48,10 @@ public class TransactionCategoryAdapter extends RecyclerView.Adapter<Transaction
         TransactionCategory category = categories.get(position);
         holder.categoryTitle.setText(category.getName());
         Glide.with(mContext)
+                .asDrawable()
                 .load(category.getCategoryImage())
                 .into(holder.categoryImg);
+
         if (position == selected_position){
             holder.categoryCard.setCardBackgroundColor(AppUtils.getColor(mContext,R.color.colorPrimary));
             holder.categoryTitle.setTextColor(Color.WHITE);

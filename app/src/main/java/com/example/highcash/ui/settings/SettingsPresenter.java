@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import com.example.highcash.MyApp;
 import com.example.highcash.data.DataManager;
 import com.example.highcash.data.app_preference.PrefConst;
-import com.example.highcash.ui.base.BasePresenter;
+import com.example.highcash.ui.a_base.BasePresenter;
 import com.example.highcash.helper.currency.CashCurrency;
 import com.example.highcash.helper.currency.CurrencyHelper;
 import com.example.highcash.helper.currency.Money;

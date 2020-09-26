@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:text="Assets"
                 android:textStyle="bold"
-                style="@style/AccountsCardViewTextStyle"
+                style="@style/style_account_card"
                 />
 
             <TextView
@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            style="@style/AccountImgStyle"
+            style="@style/style_account_img"
             android:src="@drawable/ic_more_black_24dp" />
 
 

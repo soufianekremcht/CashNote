@@ -19,7 +19,7 @@ import com.example.highcash.R;
 import com.example.highcash.data.db.model.CashAccount;
 import com.example.highcash.data.db.model.CashTransaction;
 import com.example.highcash.ui.account_edit.AccountEditorActivity;
-import com.example.highcash.ui.base.BaseFragment;
+import com.example.highcash.ui.a_base.BaseFragment;
 import com.example.highcash.ui.main.MainActivity;
 
 import java.util.ArrayList;
@@ -121,8 +121,13 @@ public class AccountsFragment extends BaseFragment implements AccountsContract.V
 
     @Override
     public void onDestroy() {
-        presenter.onDetach();
+        if (presenter != null) presenter.onDetach();
         super.onDestroy();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 
     @Override

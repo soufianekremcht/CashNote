@@ -1,4 +1,4 @@
-package com.example.highcash.ui.base;
+package com.example.highcash.ui.a_base;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -6,28 +6,17 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceFragmentCompat;
 
 import com.example.highcash.di.component.ActivityComponent;
 
 import butterknife.Unbinder;
 
-public abstract class BaseFragment extends Fragment implements BaseContract.MvpView {
+abstract public class BasePreferenceFragment extends PreferenceFragmentCompat implements BaseContract.MvpView {
 
 
     private BaseActivity mActivity;
     private Unbinder mUnBinder;
-
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -82,10 +71,9 @@ public abstract class BaseFragment extends Fragment implements BaseContract.MvpV
 
     @Override
     public void onDestroy() {
-        if (mUnBinder != null){
+        hideKeyboard();
+        if (mUnBinder != null)
             mUnBinder.unbind();
-
-        }
         super.onDestroy();
     }
 
@@ -95,13 +83,7 @@ public abstract class BaseFragment extends Fragment implements BaseContract.MvpV
         }
         return null;
     }
-
-    public BaseActivity getBaseActivity(){
-        return mActivity;
-    }
-
     public void setUnBinder(Unbinder unBinder) {
         mUnBinder = unBinder;
     }
-
 }

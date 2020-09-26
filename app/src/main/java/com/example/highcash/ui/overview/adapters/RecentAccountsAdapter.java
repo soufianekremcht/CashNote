@@ -16,7 +16,7 @@ import com.example.highcash.R;
 import com.example.highcash.data.app_preference.PrefConst;
 import com.example.highcash.data.db.model.CashAccount;
 import com.example.highcash.data.db.model.CashTransaction;
-import com.example.highcash.ui.base.BaseViewHolder;
+import com.example.highcash.ui.a_base.BaseViewHolder;
 
 import java.util.List;
 import java.util.Locale;
@@ -96,7 +96,9 @@ public class RecentAccountsAdapter extends RecyclerView.Adapter<RecentAccountsAd
             super.onBind(currentPosition);
             CashAccount cashAccount = recentAccountList.get(currentPosition);
             accountName.setText(cashAccount.getName());
-            accountColorImg.setColorFilter(R.color.accent_amber);
+            accountColorImg.setColorFilter(cashAccount.getColor());
+
+
             String balance = getAccountTotalBalance(currentPosition) + " " +
                     MyApp.AppPref().getString(PrefConst.PREF_DEFAULT_CURRENCY,"$");
 

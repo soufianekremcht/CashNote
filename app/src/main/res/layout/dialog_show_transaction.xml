@@ -4,6 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+
     >
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,7 +35,7 @@
                 android:layout_centerVertical="true"
                 android:text="Title "
                 android:textColor="@color/mdtp_white"
-                style="@style/ShowTransactionBigTextStyle"
+                style="@style/style_show_transaction_big_text"
 
 
                 />
@@ -51,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Source"
-                style="@style/ShowTransactionTextStyle"/>
+                style="@style/style_show_transaction_text"/>
 
 
             <TextView
@@ -61,14 +63,14 @@
                 android:text="Balance : "
                 android:layout_marginEnd="20dp"
                 android:layout_below="@id/show_transaction_source_text"
-                style="@style/ShowTransactionTextStyle"/>
+                style="@style/style_show_transaction_text"/>
             <TextView
                 android:id="@+id/show_transaction_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/show_transaction_balance_value"
                 android:text="@string/show_transaction_created_at"
-                style="@style/ShowTransactionTextStyle"/>
+                style="@style/style_show_transaction_text"/>
 
             <TextView
                 android:id="@+id/show_transaction_last_updated_date"
@@ -76,13 +78,13 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/show_transaction_date"
                 android:text="@string/last_updated"
-                style="@style/ShowTransactionTextStyle"/>
+                style="@style/style_show_transaction_text"/>
 
             <TextView
                 android:id="@+id/show_transaction_notes_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/ShowTransactionTextStyle"
+                style="@style/style_show_transaction_text"
                 android:layout_below="@id/show_transaction_last_updated_date"
                 android:text="Notes"/>
 

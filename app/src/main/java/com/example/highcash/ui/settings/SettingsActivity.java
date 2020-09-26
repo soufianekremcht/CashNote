@@ -6,7 +6,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.highcash.R;
-import com.example.highcash.ui.base.BaseActivity;
+import com.example.highcash.ui.a_base.BaseActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,7 +24,8 @@ public class SettingsActivity extends BaseActivity {
         setUnBinder(ButterKnife.bind(this));
         getActivityComponent().inject(this);
         setupUi();
-        show_settings_fragment();
+        if (savedInstanceState == null)
+            show_settings_fragment();
     }
 
     @Override
@@ -34,6 +35,7 @@ public class SettingsActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
+
         super.onDestroy();
     }
 

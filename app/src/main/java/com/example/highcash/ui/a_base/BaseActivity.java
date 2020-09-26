@@ -1,4 +1,4 @@
-package com.example.highcash.ui.base;
+package com.example.highcash.ui.a_base;
 
 
 
@@ -98,6 +98,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseCont
 
     @Override
     protected void onDestroy() {
+        hideKeyboard();
         if (mUnBinder != null) mUnBinder.unbind();
         super.onDestroy();
     }

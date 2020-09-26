@@ -1,7 +1,7 @@
 package com.example.highcash.ui.splash;
 
 import com.example.highcash.data.DataManager;
-import com.example.highcash.ui.base.BasePresenter;
+import com.example.highcash.ui.a_base.BasePresenter;
 import com.example.highcash.helper.rx.SchedulerProvider;
 
 import java.util.concurrent.TimeUnit;

@@ -3,7 +3,7 @@ package com.example.highcash.ui.overview;
 import com.example.highcash.data.db.model.BalanceHistory;
 import com.example.highcash.data.db.model.CashAccount;
 import com.example.highcash.data.db.model.CashTransaction;
-import com.example.highcash.ui.base.BaseContract;
+import com.example.highcash.ui.a_base.BaseContract;
 
 import java.util.List;
 

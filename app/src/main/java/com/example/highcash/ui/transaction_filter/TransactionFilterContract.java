@@ -1,7 +1,7 @@
 package com.example.highcash.ui.transaction_filter;
 
 import com.example.highcash.data.db.model.CashTransaction;
-import com.example.highcash.ui.base.BaseContract;
+import com.example.highcash.ui.a_base.BaseContract;
 import com.example.highcash.ui.transactions.TransactionsAdapter;
 
 import java.util.List;

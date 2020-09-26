@@ -2,7 +2,7 @@ package com.example.highcash.ui.settings;
 
 import androidx.preference.Preference;
 
-import com.example.highcash.ui.base.BaseContract;
+import com.example.highcash.ui.a_base.BaseContract;
 
 public interface SettingsContract {
     interface Presenter<V extends View> extends BaseContract.MvpPresenter<V> {

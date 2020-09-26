@@ -6,7 +6,7 @@ import com.example.highcash.data.DataManager;
 import com.example.highcash.data.db.model.BalanceHistory;
 import com.example.highcash.data.db.model.CashAccount;
 import com.example.highcash.data.db.model.CashTransaction;
-import com.example.highcash.ui.base.BasePresenter;
+import com.example.highcash.ui.a_base.BasePresenter;
 import com.example.highcash.helper.rx.SchedulerProvider;
 
 import java.util.ArrayList;

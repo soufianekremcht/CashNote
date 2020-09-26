@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.highcash.R;
 import com.example.highcash.data.db.model.CashTransaction;
-import com.example.highcash.ui.base.BaseActivity;
+import com.example.highcash.ui.a_base.BaseActivity;
 import com.example.highcash.ui.transaction_filter.filter.TransactionFilterDialog;
 import com.example.highcash.ui.transactions.TransactionsAdapter;
 import com.github.mikephil.charting.charts.PieChart;

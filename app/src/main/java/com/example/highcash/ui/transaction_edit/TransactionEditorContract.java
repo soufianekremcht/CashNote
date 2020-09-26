@@ -2,7 +2,8 @@ package com.example.highcash.ui.transaction_edit;
 
 import com.example.highcash.data.db.model.CashAccount;
 import com.example.highcash.data.db.model.CashTransaction;
-import com.example.highcash.ui.base.BaseContract;
+import com.example.highcash.ui.a_base.BaseContract;
+import com.maltaisn.calcdialog.CalcDialog;
 
 public interface TransactionEditorContract {
     interface Presenter<V extends View> extends BaseContract.MvpPresenter<V> {
@@ -10,7 +11,9 @@ public interface TransactionEditorContract {
 
     }
 
-    interface View extends BaseContract.MvpView, TransactionCategoryAdapter.CategoryAdapterListener {
+    interface View extends BaseContract.MvpView,
+            TransactionCategoryAdapter.CategoryAdapterListener ,
+            CalcDialog.CalcDialogCallback{
         void setOldTransactionInfo(CashTransaction transaction);
     }
 }

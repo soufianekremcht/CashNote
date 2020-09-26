@@ -19,7 +19,7 @@ import com.example.highcash.R;
 import com.example.highcash.data.db.model.CashAccount;
 import com.example.highcash.data.db.model.CashTransaction;
 import com.example.highcash.helper.DialogsUtil;
-import com.example.highcash.ui.base.BaseActivity;
+import com.example.highcash.ui.a_base.BaseActivity;
 import com.example.highcash.ui.transaction_edit.TransactionEditorActivity;
 import com.example.highcash.ui.transactions.search.SearchActivity;
 import com.example.highcash.ui.transactions.show_transaction.ShowTransactionFragment;

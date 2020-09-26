@@ -14,7 +14,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
 import com.example.highcash.R;
 import com.example.highcash.data.db.model.CashAccount;
-import com.example.highcash.ui.base.BaseActivity;
+import com.example.highcash.ui.a_base.BaseActivity;
 import com.example.highcash.helper.KeyboardUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 

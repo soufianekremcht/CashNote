@@ -21,7 +21,7 @@ import com.example.highcash.data.db.model.CashAccount;
 import com.example.highcash.helper.AppUtils;
 import com.example.highcash.ui.account_edit.AccountEditorActivity;
 import com.example.highcash.ui.accounts.AccountsFragment;
-import com.example.highcash.ui.base.BaseActivity;
+import com.example.highcash.ui.a_base.BaseActivity;
 import com.example.highcash.ui.overview.OverViewFragment;
 import com.example.highcash.ui.settings.SettingsActivity;
 import com.example.highcash.ui.transaction_filter.TransactionFilterActivity;
@@ -37,7 +37,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity implements MainContract.View {
-    public static final String FRAGMENT_ACCOUNT_TAG ="fragment_account";
+    public static final String FRAGMENT_ACCOUNT_TAG = "fragment_account";
     private static final String FRAGMENT_OVERVIEW_TAG = "overviewFragment";
 
 
@@ -70,56 +70,48 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setUnBinder(ButterKnife.bind(this));
-
         getActivityComponent().inject(this);
-
         presenter.onAttach(this);
         setupUi();
+        if (savedInstanceState == null)
+            showAccountFragment();
 
     }
 
 
-    private void setupUi(){
+    private void setupUi() {
         setSupportActionBar(mainToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        drawerToggle = new ActionBarDrawerToggle(this,drawerLayout,mainToolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, mainToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerToggle.setDrawerSlideAnimationEnabled(true);
         drawerToggle.syncState();
         mainNavView.setNavigationItemSelectedListener(this);
 
-
         if (getCurrentFragment() instanceof OverViewFragment) addAccountTransactionFab.hide();
         else addAccountTransactionFab.show();
 
-        addAccountTransactionFab.setOnClickListener(v->{
+        addAccountTransactionFab.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, AccountEditorActivity.class);
-            startActivityForResult(intent,REFRESH_ACCOUNT_LIST_CODE);
+            startActivityForResult(intent, REFRESH_ACCOUNT_LIST_CODE);
         });
 
-        showAccountFragment();
     }
 
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        presenter.setBalanceForCurrentDay();
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu,menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 return true;
             case R.id.main_menu_search:
-                Intent search  = new Intent(this, SearchActivity.class);
+                Intent search = new Intent(this, SearchActivity.class);
                 startActivity(search);
                 return true;
         }
@@ -130,24 +122,22 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_A){
+        if (resultCode == RESULT_A) {
             showAccountFragment();
         }
     }
 
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-    }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        presenter.setBalanceForCurrentDay();
     }
 
 
@@ -160,44 +150,47 @@ public class MainActivity extends BaseActivity implements MainContract.View {
 
     @Override
     public void showAccountFragment() {
-        loadFragmentWithoutAnimations(AccountsFragment.newInstance(),FRAGMENT_ACCOUNT_TAG);
+        loadFragmentWithoutAnimations(AccountsFragment.newInstance(), FRAGMENT_ACCOUNT_TAG);
         setToolbarTitle(R.string.accounts);
     }
+
     @Override
     public void showTransactionsActivity(CashAccount account) {
         Intent transactionActivityIntent = new Intent(this, TransactionsActivity.class);
-        transactionActivityIntent.putExtra(ACCOUNT_PARENT,account);
+        transactionActivityIntent.putExtra(ACCOUNT_PARENT, account);
         startActivity(transactionActivityIntent);
     }
 
     @Override
     public void showOverViewFragment() {
-        loadFragment(OverViewFragment.newInstance(),FRAGMENT_OVERVIEW_TAG);
+        loadFragment(OverViewFragment.newInstance(), FRAGMENT_OVERVIEW_TAG);
     }
 
     @Override
     public void setBalance(int balanceValue) {
-        presenter.saveBalanceToDb(CurrentDaysCount,CurrentYear,balanceValue);
+        presenter.saveBalanceToDb(CurrentDaysCount, CurrentYear, balanceValue);
     }
 
-    public void loadFragment(Fragment fragment, String tag){
+    public void loadFragment(Fragment fragment, String tag) {
         getSupportFragmentManager().beginTransaction()
-                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,R.anim.enter_from_left,R.anim.exit_to_left)
-                .replace(R.id.fragment_container,fragment,tag)
+                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_left)
+                .replace(R.id.fragment_container, fragment, tag)
                 .addToBackStack(null)
                 .commit();
     }
 
-    public void loadFragmentWithoutAnimations(Fragment fragment,String tag){
+    public void loadFragmentWithoutAnimations(Fragment fragment, String tag) {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container,fragment,tag)
+                .replace(R.id.fragment_container, fragment, tag)
                 .commit();
 
     }
-    private Fragment getCurrentFragment(){
+
+    private Fragment getCurrentFragment() {
         return getSupportFragmentManager().findFragmentById(R.id.fragment_container);
     }
-    public void setToolbarTitle(@StringRes int stringResId){
+
+    public void setToolbarTitle(@StringRes int stringResId) {
         mainToolbar.setTitle(stringResId);
     }
 
@@ -205,10 +198,11 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.drawer_menu_overview:
                 presenter.onDrawerOptionOverViewClick();
                 mainNavView.setCheckedItem(R.id.drawer_menu_overview);
+                addAccountTransactionFab.hide();
                 break;
             case R.id.drawer_menu_accounts:
                 presenter.onDrawerOptionAccountsClick();
@@ -216,16 +210,14 @@ public class MainActivity extends BaseActivity implements MainContract.View {
                 break;
             case R.id.drawer_menu_filter:
                 startActivity(new Intent(this, TransactionFilterActivity.class));
-                mainNavView.setCheckedItem(R.id.drawer_menu_filter);
-
                 break;
             case R.id.drawer_menu_settings:
-                startActivity(new Intent(this,SettingsActivity.class));
+                startActivity(new Intent(this, SettingsActivity.class));
                 break;
         }
         new Handler().postDelayed(() -> {
             drawerLayout.closeDrawer(GravityCompat.START);
-        },250);
+        }, 250);
         return true;
     }
 }

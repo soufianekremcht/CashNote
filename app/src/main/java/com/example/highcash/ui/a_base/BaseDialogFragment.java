@@ -1,4 +1,4 @@
-package com.example.highcash.ui.base;
+package com.example.highcash.ui.a_base;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -82,6 +82,7 @@ public class BaseDialogFragment extends DialogFragment implements BaseContract.M
 
     @Override
     public void onDestroy() {
+        hideKeyboard();
         if (mUnBinder != null){
             mUnBinder.unbind();
 

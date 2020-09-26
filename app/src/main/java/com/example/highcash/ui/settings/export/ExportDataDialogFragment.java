@@ -21,7 +21,7 @@ import com.example.highcash.data.app_preference.PrefConst;
 import com.example.highcash.data.db.model.CashTransaction;
 import com.example.highcash.di.component.ActivityComponent;
 import com.example.highcash.helper.AppUtils;
-import com.example.highcash.ui.base.BaseDialogFragment;
+import com.example.highcash.ui.a_base.BaseDialogFragment;
 import com.example.highcash.ui.settings.SettingsActivity;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.opencsv.CSVWriter;

@@ -36,12 +36,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_margin="@dimen/spacing_small"
+            android:padding="@dimen/spacing_large"
             android:gravity="center"
             android:text="@string/add_new_transaction_title"
             android:textStyle="bold"
             android:textSize="30sp"
-            android:padding="20dp"
-            android:layout_margin="5dp"
+
             android:textColor="@color/mdtp_white"
             android:orientation="vertical"
             />
@@ -65,7 +66,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/add_new_transaction_description"
-                    style="@style/account_text_view_style"
+                    style="@style/style_account_text"
                     />
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/transaction_description_field"
@@ -75,12 +76,12 @@
                     android:maxLines="1"
                     android:inputType="text"
                     android:minLines="1"
-                    style="@style/account_edit_text_style"/>
+                    style="@style/style_account_field"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Balance :"
-                    style="@style/account_text_view_style"
+                    style="@style/style_account_text"
                     />
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -95,15 +96,14 @@
                         android:textStyle="bold"
                         android:src="@drawable/ic_attach_money_black_24dp"/>
 
-                    <EditText
+                    <TextView
                         android:id="@+id/transaction_amount_field"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
-                        android:inputType="numberDecimal"
-                        android:autofillHints=""
                         android:maxEms="8"
                         android:maxLength="8"
+                        style="@style/style_btn_transparent"
                         />
 
                     <ImageView
@@ -126,7 +126,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Account Source : (Still In Development)"
-                    style="@style/account_text_view_style"
+                    style="@style/style_account_text"
                     />
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -156,7 +156,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Date :"
-                    style="@style/CardTransactionTextStyle"
+                    style="@style/style_transaction_card_text"
                     />
                 <LinearLayout
                     android:id="@+id/transaction_account_layout"
@@ -176,12 +176,10 @@
                         android:id="@+id/transaction_date_field"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="?selectableItemBackground"
-                        android:focusable="true"
                         android:gravity="center"
                         android:importantForAutofill="no"
-                        android:padding="@dimen/spacing_normal"
-                        android:layout_margin="@dimen/spacing_tiny" />
+                        style="@style/style_btn_transparent"
+                        />
 
 
                 </LinearLayout>
@@ -189,7 +187,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Notes :"
-                    style="@style/account_text_view_style"
+                    style="@style/style_account_text"
                     />
                 <LinearLayout
                     android:id="@+id/transaction_notes_layout"
@@ -221,7 +219,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Category"
-                    style="@style/account_text_view_style"/>
+                    style="@style/style_account_text"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/category_recycler_view"

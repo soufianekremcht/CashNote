@@ -21,11 +21,13 @@ import com.example.highcash.data.db.model.CashAccount;
 import com.example.highcash.data.db.model.CashTransaction;
 import com.example.highcash.data.db.model.TransactionCategory;
 import com.example.highcash.helper.CategoryUtils;
-import com.example.highcash.ui.base.BaseActivity;
+import com.example.highcash.ui.a_base.BaseActivity;
 import com.example.highcash.helper.AppUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.maltaisn.calcdialog.CalcDialog;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -46,36 +48,28 @@ import static com.example.highcash.helper.AppUtils.MAIN_DATE_FORMAT;
 public class TransactionEditorActivity extends BaseActivity
         implements DatePickerDialog.OnDateSetListener
         , TransactionEditorContract.View {
+
     @Inject
     TransactionEditorContract.Presenter<TransactionEditorContract.View> presenter;
 
     @BindView(R.id.add_transaction_toolbar)
     Toolbar toolbar;
-
     @BindView(R.id.add_transaction_title_text)
     TextView title;
-
     @BindView(R.id.transaction_description_field)
     EditText transactionDescriptionField;
-
     @BindView(R.id.transaction_amount_field)
-    EditText transactionBalanceField;
-
+    TextView transactionBalanceField;
     @BindView(R.id.expense_or_income_switch)
     SwitchCompat expenseOrIncomeSwitch;
-
     @BindView(R.id.transaction_date_field)
     TextView transactionDateField;
-
     @BindView(R.id.transaction_notes_field)
     EditText transactionNotesField;
-
     @BindView(R.id.save_transaction_fab)
     FloatingActionButton saveTransactionFab;
-
     @BindView(R.id.category_recycler_view)
     RecyclerView categoryRecyclerView;
-
     @BindView(R.id.category_selected_img)
     ImageView categorySelectedImg;
 
@@ -96,12 +90,17 @@ public class TransactionEditorActivity extends BaseActivity
     private String transactionNotes = "";
     private TransactionCategory currentTransactionCategory;
 
+    private long TomorrowInMillis = new Date().getTime() - 24*60*60*1000;
+
+    private CalcDialog calcDialog;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transaction_edit);
         ButterKnife.bind(this);
+        calcDialog = new CalcDialog();
 
         getActivityComponent().inject(this);
         setUnBinder(ButterKnife.bind(this));
@@ -111,7 +110,10 @@ public class TransactionEditorActivity extends BaseActivity
         checkIntent();
         setIncomeToExpenseSwitch();
         setTransactionDateListener();
-
+        transactionBalanceField.setOnClickListener( v->{
+            calcDialog.getSettings().setInitialValue(new BigDecimal(transactionBalance));
+            calcDialog.show(getSupportFragmentManager(), "calc_dialog");
+        });
         saveTransactionFab.setOnClickListener(v -> {
             saveTransaction();
         });
@@ -169,7 +171,8 @@ public class TransactionEditorActivity extends BaseActivity
             transactionBalanceField.setText(String.valueOf(transactionToEdit.getBalance()));
         }
         //update widget
-        categoryAdapter.setSelectedCategoryPosition(currentTransactionCategory);
+        if (currentTransactionCategory != null)
+            categoryAdapter.setSelectedCategoryPosition(currentTransactionCategory);
         setTransactionDateField();
         expenseOrIncomeSwitch.setChecked(!transactionIsExpense);
         transactionBalanceField.setTextColor(transactionIsExpense ? Color.RED : Color.GREEN);
@@ -260,7 +263,7 @@ public class TransactionEditorActivity extends BaseActivity
             transactionBalanceField.setError("You need to put some Data  !!");
             return false;
 
-        } else if (transactionDate != null && transactionDate.before(new Date())) {
+        } else if (transactionDate != null && transactionDate.before(new Date(TomorrowInMillis))) {
             Toast.makeText(TransactionEditorActivity.this,
                     getResources().getString(R.string.transaction_date_field_error),
                     Toast.LENGTH_SHORT).show();
@@ -269,7 +272,6 @@ public class TransactionEditorActivity extends BaseActivity
             showMessage("You need to set A category !!");
         transactionDescription = transactionDescriptionField.getText().toString();
         transactionNotes = transactionNotesField.getText().toString();
-        transactionBalance = Integer.parseInt(transactionBalanceField.getText().toString());
         return true;
 
     }
@@ -338,4 +340,13 @@ public class TransactionEditorActivity extends BaseActivity
 
     }
 
+    @Override
+    public void onValueEntered(int requestCode, @Nullable BigDecimal value) {
+        if (value != null){
+            transactionBalance = Double.parseDouble(value.toString());
+            transactionBalanceField.setText(String.format("%.2f",transactionBalance));
+        }
+
+
+    }
 }

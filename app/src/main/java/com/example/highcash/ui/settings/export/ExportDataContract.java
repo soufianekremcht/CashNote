@@ -1,7 +1,7 @@
 package com.example.highcash.ui.settings.export;
 
 import com.example.highcash.data.db.model.CashTransaction;
-import com.example.highcash.ui.base.BaseContract;
+import com.example.highcash.ui.a_base.BaseContract;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.util.List;

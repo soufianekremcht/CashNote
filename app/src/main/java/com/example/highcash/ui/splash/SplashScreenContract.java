@@ -1,6 +1,6 @@
 package com.example.highcash.ui.splash;
 
-import com.example.highcash.ui.base.BaseContract;
+import com.example.highcash.ui.a_base.BaseContract;
 
 public interface SplashScreenContract {
     interface View extends BaseContract.MvpView {

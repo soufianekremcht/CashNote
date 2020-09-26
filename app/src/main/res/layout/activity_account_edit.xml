@@ -30,7 +30,7 @@
 
         <TextView
             android:id="@+id/add_account_title_text"
-            style="@style/account_text_view_style"
+            style="@style/style_account_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -51,14 +51,14 @@
 
             <TextView
                 android:id="@+id/edit_account_name_text"
-                style="@style/account_text_view_style"
+                style="@style/style_account_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Account Name" />
 
             <EditText
                 android:id="@+id/account_name_field"
-                style="@style/account_edit_text_style"
+                style="@style/style_account_field"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/edit_account_name_text"
@@ -83,7 +83,7 @@
 
             <TextView
                 android:id="@+id/edit_account_desc_text"
-                style="@style/account_text_view_style"
+                style="@style/style_account_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/account_name_field"
@@ -91,7 +91,7 @@
 
             <EditText
                 android:id="@+id/account_desc_field"
-                style="@style/account_edit_text_style"
+                style="@style/style_account_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/edit_account_desc_text"

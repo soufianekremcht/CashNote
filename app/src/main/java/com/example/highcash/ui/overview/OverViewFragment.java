@@ -18,7 +18,7 @@ import com.example.highcash.data.app_preference.PrefConst;
 import com.example.highcash.data.db.model.BalanceHistory;
 import com.example.highcash.data.db.model.CashAccount;
 import com.example.highcash.data.db.model.CashTransaction;
-import com.example.highcash.ui.base.BaseFragment;
+import com.example.highcash.ui.a_base.BaseFragment;
 import com.example.highcash.ui.overview.adapters.RecentAccountsAdapter;
 import com.example.highcash.ui.overview.adapters.RecentTransactionsAdapter;
 import com.example.highcash.ui.views.CustomItemDecoration;
@@ -70,15 +70,12 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
         System.out.println("What " + checkCurrentYearDays(calendar));
     }
 
-
-
-
     @BindView(R.id.recent_transaction_list)
     RecyclerView recentTransactionListView;
     @BindView(R.id.accounts_list)
     RecyclerView reducedAccountListView;
     @BindView(R.id.expense_chart)
-    LineChart expenseChart;
+    LineChart expenseIncomeChart;
     @BindView(R.id.monthly_summary_chart)
     PieChart summaryChart;
     @BindView(R.id.balance_history_chart)
@@ -90,10 +87,6 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
     RecentTransactionsAdapter recentTransactionsAdapter;
     @Inject
     RecentAccountsAdapter recentAccountsAdapter;
-
-    @Inject
-    LinearLayoutManager linearLayoutManager;
-
 
 
     private Calendar calendar;
@@ -114,6 +107,7 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
         currentMonth = calendar.get(Calendar.MONTH);
         currentDay = calendar.get(Calendar.DAY_OF_YEAR);
 
+
     }
 
     @Nullable
@@ -122,7 +116,7 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
         View v = inflater.inflate(R.layout.fragment_overview,container,false);
         if (getActivityComponent() != null){
             getActivityComponent().inject(this);
-            setUnBinder(ButterKnife.bind(this,v));
+            ButterKnife.bind(this,v);
             presenter.onAttach(this);
         }
         return v;
@@ -131,17 +125,16 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         reducedAccountListView.setHasFixedSize(true);
-        reducedAccountListView.setLayoutManager(linearLayoutManager);
-        reducedAccountListView.addItemDecoration(new CustomItemDecoration(getActivity()
+        reducedAccountListView.setLayoutManager(new LinearLayoutManager(getActivity(),RecyclerView.VERTICAL,false));
+        reducedAccountListView.addItemDecoration(new CustomItemDecoration(getContext()
                 , CustomItemDecoration.VERTICAL_LIST,8));
         reducedAccountListView.setAdapter(recentAccountsAdapter);
 
 
 
         recentTransactionListView.setHasFixedSize(true);
-        recentTransactionListView.setLayoutManager(linearLayoutManager);
+        recentTransactionListView.setLayoutManager(new LinearLayoutManager(getActivity(),RecyclerView.VERTICAL,false));
         recentTransactionListView.addItemDecoration(new CustomItemDecoration(getActivity(),
                 CustomItemDecoration.VERTICAL_LIST,8));
         recentTransactionListView.setAdapter(recentTransactionsAdapter);
@@ -162,22 +155,26 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    public void onDestroy() {
+        presenter.onDetach();
+        /*
+        expenseIncomeChart.onFinishTemporaryDetach();
+        summaryChart.onFinishTemporaryDetach();
+        balanceChart.onFinishTemporaryDetach();*/
+        super.onDestroy();
     }
 
     @Override
-    public void onDestroy() {
-        presenter.onDetach();
-        super.onDestroy();
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 
     @Override
     public void setExpenseIncomeChart(List<CashTransaction> transactions){
         // Customize The Chart
-        ValueFormatter xAxisFormatter = new DayAxisFormatter(expenseChart);
+        ValueFormatter xAxisFormatter = new DayAxisFormatter(expenseIncomeChart);
 
-        XAxis xAxis = expenseChart.getXAxis();
+        XAxis xAxis = expenseIncomeChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.TOP);
         //xAxis.setTypeface(tfLight);
         xAxis.setDrawGridLines(false);
@@ -185,11 +182,14 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
         xAxis.setLabelCount(7);
         xAxis.setValueFormatter(xAxisFormatter);
         Description desc = new Description();
-        desc.setText(String.format("Transactions per day in %s",
+        /*** maybe this cause memory Leaks ***/
+        /*desc.setText(String.format("Transactions per day in %s",
                 MyApp.AppPref().getString(PrefConst.PREF_DEFAULT_CURRENCY,"USD")));
-        expenseChart.setDescription(desc);
 
-        YAxis leftAxis = expenseChart.getAxisLeft();
+         */
+        expenseIncomeChart.setDescription(desc);
+
+        YAxis leftAxis = expenseIncomeChart.getAxisLeft();
         leftAxis.setLabelCount(6, false);
         ValueFormatter customValueFormatter = new BalanceValueFormatter();
         leftAxis.setValueFormatter(customValueFormatter);
@@ -197,7 +197,7 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
         leftAxis.setSpaceTop(15f);
 
 
-        YAxis rightAxis = expenseChart.getAxisRight();
+        YAxis rightAxis = expenseIncomeChart.getAxisRight();
         rightAxis.setEnabled(false);
 
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
@@ -235,10 +235,10 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
         /*
         dataSets.setDrawCircleHole(true);
          */
-        expenseChart.animateX(2000);
+        expenseIncomeChart.animateX(2000);
         LineData data = new LineData(dataSets);
-        expenseChart.setData(data);
-        expenseChart.invalidate();
+        expenseIncomeChart.setData(data);
+        expenseIncomeChart.invalidate();
     }
 
 
