@@ -42,6 +42,8 @@ public class MyApp extends Application {
     public void setComponent (AppComponent applicationComponent){
         mApplicationComponent = applicationComponent;
     }
+
+
     public static PreferencesHelper AppPref(){
         return appPrefHelper;
     }

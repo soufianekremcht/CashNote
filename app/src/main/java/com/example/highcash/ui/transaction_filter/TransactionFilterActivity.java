@@ -202,6 +202,7 @@ public class TransactionFilterActivity extends BaseActivity implements Transacti
 
         monthSummaryChart.animateXY(1000,1000);
         monthSummaryChart.setData(pieData);
+        monthSummaryChart.invalidate();
 
     }
 

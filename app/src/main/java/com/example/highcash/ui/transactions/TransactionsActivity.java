@@ -111,7 +111,7 @@ public class TransactionsActivity extends BaseActivity implements TransactionsCo
         transactions = new ArrayList<>();
         transactionsAdapter.setAdapterListener(this);
         transactionsRecyclerView.setHasFixedSize(true);
-        transactionsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        transactionsRecyclerView.setLayoutManager(new LinearLayoutManager(this,RecyclerView.VERTICAL,false));
         transactionsRecyclerView.setAdapter(transactionsAdapter);
 
     }

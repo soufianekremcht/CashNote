@@ -18,7 +18,7 @@
         <item name="windowNoTitle">true</item>
 
         <item name="windowActionModeOverlay">true</item>
-        <item name="android:actionModeBackground">@color/colorPrimary</item>
+        <item name="android:actionModeBackground">@color/holo_dark_action_mode</item>
 
     </style>
     <style name="AppTheme.ThemeOverLay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>

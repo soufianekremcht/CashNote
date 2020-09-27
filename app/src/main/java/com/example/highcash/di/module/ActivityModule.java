@@ -102,7 +102,7 @@ public class ActivityModule {
     }
     @Provides
     AccountsAdapter provideAccountsAdapter(){
-        return new AccountsAdapter(mActivity,new ArrayList<>(),null);
+        return new AccountsAdapter(provideContext(),new ArrayList<>(),null);
     }
 
     // Transactions
@@ -113,7 +113,7 @@ public class ActivityModule {
     }
     @Provides
     TransactionsAdapter provideTransactionsAdapter(){
-        return new TransactionsAdapter(mActivity,new ArrayList<>());
+        return new TransactionsAdapter(provideContext(),new ArrayList<>());
     }
 
     // Over View
@@ -124,11 +124,11 @@ public class ActivityModule {
     }
     @Provides
     RecentTransactionsAdapter provideRecentTransactionsAdapter(){
-        return new RecentTransactionsAdapter(mActivity,new ArrayList<>());
+        return new RecentTransactionsAdapter(provideContext(),new ArrayList<>());
     }
     @Provides
     RecentAccountsAdapter provideRecentUsedAccountsAdapter(){
-        return new RecentAccountsAdapter(mActivity, new ArrayList<>());
+        return new RecentAccountsAdapter(provideContext(), new ArrayList<>());
     }
 
     // Account Editor
@@ -181,7 +181,7 @@ public class ActivityModule {
 
     @Provides
     LinearLayoutManager provideLinearLayoutManager(){
-        return new LinearLayoutManager(mActivity, RecyclerView.VERTICAL,false);
+        return new LinearLayoutManager(provideActivity());
     }
 
 

@@ -106,6 +106,7 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
         // months start from 0
         currentMonth = calendar.get(Calendar.MONTH);
         currentDay = calendar.get(Calendar.DAY_OF_YEAR);
+        setRetainInstance(true);
 
 
     }
@@ -116,7 +117,7 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
         View v = inflater.inflate(R.layout.fragment_overview,container,false);
         if (getActivityComponent() != null){
             getActivityComponent().inject(this);
-            ButterKnife.bind(this,v);
+            setUnBinder(ButterKnife.bind(this,v));
             presenter.onAttach(this);
         }
         return v;
@@ -157,16 +158,64 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
     @Override
     public void onDestroy() {
         presenter.onDetach();
-        /*
-        expenseIncomeChart.onFinishTemporaryDetach();
         summaryChart.onFinishTemporaryDetach();
-        balanceChart.onFinishTemporaryDetach();*/
         super.onDestroy();
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
+    }
+
+
+    @Override
+    public void setSummaryChart(List<CashAccount> accounts){
+        float totalExpense = 1f;
+        float totalIncome = 1f;
+        Description desc = new Description();
+        desc.setText("Summary of this month");
+
+        summaryChart.setDescription(desc);
+        summaryChart.setCenterTextColor(Color.BLACK);
+        summaryChart.setEntryLabelColor(Color.BLACK);
+        summaryChart.setDrawEntryLabels(false);
+        ArrayList<PieEntry> values = new ArrayList<>();
+        List<CashTransaction> transactionsOfThisMonth = new ArrayList<>();
+
+        // check the transactions of this month
+        for (CashAccount cashAccount :accounts) {
+            for (CashTransaction cashTransaction : cashAccount.getTransactionsList()) {
+                calendar.setTimeInMillis(cashTransaction.getLastUpdatedDate());
+                int year = calendar.get(Calendar.YEAR);
+                if (year == CURRENT_YEAR){
+                    int month = calendar.get(Calendar.MONTH);
+                    if (month == currentMonth){
+                        transactionsOfThisMonth.add(cashTransaction);
+                        if (cashTransaction.isExpense())
+                            totalExpense -= cashTransaction.getBalance();
+                        else
+                            totalIncome += cashTransaction.getBalance();
+                    }
+                }
+
+            }
+        }
+        // draw a chart for the summary of total income and expenses
+        values.add(new PieEntry(totalExpense,"Expense"));
+        values.add(new PieEntry(totalIncome,"Income"));
+
+        String summaryLabel = String.format(" Summary for %d-%d",
+                currentMonth+1,CURRENT_YEAR);
+
+        PieDataSet set1 = new PieDataSet(values, summaryLabel);
+        set1.setColors(ColorTemplate.createColors(new int[]{Color.RED,Color.GREEN}));
+        set1.setValueTextColor(Color.BLACK);
+        PieData pieData = new PieData(set1);
+
+        summaryChart.animateXY(1000,1000);
+        summaryChart.setData(pieData);
+        summaryChart.invalidate();
+
     }
 
     @Override
@@ -299,56 +348,10 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
         BarData barData = new BarData(bardataSet);
         balanceChart.animateX(2000);
         balanceChart.setData(barData);
+        balanceChart.invalidate();
     }
 
-    @Override
-    public void setSummaryChart(List<CashAccount> accounts){
-        float totalExpense = 1f;
-        float totalIncome = 1f;
-        Description desc = new Description();
-        desc.setText("Summary of this month's transaction");
 
-        summaryChart.setDescription(desc);
-        summaryChart.setCenterTextColor(Color.BLACK);
-        summaryChart.setEntryLabelColor(Color.BLACK);
-        summaryChart.setDrawEntryLabels(false);
-        ArrayList<PieEntry> values = new ArrayList<>();
-        List<CashTransaction> transactionsOfThisMonth = new ArrayList<>();
-
-        // check the transactions of this month
-        for (CashAccount cashAccount :accounts) {
-            for (CashTransaction cashTransaction : cashAccount.getTransactionsList()) {
-                calendar.setTimeInMillis(cashTransaction.getLastUpdatedDate());
-                int year = calendar.get(Calendar.YEAR);
-                if (year == CURRENT_YEAR){
-                    int month = calendar.get(Calendar.MONTH);
-                    if (month == currentMonth){
-                        transactionsOfThisMonth.add(cashTransaction);
-                        if (cashTransaction.isExpense())
-                            totalExpense -= cashTransaction.getBalance();
-                        else
-                            totalIncome += cashTransaction.getBalance();
-                    }
-                }
-
-            }
-        }
-        // draw a chart for the summary of total income and expenses
-        values.add(new PieEntry(totalExpense,"Expense"));
-        values.add(new PieEntry(totalIncome,"Income"));
-
-        String summaryLabel = String.format(Locale.US," Summary for %d-%d",
-                currentMonth+1,CURRENT_YEAR);
-
-        PieDataSet set1 = new PieDataSet(values, summaryLabel);
-        set1.setColors(ColorTemplate.createColors(new int[]{Color.RED,Color.GREEN}));
-        set1.setValueTextColor(Color.BLACK);
-        PieData pieData = new PieData(set1);
-
-        summaryChart.animateXY(1000,1000);
-        summaryChart.setData(pieData);
-
-    }
 
     @Override
     public void updateRecentTransactions(List<CashTransaction> transactions) {

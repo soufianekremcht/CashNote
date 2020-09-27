@@ -73,6 +73,7 @@ public class AccountsFragment extends BaseFragment implements AccountsContract.V
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         accountList = new ArrayList<>();
+        setRetainInstance(true);
     }
 
     @Nullable
@@ -92,10 +93,10 @@ public class AccountsFragment extends BaseFragment implements AccountsContract.V
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //accountsRecyclerView.setHasFixedSize(true);
+        accountsRecyclerView.setHasFixedSize(true);
         accountsRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        accountsAdapter.setAdapterListener(this);
         accountsRecyclerView.setLayoutManager(linearLayoutManager);
+        accountsAdapter.setAdapterListener(this);
         accountsRecyclerView.setAdapter(accountsAdapter);
         presenter.getAccounts();
 
@@ -121,7 +122,8 @@ public class AccountsFragment extends BaseFragment implements AccountsContract.V
 
     @Override
     public void onDestroy() {
-        if (presenter != null) presenter.onDetach();
+        presenter.onDetach();
+
         super.onDestroy();
     }
 
@@ -141,6 +143,7 @@ public class AccountsFragment extends BaseFragment implements AccountsContract.V
                 transactions_count+=1;
             }
         }
+        // Set Info Card
         totalBalanceValueText.setText(String.format("%,.2f", total_balance));
         transactionsCountValueText.setText(String.format("%d", transactions_count));
         accountsCountValueText.setText(String.format("%d", accounts_count));
