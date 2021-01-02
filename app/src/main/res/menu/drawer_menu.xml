@@ -9,7 +9,7 @@
         <item
             android:id="@+id/drawer_menu_accounts"
             android:title="Accounts"
-            android:icon="@drawable/ic_account_balance_wallet"/>
+            android:icon="@drawable/ic_outline_account_wallet"/>
         <item
             android:id="@+id/drawer_menu_overview"
             android:title="Over View"
@@ -27,7 +27,7 @@
 
         <item android:id="@+id/drawer_menu_user"
             android:title="User"
-            android:icon="@drawable/ic_account_circle"/>
+            android:icon="@drawable/ic_outline_account_box_black"/>
         <item android:id="@+id/drawer_menu_settings"
             android:title="Settings"
             android:icon="@drawable/ic_settings_black_24dp"/>

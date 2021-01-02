@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--- Add Account/Transaction Layout Style -->
+    <style name="style_btn_transparent">
+        <item name="background">?selectableItemBackground</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:padding">@dimen/spacing_normal</item>
+        <item name="android:layout_margin">@dimen/spacing_small</item>
+
+    </style>
+
+</resources>

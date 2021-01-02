@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?colorPrimary"
+        android:orientation="vertical"
+        android:padding="@dimen/spacing_normal">
+        <TextView
+            android:id="@+id/rate_us_two_top_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_normal"
+            android:textSize="@dimen/font_larger"
+            android:text="We Love To see you feedback about the app."
+            android:textColor="@color/mdtp_white"/>
+
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/spacing_normal"
+        >
+        <TextView
+            android:id="@+id/rate_us_two_bottom_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_small"
+            android:padding="@dimen/spacing_normal"
+            android:textSize="@dimen/font_larger"
+            android:text="Some Stuff here Bla Bla Bla !!!" />
+
+
+
+    </RelativeLayout>
+
+
+
+
+
+</LinearLayout>
