@@ -8,7 +8,7 @@ android {
         disable 'DefaultLocale'
     }
     defaultConfig {
-        applicationId "com.example.highcash"
+        applicationId "com.soufianekre.highcash"
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
@@ -44,7 +44,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation "androidx.recyclerview:recyclerview:1.1.0"
     implementation "androidx.preference:preference:1.1.1"
-    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'com.google.android.material:material:1.2.1'
 
     // butterKnife injection android x
     implementation 'com.jakewharton:butterknife:10.2.1'
@@ -56,11 +56,13 @@ dependencies {
 
     /*** UI ***/
     implementation 'com.github.GrenderG:Toasty:1.5.0'
-
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
     implementation 'com.afollestad.material-dialogs:commons:0.9.6.0'
 
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+    // try to implement this into your app somehow
+    implementation 'com.klinkerapps:floating-tutorial:1.1.0'
+
 
 
     // charts
@@ -72,12 +74,9 @@ dependencies {
     )
     // calculator
     implementation "com.maltaisn:calcdialog:2.2.1"
-
     implementation "com.opencsv:opencsv:4.0"
 
-
-
-
+    /*
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel:"
     implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version"
@@ -86,43 +85,39 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata:$lifecycle_version"
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
 
+     */
+
     // date time picker
     implementation 'com.wdullaer:materialdatetimepicker:4.2.3'
-
 
     // Gson
     implementation 'com.google.code.gson:gson:2.8.6'
 
     // room
-    implementation "androidx.room:room-rxjava2:$room_version"
-    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-rxjava2:$rootProject.room_version"
+    implementation "androidx.room:room-runtime:$rootProject.room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
 
 
     // rxjava
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.16'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.17'
 
     // dexter permission
     implementation 'com.karumi:dexter:6.0.1'
 
     // dagger
-    implementation "com.google.dagger:dagger:$dagger_version"
-    implementation "com.google.dagger:dagger-android-support:$dagger_version"
-    annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
-    annotationProcessor "com.google.dagger:dagger-android-processor:$dagger_version"
+    implementation "com.google.dagger:dagger:$rootProject.dagger_version"
+    implementation "com.google.dagger:dagger-android-support:$rootProject.dagger_version"
+    annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.dagger_version"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$rootProject.dagger_version"
     implementation 'javax.inject:javax.inject:1'
 
 
-
-
     debugImplementation 'cat.ereza:customactivityoncrash:2.2.0'
-
-    testImplementation 'junit:junit:4.12'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
 
+    testImplementation 'junit:junit:4.13.1'
 
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }

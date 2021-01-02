@@ -6,7 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorPrimaryDark</item>
-        <item name="colorSecondary">@color/accent_amber</item>
+        <item name="colorSecondary">@color/accent_indigo</item>
         <item name="colorOnSecondary">@color/mdtp_white</item>
         <item name="colorSurface">@color/mdtp_white</item>
 

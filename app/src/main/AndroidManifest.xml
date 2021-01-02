@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.highcash">
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    package="com.soufianekre.highcash">
+
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
-        android:name=".MyApp"
+        android:name="com.soufianekre.highcash.MyApp"
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@mipmap/ic_launcher"
@@ -17,10 +18,10 @@
         tools:ignore="GoogleAppIndexingWarning">
 
 
-        <activity android:name=".ui.transaction_filter.TransactionFilterActivity"
-            android:parentActivityName=".ui.main.MainActivity"/>
+        <activity android:name="com.soufianekre.highcash.ui.transaction_filter.TransactionFilterActivity"
+            android:parentActivityName="com.soufianekre.highcash.ui.main.MainActivity"/>
         <activity
-            android:name=".ui.splash.SplashScreenActivity"
+            android:name="com.soufianekre.highcash.ui.splash.SplashScreenActivity"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,23 +30,24 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.main.MainActivity"
+            android:name="com.soufianekre.highcash.ui.main.MainActivity"
             android:launchMode="singleTop"
             />
         <activity
-            android:name=".ui.transaction_edit.TransactionEditorActivity"
-            android:parentActivityName=".ui.main.MainActivity"
+            android:name="com.soufianekre.highcash.ui.transaction_edit.TransactionEditorActivity"
+            android:parentActivityName="com.soufianekre.highcash.ui.main.MainActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".ui.account_edit.AccountEditorActivity"
-            android:parentActivityName=".ui.main.MainActivity"
+            android:name="com.soufianekre.highcash.ui.account_edit.AccountEditorActivity"
+            android:parentActivityName="com.soufianekre.highcash.ui.main.MainActivity"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".ui.settings.SettingsActivity" />
+        <activity android:name="com.soufianekre.highcash.ui.settings.SettingsActivity" />
 
-        <activity android:name=".ui.transactions.search.SearchActivity"
-            android:parentActivityName=".ui.main.MainActivity"/>
-        <activity android:name=".ui.transactions.TransactionsActivity"
-            android:parentActivityName=".ui.main.MainActivity"/>
+        <activity android:name="com.soufianekre.highcash.ui.transactions.search.SearchActivity"
+            android:parentActivityName="com.soufianekre.highcash.ui.main.MainActivity"/>
+        <activity android:name="com.soufianekre.highcash.ui.transactions.TransactionsActivity"
+            android:parentActivityName="com.soufianekre.highcash.ui.main.MainActivity"/>
+        <activity android:name="com.soufianekre.highcash.ui.settings.rate_us.RateUsActivity" />
 
         <meta-data
             android:name="preloaded_fonts"
@@ -53,7 +55,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.example.highcash.fileprovider"
+            android:authorities="com.soufianekre.highcash.fileprovider"
             android:grantUriPermissions="true"
             android:exported="false">
             <meta-data
