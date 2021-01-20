@@ -16,7 +16,7 @@ import com.soufianekre.highcash.R;
 import com.soufianekre.highcash.data.app_preference.PrefConst;
 import com.soufianekre.highcash.data.db.model.CashAccount;
 import com.soufianekre.highcash.data.db.model.CashTransaction;
-import com.soufianekre.highcash.ui.a_base.BaseViewHolder;
+import com.soufianekre.highcash.ui.app_base.BaseViewHolder;
 
 import java.util.List;
 import java.util.Locale;
@@ -26,8 +26,8 @@ import butterknife.ButterKnife;
 
 public class RecentAccountsAdapter extends RecyclerView.Adapter<RecentAccountsAdapter.AccountReducedViewHolder> {
 
-    private Context mContext;
-    private List<CashAccount> recentAccountList;
+    private final Context mContext;
+    private final List<CashAccount> recentAccountList;
 
     public RecentAccountsAdapter(Context mContext, List<CashAccount> accountList) {
         this.mContext = mContext;

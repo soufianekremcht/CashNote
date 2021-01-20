@@ -28,8 +28,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.AccountsViewHolder> {
 
-    private Context mContext;
-    private List<CashAccount> accountList;
+    private final Context mContext;
+    private final List<CashAccount> accountList;
     private AccountsAdapterListener listener;
 
     public AccountsAdapter(Context mContext,List<CashAccount> accountList,AccountsAdapterListener listener) {
@@ -111,7 +111,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.Accoun
 
 
 
-    class AccountsViewHolder extends RecyclerView.ViewHolder{
+    public static class AccountsViewHolder extends RecyclerView.ViewHolder{
         @BindView(R.id.account_card_view)
         CardView accountCardView;
         @BindView(R.id.card_account_title)

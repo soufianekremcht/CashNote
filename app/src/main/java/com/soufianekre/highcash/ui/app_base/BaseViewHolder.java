@@ -1,4 +1,4 @@
-package com.soufianekre.highcash.ui.a_base;
+package com.soufianekre.highcash.ui.app_base;
 
 import android.view.View;
 

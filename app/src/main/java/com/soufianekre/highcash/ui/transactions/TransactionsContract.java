@@ -2,7 +2,7 @@ package com.soufianekre.highcash.ui.transactions;
 
 import com.soufianekre.highcash.data.db.model.CashAccount;
 import com.soufianekre.highcash.data.db.model.CashTransaction;
-import com.soufianekre.highcash.ui.a_base.BaseContract;
+import com.soufianekre.highcash.ui.app_base.BaseContract;
 import com.soufianekre.highcash.ui.transactions.show_transaction.ShowTransactionFragment;
 
 import java.util.List;

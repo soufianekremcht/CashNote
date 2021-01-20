@@ -3,6 +3,8 @@ package com.soufianekre.highcash.helper.chart;
 import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 
+import static com.soufianekre.highcash.helper.AppUtils.CURRENT_YEAR;
+
 public class DayAxisFormatter extends ValueFormatter {
 
     private final String[] mMonths = new String[]{
@@ -31,7 +33,7 @@ public class DayAxisFormatter extends ValueFormatter {
             return monthName + " " + yearName;
         } else {
             // day of Month
-            int dayOfMonth = determineDayOfMonth(days, month + 12 * (year - 2020));
+            int dayOfMonth = determineDayOfMonth(days, month + 12 * (year - CURRENT_YEAR));
             String appendix = "th";
 
             /*
@@ -116,15 +118,15 @@ public class DayAxisFormatter extends ValueFormatter {
     private int determineYear(int days) {
         // editable after every single year
         if (days <= 366)
-            return 2021;
+            return CURRENT_YEAR;
         else if (days <= 730)
-            return 2022;
+            return CURRENT_YEAR+1;
         else if (days <= 1094)
-            return 2023;
+            return CURRENT_YEAR+2;
         else if (days <= 1458)
-            return 2024;
+            return CURRENT_YEAR+3;
         else
-            return 2025;
+            return CURRENT_YEAR+4;
 
     }
 }

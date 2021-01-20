@@ -1,92 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
 
     >
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="?android:windowBackground">
         <RelativeLayout
             android:id="@+id/show_transaction_description_layout"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:orientation="vertical"
             android:background="@color/colorPrimaryDark"
             android:gravity="center|start"
-
+            android:orientation="vertical"
             android:padding="@dimen/spacing_small">
+
             <ImageView
                 android:id="@+id/show_transaction_category"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/category_car"
+                android:layout_width="@dimen/icon_category_size"
+                android:layout_height="@dimen/icon_category_size"
                 android:layout_centerVertical="true"
-                android:layout_margin="@dimen/spacing_normal"/>
+                android:layout_margin="@dimen/spacing_normal"
+                android:background="@drawable/bg_circle"
+                android:backgroundTint="@color/accent_light_blue"
+                android:padding="@dimen/spacing_small"
+                android:src="@drawable/ctg_home"
+                app:tint="@color/white" />
+
             <TextView
                 android:id="@+id/show_transaction_description_text"
+                style="@style/style_show_transaction_big_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/show_transaction_category"
                 android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/show_transaction_category"
                 android:text="Title "
-                android:textColor="@color/mdtp_white"
-                style="@style/style_show_transaction_big_text"
-
-
-                />
+                android:textColor="@color/white" />
 
         </RelativeLayout>
+
         <RelativeLayout
             android:id="@+id/show_transaction_info_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/spacing_normal"
-            android:padding="@dimen/spacing_large"
-            >
+            android:padding="@dimen/spacing_large">
+
             <TextView
                 android:id="@+id/show_transaction_source_text"
+                style="@style/style_show_transaction_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Source"
-                style="@style/style_show_transaction_text"/>
+                android:text="Source" />
 
 
             <TextView
                 android:id="@+id/show_transaction_balance_value"
+                style="@style/style_show_transaction_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Balance : "
-                android:layout_marginEnd="20dp"
                 android:layout_below="@id/show_transaction_source_text"
-                style="@style/style_show_transaction_text"/>
+                android:layout_marginEnd="20dp"
+                android:text="Balance : " />
+
             <TextView
                 android:id="@+id/show_transaction_date"
+                style="@style/style_show_transaction_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/show_transaction_balance_value"
-                android:text="@string/show_transaction_created_at"
-                style="@style/style_show_transaction_text"/>
+                android:text="@string/show_transaction_created_at" />
 
             <TextView
                 android:id="@+id/show_transaction_last_updated_date"
+                style="@style/style_show_transaction_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/show_transaction_date"
-                android:text="@string/last_updated"
-                style="@style/style_show_transaction_text"/>
+                android:text="@string/last_updated" />
 
             <TextView
                 android:id="@+id/show_transaction_notes_text"
+                style="@style/style_show_transaction_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/style_show_transaction_text"
                 android:layout_below="@id/show_transaction_last_updated_date"
-                android:text="Notes"/>
+                android:text="Notes" />
 
 
         </RelativeLayout>
@@ -96,9 +101,10 @@
         android:id="@+id/show_transaction_edit_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_anchor="@id/show_transaction_description_layout"
-        app:layout_anchorGravity="bottom|end"
         android:layout_margin="16dp"
-        android:src="@drawable/ic_edit_white"/>
+        android:contentDescription="TODO"
+        android:src="@drawable/ic_edit_white"
+        app:layout_anchor="@id/show_transaction_description_layout"
+        app:layout_anchorGravity="bottom|end" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

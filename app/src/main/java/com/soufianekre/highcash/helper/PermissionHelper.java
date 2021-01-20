@@ -23,7 +23,7 @@ public class PermissionHelper {
                 Manifest.permission.READ_EXTERNAL_STORAGE).withListener(new MultiplePermissionsListener() {
             @Override
             public void onPermissionsChecked(MultiplePermissionsReport report) {
-                Toast.makeText(activity,"Permission Granted",Toast.LENGTH_SHORT).show();
+
             }
 
             @Override

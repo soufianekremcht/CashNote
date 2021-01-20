@@ -13,6 +13,8 @@ import com.github.mikephil.charting.utils.Utils;
 
 import javax.inject.Inject;
 
+import timber.log.Timber;
+
 
 public class MyApp extends Application {
 
@@ -29,9 +31,8 @@ public class MyApp extends Application {
                 .appModule(new AppModule(this)).build();
         mApplicationComponent.inject(this);
         Utils.init(this);
-
-
         appPrefHelper = new AppPreferencesHelper(this, AppConst.PREF_NAME);
+        Timber.plant(new Timber.DebugTree());
 
     }
     public AppComponent getComponent() {

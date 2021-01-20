@@ -1,6 +1,4 @@
-package com.soufianekre.highcash.ui.a_base;
-
-import androidx.annotation.StringRes;
+package com.soufianekre.highcash.ui.app_base;
 
 import io.reactivex.Flowable;
 
@@ -17,13 +15,9 @@ public interface BaseContract {
 
     interface MvpView {
 
-        void onError(@StringRes int resId);
 
-        void onError(String message);
-
+        void showError(String message);
         void showMessage(String message);
-
-        void showMessage(@StringRes int resId);
 
         void hideKeyboard();
     }

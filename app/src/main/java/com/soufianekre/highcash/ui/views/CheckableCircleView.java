@@ -20,8 +20,8 @@ public class CheckableCircleView extends View {
 
     private static final float CHECK_MARGIN_PERCENTUAL = 0.15f;
 
-    private Drawable check;
-    private Paint paint = new Paint();
+    private final Drawable check;
+    private final Paint paint = new Paint();
     private boolean checked;
 
     public CheckableCircleView(Context context, @Nullable AttributeSet attrs) {

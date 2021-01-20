@@ -1,6 +1,9 @@
 package com.soufianekre.highcash.ui.main;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
@@ -10,7 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -21,7 +26,7 @@ import com.soufianekre.highcash.data.db.model.CashAccount;
 import com.soufianekre.highcash.helper.AppUtils;
 import com.soufianekre.highcash.ui.account_edit.AccountEditorActivity;
 import com.soufianekre.highcash.ui.accounts.AccountsFragment;
-import com.soufianekre.highcash.ui.a_base.BaseActivity;
+import com.soufianekre.highcash.ui.app_base.BaseActivity;
 import com.soufianekre.highcash.ui.overview.OverViewFragment;
 import com.soufianekre.highcash.ui.settings.SettingsActivity;
 import com.soufianekre.highcash.ui.transaction_filter.TransactionFilterActivity;
@@ -36,6 +41,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+@SuppressLint("NonConstantResourceId")
 public class MainActivity extends BaseActivity implements MainContract.View {
     public static final String FRAGMENT_ACCOUNT_TAG = "fragment_account";
     private static final String FRAGMENT_OVERVIEW_TAG = "overviewFragment";
@@ -68,10 +74,16 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        /*
+        AppCompatDelegate.setDefaultNightMode(
+                AppCompatDelegate.MODE_NIGHT_YES);
+
+         */
         setContentView(R.layout.activity_main);
         setUnBinder(ButterKnife.bind(this));
         getActivityComponent().inject(this);
         presenter.onAttach(this);
+
         setupUi();
         if (savedInstanceState == null)
             showAccountFragment();
@@ -79,9 +91,25 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     }
 
 
+    private void checkThemeSwitch(){
+        int currentNightMode = getResources().getConfiguration().uiMode
+                & Configuration.UI_MODE_NIGHT_MASK;
+        switch (currentNightMode) {
+            case Configuration.UI_MODE_NIGHT_NO:
+                // Night mode is not active, we're in day time
+            case Configuration.UI_MODE_NIGHT_YES:
+                // Night mode is active, we're at night!
+            case Configuration.UI_MODE_NIGHT_UNDEFINED:
+                // We don't know what mode we're in, assume notnight
+        }
+    }
+
+
     private void setupUi() {
         setSupportActionBar(mainToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //mainToolbar.setBackgroundColor(ContextCompat.getColor(this,R.color.colorPrimary));
+
 
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, mainToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerToggle.setDrawerSlideAnimationEnabled(true);
@@ -104,6 +132,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

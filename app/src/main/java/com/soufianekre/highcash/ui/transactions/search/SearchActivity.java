@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.soufianekre.highcash.R;
 import com.soufianekre.highcash.data.db.model.CashTransaction;
 import com.soufianekre.highcash.helper.KeyboardUtils;
-import com.soufianekre.highcash.ui.a_base.BaseActivity;
+import com.soufianekre.highcash.ui.app_base.BaseActivity;
 import com.soufianekre.highcash.ui.transactions.TransactionsAdapter;
 
 import java.util.List;

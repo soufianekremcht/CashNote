@@ -5,6 +5,7 @@ import android.os.Build;
 import android.widget.Toast;
 
 import androidx.annotation.StringRes;
+import androidx.core.content.ContextCompat;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -16,14 +17,14 @@ import java.util.Locale;
 public class AppUtils {
     public static final String MAIN_DATE_FORMAT = "dd/MM/yyyy";
     public static final String TIME_24H_FORMAT = "HH:mm";
-    public static final int CURRENT_YEAR = 2020;
-    private static Calendar calendar = Calendar.getInstance();
+    public static final int CURRENT_YEAR = 2021;
+    private static final Calendar calendar = Calendar.getInstance();
 
     public static int getColor(Context c,int color){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             return c.getColor(color);
         } else {
-            return c.getResources().getColor(color);
+            return ContextCompat.getColor(c,color);
         }
     }
     public static String getString(Context context, @StringRes int res){

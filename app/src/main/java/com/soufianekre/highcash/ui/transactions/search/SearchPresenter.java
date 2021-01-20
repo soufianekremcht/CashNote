@@ -7,7 +7,7 @@ import com.soufianekre.highcash.data.DataManager;
 import com.soufianekre.highcash.data.db.model.CashAccount;
 import com.soufianekre.highcash.data.db.model.CashTransaction;
 import com.soufianekre.highcash.helper.rx.SchedulerProvider;
-import com.soufianekre.highcash.ui.a_base.BasePresenter;
+import com.soufianekre.highcash.ui.app_base.BasePresenter;
 
 import java.util.ArrayList;
 import java.util.List;

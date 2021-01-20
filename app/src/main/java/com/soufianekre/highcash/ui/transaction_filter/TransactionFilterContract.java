@@ -1,7 +1,7 @@
 package com.soufianekre.highcash.ui.transaction_filter;
 
 import com.soufianekre.highcash.data.db.model.CashTransaction;
-import com.soufianekre.highcash.ui.a_base.BaseContract;
+import com.soufianekre.highcash.ui.app_base.BaseContract;
 import com.soufianekre.highcash.ui.transactions.TransactionsAdapter;
 
 import java.util.List;

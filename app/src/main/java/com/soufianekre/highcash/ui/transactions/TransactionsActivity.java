@@ -19,7 +19,7 @@ import com.soufianekre.highcash.R;
 import com.soufianekre.highcash.data.db.model.CashAccount;
 import com.soufianekre.highcash.data.db.model.CashTransaction;
 import com.soufianekre.highcash.helper.DialogsUtil;
-import com.soufianekre.highcash.ui.a_base.BaseActivity;
+import com.soufianekre.highcash.ui.app_base.BaseActivity;
 import com.soufianekre.highcash.ui.transaction_edit.TransactionEditorActivity;
 import com.soufianekre.highcash.ui.transactions.search.SearchActivity;
 import com.soufianekre.highcash.ui.transactions.show_transaction.ShowTransactionFragment;
@@ -99,6 +99,7 @@ public class TransactionsActivity extends BaseActivity implements TransactionsCo
         transactionsToolbar.setTitle("Transactions");
         setSupportActionBar(transactionsToolbar);
         if(getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         transactionsToolbar.setNavigationOnClickListener( v-> onBackPressed());
 
         addTransactionFab.setOnClickListener( v->{
@@ -313,20 +314,18 @@ public class TransactionsActivity extends BaseActivity implements TransactionsCo
 
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            switch (item.getItemId()){
-                case R.id.menu_action_mode_delete:
-                    // show Delete Dialog
-                    DialogsUtil.showBasicDialogWithListener(TransactionsActivity.this,
-                            R.string.delete_message,
-                            R.string.dialog_delete_transaction_title,
-                            R.string.confirm,
-                            R.string.cancel,
-                            (dialog, which) -> {
-                                deleteSelectedTransactions();
-                                mode.finish();
-                            }).show();
+            if (item.getItemId() == R.id.menu_action_mode_delete) {// show Delete Dialog
+                DialogsUtil.showBasicDialogWithListener(TransactionsActivity.this,
+                        R.string.delete_message,
+                        R.string.dialog_delete_transaction_title,
+                        R.string.confirm,
+                        R.string.cancel,
+                        (dialog, which) -> {
+                            deleteSelectedTransactions();
+                            mode.finish();
+                        }).show();
 
-                    return true;
+                return true;
             }
             return false;
         }

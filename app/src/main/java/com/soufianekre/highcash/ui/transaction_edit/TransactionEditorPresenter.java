@@ -5,12 +5,13 @@ import android.util.Log;
 
 import com.soufianekre.highcash.data.DataManager;
 import com.soufianekre.highcash.data.db.model.CashAccount;
-import com.soufianekre.highcash.ui.a_base.BasePresenter;
+import com.soufianekre.highcash.ui.app_base.BasePresenter;
 import com.soufianekre.highcash.helper.rx.SchedulerProvider;
 
 import javax.inject.Inject;
 
 import io.reactivex.disposables.CompositeDisposable;
+import timber.log.Timber;
 
 public class TransactionEditorPresenter<V extends TransactionEditorContract.View> extends BasePresenter<V>
         implements TransactionEditorContract.Presenter<V> {
@@ -31,9 +32,8 @@ public class TransactionEditorPresenter<V extends TransactionEditorContract.View
                         .updateAccount(accountParent)
                         .subscribeOn(getSchedulerProvider().io())
                         .observeOn(getSchedulerProvider().ui())
-                        .subscribe(() ->getMvpView().showMessage("Transaction has been added"),
-                                throwable -> Log.e("update account", "Unable to To Update Account",
-                                        throwable)));
+                        .subscribe(() -> getMvpView().showMessage("Transaction has been added"),
+                                throwable -> Timber.e(throwable, "Unable to To Update Account")));
     }
 
 }

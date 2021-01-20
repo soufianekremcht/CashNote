@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:cardview="http://schemas.android.com/tools"
     android:id="@+id/transactions_card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="@dimen/spacing_tiny"
-    cardview:cardUseCompatPadding="true"
-    cardview:cardPreventCornerOverlap="false"
     android:layout_margin="@dimen/spacing_small"
-    android:foreground="?selectableItemBackground"
+    android:clickable="true"
     android:focusable="true"
-    android:clickable="true">
+    android:foreground="?selectableItemBackground"
+    app:cardCornerRadius="@dimen/spacing_tiny"
+    cardview:cardPreventCornerOverlap="false"
+    cardview:cardUseCompatPadding="true">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <RelativeLayout
             android:id="@+id/icon_container"
             android:layout_width="wrap_content"
@@ -25,33 +25,35 @@
             android:layout_centerVertical="true"
             android:layout_margin="@dimen/spacing_small">
 
-            <RelativeLayout
+            <FrameLayout
                 android:id="@+id/icon_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                >
+                android:visibility="visible">
 
                 <ImageView
                     android:layout_width="@dimen/icon_size"
                     android:layout_height="@dimen/icon_size"
+                    android:layout_gravity="center"
                     android:src="@drawable/bg_circle" />
 
                 <ImageView
                     android:layout_width="25dp"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
                     android:src="@drawable/ic_done" />
-            </RelativeLayout>
+            </FrameLayout>
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/transaction_category_img"
+            <ImageView
+                android:id="@+id/card_category_img"
                 android:layout_width="@dimen/icon_size"
                 android:layout_height="@dimen/icon_size"
-                android:src="@drawable/category_car"
-                android:visibility="gone"
-                />
-
-
+                android:padding="@dimen/spacing_small"
+                android:background="@drawable/bg_circle"
+                android:backgroundTint="@color/accent_indigo"
+                android:src="@drawable/ctg_coupons"
+                app:tint="@color/white"
+                android:visibility="visible"/>
 
         </RelativeLayout>
 
@@ -59,10 +61,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_toEndOf="@id/icon_container"
             android:layout_margin="@dimen/spacing_small"
-            >
+            android:layout_toEndOf="@id/icon_container"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/transaction_name_text"
@@ -70,17 +71,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/robotomedium"
-                android:text="Transaction Title"
                 android:padding="@dimen/spacing_small"
-                android:textStyle="bold"/>
+                android:text="Transaction Title"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/transaction_last_up_date_txt"
+                style="@style/style_transaction_card_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Last Updated : "
                 android:padding="@dimen/spacing_small"
-                style="@style/style_transaction_card_text"
+                android:text="Last Updated : "
 
                 />
 
@@ -89,17 +90,17 @@
 
         <TextView
             android:id="@+id/transaction_money_text"
+            style="@style/style_transaction_card_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
+            android:layout_margin="@dimen/spacing_small"
             android:fontFamily="@font/francois_one"
             android:padding="@dimen/spacing_small"
-            android:layout_margin="@dimen/spacing_small"
             android:text="$00.00"
             android:textSize="@dimen/font_large"
-            android:textStyle="bold"
-            style="@style/style_transaction_card_text"/>
+            android:textStyle="bold" />
 
     </RelativeLayout>
 

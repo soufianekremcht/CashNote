@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import com.soufianekre.highcash.MyApp;
 import com.soufianekre.highcash.data.DataManager;
 import com.soufianekre.highcash.data.app_preference.PrefConst;
-import com.soufianekre.highcash.ui.a_base.BasePresenter;
+import com.soufianekre.highcash.ui.app_base.BasePresenter;
 import com.soufianekre.highcash.helper.currency.CashCurrency;
 import com.soufianekre.highcash.helper.currency.CurrencyHelper;
 import com.soufianekre.highcash.helper.currency.Money;
@@ -20,11 +20,12 @@ import java.util.Locale;
 import javax.inject.Inject;
 
 import io.reactivex.disposables.CompositeDisposable;
+import timber.log.Timber;
 
 
 public class SettingsPresenter<V extends SettingsContract.View> extends BasePresenter<V> implements SettingsContract.Presenter<V> {
 
-    private static final String TAG = "SettingsPresenter";
+
 
     @Inject
     public SettingsPresenter(DataManager dataManager,
@@ -42,7 +43,7 @@ public class SettingsPresenter<V extends SettingsContract.View> extends BasePres
             //there are some strange locales out there
             currencyCode = Currency.getInstance(locale).getCurrencyCode();
         } catch (Throwable e) {
-            Log.e("HighCash", "" + e.getMessage());
+            Timber.e("%s", e.getMessage());
         } finally {
             currencyCode = MyApp.AppPref().getString(
                     PrefConst.PREF_DEFAULT_CURRENCY,currencyCode);

@@ -18,7 +18,7 @@ import com.soufianekre.highcash.data.app_preference.PrefConst;
 import com.soufianekre.highcash.data.db.model.BalanceHistory;
 import com.soufianekre.highcash.data.db.model.CashAccount;
 import com.soufianekre.highcash.data.db.model.CashTransaction;
-import com.soufianekre.highcash.ui.a_base.BaseFragment;
+import com.soufianekre.highcash.ui.app_base.BaseFragment;
 import com.soufianekre.highcash.ui.overview.adapters.RecentAccountsAdapter;
 import com.soufianekre.highcash.ui.overview.adapters.RecentTransactionsAdapter;
 import com.soufianekre.highcash.ui.views.CustomItemDecoration;
@@ -156,8 +156,9 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
 
     @Override
     public void onDestroy() {
-        presenter.onDetach();
         summaryChart.onFinishTemporaryDetach();
+        presenter.onDetach();
+
         super.onDestroy();
     }
 
@@ -230,8 +231,8 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
         xAxis.setLabelCount(7);
         xAxis.setValueFormatter(xAxisFormatter);
         Description desc = new Description();
-        /*** maybe this cause memory Leaks ***/
-        /*desc.setText(String.format("Transactions per day in %s",
+        /* maybe this cause memory Leaks ***/
+        /* Desc.setText(String.format("Transactions per day in %s",
                 MyApp.AppPref().getString(PrefConst.PREF_DEFAULT_CURRENCY,"USD")));
 
          */

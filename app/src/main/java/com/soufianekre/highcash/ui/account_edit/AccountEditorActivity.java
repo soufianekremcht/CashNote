@@ -14,7 +14,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
 import com.soufianekre.highcash.R;
 import com.soufianekre.highcash.data.db.model.CashAccount;
-import com.soufianekre.highcash.ui.a_base.BaseActivity;
+import com.soufianekre.highcash.ui.app_base.BaseActivity;
 import com.soufianekre.highcash.helper.KeyboardUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -55,7 +55,6 @@ public class AccountEditorActivity extends BaseActivity implements AccountEditor
     AccountEditorContract.Presenter<AccountEditorContract.View> presenter;
 
     private ColorChooserDialog colorChooserDialog;
-;
 
     private CashAccount accountToEdit;
 

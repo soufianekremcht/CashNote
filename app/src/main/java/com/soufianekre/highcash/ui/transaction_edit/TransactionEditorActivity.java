@@ -1,13 +1,14 @@
 package com.soufianekre.highcash.ui.transaction_edit;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
@@ -16,15 +17,15 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.soufianekre.highcash.R;
-import com.soufianekre.highcash.data.db.model.CashAccount;
-import com.soufianekre.highcash.data.db.model.CashTransaction;
-import com.soufianekre.highcash.data.db.model.TransactionCategory;
-import com.soufianekre.highcash.helper.CategoryUtils;
-import com.soufianekre.highcash.ui.a_base.BaseActivity;
-import com.soufianekre.highcash.helper.AppUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.maltaisn.calcdialog.CalcDialog;
+import com.soufianekre.highcash.R;
+import com.soufianekre.highcash.data.db.model.CashAccount;
+import com.soufianekre.highcash.data.db.model.CashCategory;
+import com.soufianekre.highcash.data.db.model.CashTransaction;
+import com.soufianekre.highcash.helper.AppUtils;
+import com.soufianekre.highcash.helper.CategoryUtils;
+import com.soufianekre.highcash.ui.app_base.BaseActivity;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.math.BigDecimal;
@@ -37,20 +38,21 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-
-import static com.soufianekre.highcash.ui.main.MainActivity.ACCOUNT_PARENT;
-import static com.soufianekre.highcash.ui.main.MainActivity.RESULT_T;
 import static com.soufianekre.highcash.helper.AppConst.TRANSACTION_ACCOUNT_PARENT;
 import static com.soufianekre.highcash.helper.AppConst.TRANSACTION_IS_EDITING;
 import static com.soufianekre.highcash.helper.AppConst.TRANSACTION_TO_EDIT_POS;
 import static com.soufianekre.highcash.helper.AppUtils.MAIN_DATE_FORMAT;
+import static com.soufianekre.highcash.ui.main.MainActivity.ACCOUNT_PARENT;
+import static com.soufianekre.highcash.ui.main.MainActivity.RESULT_T;
 
+@SuppressLint("NonConstantResourceId")
 public class TransactionEditorActivity extends BaseActivity
         implements DatePickerDialog.OnDateSetListener
         , TransactionEditorContract.View {
 
     @Inject
     TransactionEditorContract.Presenter<TransactionEditorContract.View> presenter;
+
 
     @BindView(R.id.add_transaction_toolbar)
     Toolbar toolbar;
@@ -88,10 +90,11 @@ public class TransactionEditorActivity extends BaseActivity
     private Date transactionDate = new Date();
     private boolean transactionIsExpense = false;
     private String transactionNotes = "";
-    private TransactionCategory currentTransactionCategory;
+    private CashCategory currentTransactionCategory;
 
-    private long TomorrowInMillis = new Date().getTime() - 24*60*60*1000;
+    private final long TomorrowInMillis = new Date().getTime() - 24*60*60*1000;
 
+    // Calculator as Dialog
     private CalcDialog calcDialog;
 
 
@@ -127,7 +130,7 @@ public class TransactionEditorActivity extends BaseActivity
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white);
         }
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
-        List<TransactionCategory> transactionCategories = CategoryUtils.getAllCategories();
+        List<CashCategory> transactionCategories = CategoryUtils.getAllCategories();
         categoryAdapter = new TransactionCategoryAdapter(this, transactionCategories, this);
         categoryRecyclerView.setHasFixedSize(true);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 4);
@@ -149,6 +152,7 @@ public class TransactionEditorActivity extends BaseActivity
 
     @Override
     protected void onDestroy() {
+        presenter.onDetach();
         super.onDestroy();
     }
 
@@ -184,9 +188,6 @@ public class TransactionEditorActivity extends BaseActivity
         setTransactionDate(year, monthOfYear, dayOfMonth);
     }
 
-
-
-
     private void checkIntent() {
         if (getIntent().getExtras() != null) {
             accountParent = getIntent().getExtras().getParcelable(TRANSACTION_ACCOUNT_PARENT);
@@ -210,8 +211,7 @@ public class TransactionEditorActivity extends BaseActivity
                             now.get(Calendar.YEAR),
                             now.get(Calendar.MONTH),
                             now.get(Calendar.DAY_OF_MONTH));
-            dbp.setOkColor(Color.WHITE);
-            dbp.setCancelColor(Color.WHITE);
+            dbp.setThemeDark(true);
             dbp.show(getSupportFragmentManager(), "DatePickerDialog");
         });
     }
@@ -257,16 +257,14 @@ public class TransactionEditorActivity extends BaseActivity
 
     private boolean CheckSubmittedData() {
 
-
         if (transactionDescriptionField.getText().toString().isEmpty() ||
                 transactionBalanceField.getText().toString().isEmpty()) {
             transactionBalanceField.setError("You need to put some Data  !!");
             return false;
 
         } else if (transactionDate != null && transactionDate.before(new Date(TomorrowInMillis))) {
-            Toast.makeText(TransactionEditorActivity.this,
-                    getResources().getString(R.string.transaction_date_field_error),
-                    Toast.LENGTH_SHORT).show();
+            showMessage(getResources().getString(R.string.transaction_date_field_error));
+
             return false;
         } else if (currentTransactionCategory == null)
             showMessage("You need to set A category !!");
@@ -307,7 +305,7 @@ public class TransactionEditorActivity extends BaseActivity
 
 
     @Override
-    public void animateCategory(TransactionCategory selectedCategory) {
+    public void animateCategory(CashCategory selectedCategory) {
         /*This variable indicates the value by which the fab should rotate and the direction */
         // TODO:Test Different Animations
 
@@ -316,20 +314,22 @@ public class TransactionEditorActivity extends BaseActivity
         categorySelectedImg.animate()
                 //.rotationBy(rotation)        // rest 180 covered by "shrink" animation
                 .setDuration(100)
-                .scaleX(1.3f)           //Scaling to 130%
+                .scaleX(1.3f)
                 .scaleY(1.3f)
                 //.withLayer()
                 .withEndAction(() -> {
                     //Changing the icon by the end of animation
                     Glide.with(this)
                             .asDrawable()
-                            .load(selectedCategory.getCategoryImage())
+                            .load(selectedCategory.getImage())
                             .into(categorySelectedImg);
+                    categorySelectedImg.setImageTintList(ColorStateList.valueOf(Color.WHITE));
+                    categorySelectedImg.setBackgroundTintList(ColorStateList.valueOf(selectedCategory.getColor()));
 
                     categorySelectedImg.animate()
                             //.rotationBy(rotation)   //Complete the rest of the rotation
                             .setDuration(100)
-                            .scaleX(1)              //Scaling back to what it was
+                            .scaleX(1)
                             .scaleY(1)
                             // hardware layout for optimizing animation (has some drawback)
                             .start();

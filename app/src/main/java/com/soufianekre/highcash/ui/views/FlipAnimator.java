@@ -9,7 +9,7 @@ import com.soufianekre.highcash.R;
 
 public class FlipAnimator {
 
-    private static String TAG = FlipAnimator.class.getSimpleName();
+    private static final String TAG = FlipAnimator.class.getSimpleName();
     private static AnimatorSet leftIn, rightOut, leftOut, rightIn;
 
     /**

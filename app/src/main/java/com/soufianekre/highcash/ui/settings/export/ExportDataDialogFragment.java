@@ -21,7 +21,7 @@ import com.soufianekre.highcash.data.app_preference.PrefConst;
 import com.soufianekre.highcash.data.db.model.CashTransaction;
 import com.soufianekre.highcash.di.component.ActivityComponent;
 import com.soufianekre.highcash.helper.AppUtils;
-import com.soufianekre.highcash.ui.a_base.BaseDialogFragment;
+import com.soufianekre.highcash.ui.app_base.BaseDialogFragment;
 import com.soufianekre.highcash.ui.settings.SettingsActivity;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.opencsv.CSVWriter;
@@ -114,38 +114,40 @@ public class ExportDataDialogFragment extends BaseDialogFragment implements Expo
         showMessage("Csv Exporting ");
         String baseDirPath = android.os.Environment.getExternalStorageDirectory()+ "/HighCashData";
         File baseDir = new File(baseDirPath);
-        baseDir.mkdir();
+        boolean dirIsCreated = baseDir.mkdir();
+        if (dirIsCreated){
+            String fileName = String.format("transactions_%s.csv",AppUtils.formatDate(new Date(),MAIN_DATE_FORMAT));
+            String filePath = baseDir + File.separator + fileName;
+            File csvFile = new File(filePath);
+            CSVWriter writer;
+            FileWriter fileWriter;
+            // File exist
+            try {
+                if(csvFile.exists() && !csvFile.isDirectory()) {
+                    fileWriter = new FileWriter(filePath, true);
+                    writer = new CSVWriter(fileWriter);
+                }
+                else writer = new CSVWriter(new FileWriter(filePath));
+                // write The data
+                String[] columnNames = new String[]{"Name","Balance","Date","Last Updated"};
+                writer.writeNext(columnNames);
 
-        String fileName = String.format("transactions_%s.csv",AppUtils.formatDate(new Date(),MAIN_DATE_FORMAT));
-        String filePath = baseDir + File.separator + fileName;
-        File csvFile = new File(filePath);
-        CSVWriter writer;
-        FileWriter fileWriter;
-        // File exist
-        try {
-            if(csvFile.exists() && !csvFile.isDirectory()) {
-                fileWriter = new FileWriter(filePath, true);
-                writer = new CSVWriter(fileWriter);
+
+                for (CashTransaction transaction : transactions){
+                    String[] column = new String[4];
+                    column[0] = transaction.getName();
+                    column[1] = String.format("%d %s", transaction.getBalance(),
+                            MyApp.AppPref().getString(PrefConst.PREF_DEFAULT_CURRENCY, "$"));
+                    column[2] = AppUtils.formatDate(new Date(transaction.getLastUpdatedDate()),AppUtils.MAIN_DATE_FORMAT);
+                    writer.writeNext(column);
+                }
+                writer.close();
+                shareFile(csvFile);
+
+            } catch (IOException e) {
+                Log.e("Export CSV",e.getLocalizedMessage());
             }
-            else writer = new CSVWriter(new FileWriter(filePath));
-            // write The data
-            String[] columnNames = new String[]{"Name","Balance","Date","Last Updated"};
-            writer.writeNext(columnNames);
 
-
-            for (CashTransaction transaction : transactions){
-                String[] column = new String[4];
-                column[0] = transaction.getName();
-                column[1] = String.format("%d %s", transaction.getBalance(),
-                        MyApp.AppPref().getString(PrefConst.PREF_DEFAULT_CURRENCY, "$"));
-                column[2] = AppUtils.formatDate(new Date(transaction.getLastUpdatedDate()),AppUtils.MAIN_DATE_FORMAT);
-                writer.writeNext(column);
-            }
-            writer.close();
-            shareFile(csvFile);
-
-        } catch (IOException e) {
-            Log.e("Export CSV",e.getLocalizedMessage());
         }
 
     }

@@ -11,14 +11,14 @@ public class CashTransaction implements Parcelable {
     private int accountSourceId;
     private boolean isExpense;
     private String accountParentName;
-    private TransactionCategory category;
+    private CashCategory category;
     private String notes;
 
 
     public CashTransaction() {
     }
 
-    public CashTransaction(String name, int balance, long lastUpdatedDate, int accountSourceId, boolean isExpense, String accountParentName, TransactionCategory category, String notes) {
+    public CashTransaction(String name, int balance, long lastUpdatedDate, int accountSourceId, boolean isExpense, String accountParentName, CashCategory category, String notes) {
         this.name = name;
         this.balance = balance;
         this.lastUpdatedDate = lastUpdatedDate;
@@ -115,11 +115,11 @@ public class CashTransaction implements Parcelable {
         this.accountParentName = accountParentName;
     }
 
-    public TransactionCategory getCategory() {
+    public CashCategory getCategory() {
         return category;
     }
 
-    public void setCategory(TransactionCategory category) {
+    public void setCategory(CashCategory category) {
         this.category = category;
     }
 

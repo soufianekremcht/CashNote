@@ -1,6 +1,8 @@
 package com.soufianekre.highcash.ui.transaction_edit;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,12 +12,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.soufianekre.highcash.R;
-import com.soufianekre.highcash.data.db.model.TransactionCategory;
-import com.soufianekre.highcash.ui.a_base.BaseViewHolder;
+import com.soufianekre.highcash.data.db.model.CashCategory;
+import com.soufianekre.highcash.ui.app_base.BaseViewHolder;
 import com.soufianekre.highcash.helper.AppUtils;
 
 import java.util.List;
@@ -23,14 +26,15 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class TransactionCategoryAdapter extends RecyclerView.Adapter<TransactionCategoryAdapter.TransactionCategoryViewHolder> {
+public class TransactionCategoryAdapter extends
+        RecyclerView.Adapter<TransactionCategoryAdapter.TransactionCategoryViewHolder> {
     Context mContext;
-    List<TransactionCategory> categories;
+    List<CashCategory> categories;
     int selected_position = -1;
-    private CategoryAdapterListener listener;
+    private final CategoryAdapterListener listener;
 
 
-    public TransactionCategoryAdapter(Context mContext, List<TransactionCategory> categories, CategoryAdapterListener listener) {
+    public TransactionCategoryAdapter(Context mContext, List<CashCategory> categories, CategoryAdapterListener listener) {
         this.categories = categories;
         this.mContext = mContext;
         this.listener = listener;
@@ -39,25 +43,30 @@ public class TransactionCategoryAdapter extends RecyclerView.Adapter<Transaction
     @NonNull
     @Override
     public TransactionCategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.card_account_category, parent, false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.item_card_category, parent, false);
         return new TransactionCategoryViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(@NonNull TransactionCategoryViewHolder holder, int position) {
-        TransactionCategory category = categories.get(position);
+        CashCategory category = categories.get(position);
         holder.categoryTitle.setText(category.getName());
-        Glide.with(mContext)
+        Glide.with(holder.itemView)
                 .asDrawable()
-                .load(category.getCategoryImage())
+                .load(category.getImage())
                 .into(holder.categoryImg);
 
         if (position == selected_position){
             holder.categoryCard.setCardBackgroundColor(AppUtils.getColor(mContext,R.color.colorPrimary));
             holder.categoryTitle.setTextColor(Color.WHITE);
+            holder.categoryImg.setImageTintList(ColorStateList.valueOf(Color.WHITE));
+            holder.categoryImg.setBackgroundTintList(ColorStateList.valueOf(category.getColor()));
         } else{
             holder.categoryCard.setCardBackgroundColor(Color.TRANSPARENT);
             holder.categoryTitle.setTextColor(Color.GRAY);
+            holder.categoryImg.setImageTintList(ColorStateList.valueOf(Color.BLACK));
+            holder.categoryImg.setBackgroundTintList(ColorStateList.valueOf(
+                    ContextCompat.getColor(mContext,R.color.disabled_button)));
         }
 
 
@@ -78,7 +87,7 @@ public class TransactionCategoryAdapter extends RecyclerView.Adapter<Transaction
         return categories.size();
     }
 
-    public void setSelectedCategoryPosition(TransactionCategory category){
+    public void setSelectedCategoryPosition(CashCategory category){
         for (int i = 0 ;i<categories.size();i++){
             if(categories.get(i).getName().equals(category.getName())){
                 selected_position = i;
@@ -89,12 +98,13 @@ public class TransactionCategoryAdapter extends RecyclerView.Adapter<Transaction
 
 
 
+    @SuppressLint("NonConstantResourceId")
     public static class TransactionCategoryViewHolder extends BaseViewHolder {
-        @BindView(R.id.transaction_category_card)
+        @BindView(R.id.card_category_card)
         CardView categoryCard;
-        @BindView(R.id.transaction_category_name_text)
+        @BindView(R.id.card_category_name_text)
         TextView categoryTitle;
-        @BindView(R.id.transaction_category_img)
+        @BindView(R.id.card_category_img)
         ImageView categoryImg;
 
         public TransactionCategoryViewHolder(@NonNull View itemView) {
@@ -105,6 +115,6 @@ public class TransactionCategoryAdapter extends RecyclerView.Adapter<Transaction
     }
 
     public interface CategoryAdapterListener{
-        void animateCategory(TransactionCategory category);
+        void animateCategory(CashCategory category);
     }
 }

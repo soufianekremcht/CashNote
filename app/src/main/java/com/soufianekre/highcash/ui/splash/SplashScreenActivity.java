@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.soufianekre.highcash.R;
-import com.soufianekre.highcash.ui.a_base.BaseActivity;
+import com.soufianekre.highcash.ui.app_base.BaseActivity;
 import com.soufianekre.highcash.ui.main.MainActivity;
 
 import javax.inject.Inject;

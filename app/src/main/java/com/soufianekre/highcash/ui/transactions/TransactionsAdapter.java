@@ -1,12 +1,16 @@
 package com.soufianekre.highcash.ui.transactions;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,7 +23,7 @@ import com.soufianekre.highcash.R;
 import com.soufianekre.highcash.data.app_preference.PrefConst;
 import com.soufianekre.highcash.data.db.model.CashTransaction;
 import com.soufianekre.highcash.helper.AppUtils;
-import com.soufianekre.highcash.ui.a_base.BaseViewHolder;
+import com.soufianekre.highcash.ui.app_base.BaseViewHolder;
 import com.soufianekre.highcash.ui.views.FlipAnimator;
 
 import java.util.ArrayList;
@@ -28,14 +32,13 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapter.TransactionViewHolder> {
-    private Context mContext;
+    private final Context mContext;
     private List<CashTransaction> transactionsList;
     private TransactionsAdapterListener listener;
-    private SparseBooleanArray selectedItems = new SparseBooleanArray();
-    private SparseBooleanArray animatedItems = new SparseBooleanArray();
+    private final SparseBooleanArray selectedItems = new SparseBooleanArray();
+    private final SparseBooleanArray animatedItems = new SparseBooleanArray();
     private int currentSelectedIndex = -1;
     private boolean reverseAllAnimations = false;
     public boolean selectionMode =false;
@@ -49,7 +52,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
     @NonNull
     @Override
     public TransactionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.item_card_transaction,parent,false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_card_transaction,parent,false);
         return new TransactionViewHolder(v);
     }
 
@@ -154,14 +157,14 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         animatedItems.clear();
     }
 
-
-    class TransactionViewHolder extends BaseViewHolder {
+    @SuppressLint("NonConstantResourceId")
+    public class TransactionViewHolder extends BaseViewHolder {
         @BindView(R.id.transactions_card_view)
         CardView transactionCardView;
-        @BindView(R.id.transaction_category_img)
-        CircleImageView transactionCategoryImg;
+        @BindView(R.id.card_category_img)
+        ImageView transactionCategoryImg;
         @BindView(R.id.icon_back)
-        RelativeLayout iconBack;
+        FrameLayout iconBack;
         @BindView(R.id.transaction_name_text)
         TextView transactionName;
         @BindView(R.id.transaction_money_text)
@@ -188,16 +191,17 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
 
             String balance = transaction.getBalance() + " " + MyApp.AppPref().getString(
                     PrefConst.PREF_DEFAULT_CURRENCY, "$");
-            ;
             transactionMoneyTextView.setText(balance);
-            if (transaction.getCategory() != null)
-                Glide.with(mContext)
+            if (transaction.getCategory() != null) {
+                Glide.with(itemView)
                         .asDrawable()
-                        .load(transaction.getCategory().getCategoryImage())
+                        .load(transaction.getCategory().getImage())
                         .into(transactionCategoryImg);
+                transactionCategoryImg.setImageTintList(ColorStateList.valueOf(Color.WHITE));
+            }
 
 
-            if (transactionMoneyTextView.getText().toString().substring(0, 1).equals("-"))
+            if (transactionMoneyTextView.getText().toString().startsWith("-"))
                 transactionMoneyTextView.setTextColor(AppUtils.getColor(mContext, R.color.piechart_red));
             else
                 transactionMoneyTextView.setTextColor(AppUtils.getColor(mContext, R.color.accent_green));

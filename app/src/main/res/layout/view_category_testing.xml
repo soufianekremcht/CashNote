@@ -3,8 +3,8 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <include layout="@layout/card_account_category"/>
-    <include layout="@layout/card_account_category"/>
-    <include layout="@layout/card_account_category"/>
+    <include layout="@layout/item_card_category"/>
+    <include layout="@layout/item_card_category"/>
+    <include layout="@layout/item_card_category"/>
 
 </LinearLayout>

@@ -1,4 +1,4 @@
-package com.soufianekre.highcash.ui.a_base;
+package com.soufianekre.highcash.ui.app_base;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -45,17 +45,12 @@ public abstract class BaseFragment extends Fragment implements BaseContract.MvpV
     }
 
 
-    @Override
-    public void onError(int resId) {
-        if (mActivity != null) {
-            mActivity.onError(resId);
-        }
-    }
+
 
     @Override
-    public void onError(String message) {
+    public void showError(String message) {
         if (mActivity != null) {
-            mActivity.onError(message);
+            mActivity.showError(message);
         }
     }
 
@@ -63,13 +58,6 @@ public abstract class BaseFragment extends Fragment implements BaseContract.MvpV
     public void showMessage(String message) {
         if (mActivity != null) {
             mActivity.showMessage(message);
-        }
-    }
-
-    @Override
-    public void showMessage(int resId) {
-        if (mActivity != null) {
-            mActivity.showMessage(resId);
         }
     }
 

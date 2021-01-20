@@ -18,13 +18,15 @@ import com.soufianekre.highcash.data.app_preference.PrefConst;
 import com.soufianekre.highcash.helper.PermissionHelper;
 import com.soufianekre.highcash.helper.currency.CashCurrency;
 import com.soufianekre.highcash.helper.currency.CurrencyHelper;
-import com.soufianekre.highcash.ui.a_base.BasePreferenceFragment;
+import com.soufianekre.highcash.ui.app_base.BasePreferenceFragment;
 import com.soufianekre.highcash.ui.settings.export.ExportDataDialogFragment;
 import com.soufianekre.highcash.ui.settings.rate_us.RateUsActivity;
 
 import java.util.List;
 
 import javax.inject.Inject;
+
+import timber.log.Timber;
 
 public class SettingsFragment extends BasePreferenceFragment implements SettingsContract.View{
 
@@ -37,7 +39,6 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
     SettingsPresenter<SettingsContract.View> mPresenter;
 
 
-    private SettingsActivity settingsActivity;
     private String defaultCurrency;
 
     public static SettingsFragment newInstance() {
@@ -67,7 +68,7 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
         else
             defaultCurrency = mPresenter.getDefaultCurrencyCode();
 
-        PermissionHelper.requestStoragePermission(getActivity());
+
         setupCurrencyPicker();
         setupPreferences();
 
@@ -82,7 +83,7 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
     @Override
     public void onResume() {
         super.onResume();
-        Log.e("SettingFragment","On Resume");
+        Timber.e("On Resume");
 
     }
 
@@ -114,10 +115,14 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
         switch (preference.getKey()){
             case PrefConst.PREF_EXPORT_DATA:
                 // open Export Dialog
+                PermissionHelper.requestStoragePermission(getActivity());
                 if (PermissionHelper.isStoragePermissionGranted(getContext())){
 
-                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                    Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag(EXPORT_DATA_DIALOG);
+                    FragmentTransaction fragmentTransaction = getActivity().
+                            getSupportFragmentManager().beginTransaction();
+                    Fragment fragment = getActivity().getSupportFragmentManager()
+                            .findFragmentByTag(EXPORT_DATA_DIALOG);
+
                     if (fragment != null){
                         fragmentTransaction.remove(fragment);
                     }
@@ -139,19 +144,19 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
         List<CashCurrency> currenciesList = CurrencyHelper.fetchAllCurrency();
         CharSequence[] mCurrencyEntries = new CharSequence[currenciesList.size()];
         CharSequence[] mCurrencyEntryValues = new CharSequence[currenciesList.size()];
-        Log.e("setting fragment","it working here");
+        Timber.e("Currency Picker working here");
         for (int i = 0 ;i <currenciesList.size();i++){
             String code = currenciesList.get(i).getCurrencyCode();
             String name = currenciesList.get(i).getFullName();
             mCurrencyEntries[i] = code + " - " + name;
             mCurrencyEntryValues[i] = code;
         }
-        Log.e("currency picker","Currency Should Be Displayed");
+        Timber.e("Currency Should Be Displayed");
 
 
         ListPreference pref = findPreference(PrefConst.PREF_DEFAULT_CURRENCY);
         String currencyName = CurrencyHelper.getCommodity(defaultCurrency).getFullName();
-        Log.e("currency picker","some  thisX " + mCurrencyEntries.length);
+        Timber.e("Currerncy Entries Size : " + mCurrencyEntries.length);
 
 
         if (pref != null){
@@ -160,7 +165,7 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
             pref.setOnPreferenceChangeListener(this);
 
         }else{
-            Log.e("currency picker","some thing wrong with this ");
+            Timber.e("some thing wrong with this ");
         }
 
     }

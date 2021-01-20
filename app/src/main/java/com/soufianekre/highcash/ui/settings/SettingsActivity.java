@@ -6,7 +6,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 
 import com.soufianekre.highcash.R;
-import com.soufianekre.highcash.ui.a_base.BaseActivity;
+import com.soufianekre.highcash.ui.app_base.BaseActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

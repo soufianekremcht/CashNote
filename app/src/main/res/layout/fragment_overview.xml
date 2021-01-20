@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:cardview="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
@@ -45,7 +42,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:src="@drawable/ic_more_black_24dp"
-                    style="@style/FragmentOverViewImgBtnStyle"/>
+                    style="@style/FragmentOverViewImgBtnStyle"
+                    android:contentDescription="TODO" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/accounts_list"
@@ -80,7 +78,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:src="@drawable/ic_more_black_24dp"
-                    style="@style/FragmentOverViewImgBtnStyle"/>
+                    style="@style/FragmentOverViewImgBtnStyle"
+                    android:contentDescription="TODO" />
                 <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/expense_chart"
                     android:layout_below="@id/overview_transaction_chart_title"
@@ -114,7 +113,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:src="@drawable/ic_more_black_24dp"
-                    style="@style/FragmentOverViewImgBtnStyle"/>
+                    style="@style/FragmentOverViewImgBtnStyle"
+                    android:contentDescription="TODO" />
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recent_transaction_list"
                     android:layout_width="match_parent"
@@ -149,7 +149,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:src="@drawable/ic_more_black_24dp"
-                    style="@style/FragmentOverViewImgBtnStyle"/>
+                    style="@style/FragmentOverViewImgBtnStyle"
+                    android:contentDescription="TODO" />
                 <com.github.mikephil.charting.charts.BarChart
                     android:id="@+id/balance_history_chart"
                     android:layout_width="match_parent"

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/add_category_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.ThemeOverLay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/add_category_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:popupTheme="@style/AppTheme.PopUpOverLay"/>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/category_input_layout"
+        android:layout_margin="@dimen/spacing_small"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_vertical">
+        <ImageView
+            android:id="@+id/category_selected_icon_bg_img"
+            android:layout_width="@dimen/icon_category_size"
+            android:layout_height="@dimen/icon_category_size"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/spacing_normal"
+            android:padding="@dimen/spacing_small"
+            android:background="@drawable/bg_circle"
+            android:backgroundTint="@color/accent_purple"
+
+            android:src="@drawable/ctg_coupons"
+            app:tint="@color/white"
+            />
+
+
+        <EditText
+            android:id="@+id/category_name_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/category_icons_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/spacing_small"
+        android:padding="@dimen/spacing_small"
+        />
+
+
+
+
+</LinearLayout>

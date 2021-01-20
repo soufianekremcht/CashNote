@@ -3,7 +3,7 @@ package com.soufianekre.highcash.ui.overview;
 import com.soufianekre.highcash.data.db.model.BalanceHistory;
 import com.soufianekre.highcash.data.db.model.CashAccount;
 import com.soufianekre.highcash.data.db.model.CashTransaction;
-import com.soufianekre.highcash.ui.a_base.BaseContract;
+import com.soufianekre.highcash.ui.app_base.BaseContract;
 
 import java.util.List;
 

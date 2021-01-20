@@ -1,19 +1,33 @@
-package com.soufianekre.highcash.ui.a_base;
+package com.soufianekre.highcash.ui.app_base;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.preference.PreferenceFragmentCompat;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 
 import com.soufianekre.highcash.di.component.ActivityComponent;
 
 import butterknife.Unbinder;
 
-abstract public class BasePreferenceFragment extends PreferenceFragmentCompat implements BaseContract.MvpView {
+public class BaseDialogFragment extends DialogFragment implements BaseContract.MvpView {
 
 
     private BaseActivity mActivity;
     private Unbinder mUnBinder;
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -31,17 +45,11 @@ abstract public class BasePreferenceFragment extends PreferenceFragmentCompat im
     }
 
 
-    @Override
-    public void onError(int resId) {
-        if (mActivity != null) {
-            mActivity.onError(resId);
-        }
-    }
 
     @Override
-    public void onError(String message) {
+    public void showError(String message) {
         if (mActivity != null) {
-            mActivity.onError(message);
+            mActivity.showError(message);
         }
     }
 
@@ -49,13 +57,6 @@ abstract public class BasePreferenceFragment extends PreferenceFragmentCompat im
     public void showMessage(String message) {
         if (mActivity != null) {
             mActivity.showMessage(message);
-        }
-    }
-
-    @Override
-    public void showMessage(int resId) {
-        if (mActivity != null) {
-            mActivity.showMessage(resId);
         }
     }
 
@@ -69,8 +70,10 @@ abstract public class BasePreferenceFragment extends PreferenceFragmentCompat im
     @Override
     public void onDestroy() {
         hideKeyboard();
-        if (mUnBinder != null)
+        if (mUnBinder != null){
             mUnBinder.unbind();
+
+        }
         super.onDestroy();
     }
 
@@ -80,7 +83,13 @@ abstract public class BasePreferenceFragment extends PreferenceFragmentCompat im
         }
         return null;
     }
+
+    public BaseActivity getBaseActivity(){
+        return mActivity;
+    }
+
     public void setUnBinder(Unbinder unBinder) {
         mUnBinder = unBinder;
     }
+
 }

@@ -1,4 +1,4 @@
-package com.soufianekre.highcash.ui.a_base;
+package com.soufianekre.highcash.ui.app_base;
 
 
 
@@ -7,13 +7,11 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.soufianekre.highcash.MyApp;
@@ -65,18 +63,9 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseCont
     }
 
     @Override
-    public void onError(String message) {
-        if (message != null) {
-            Log.e(this.getLocalClassName(),message);
-            Toasty.error(this,message,Toast.LENGTH_LONG).show();
-        } else {
-            Log.e("Error" ,"message = null");
-        }
-    }
+    public void showError(String message) {
+        Toasty.error(this,message,Toasty.LENGTH_SHORT).show();
 
-    @Override
-    public void onError(@StringRes int resId) {
-        onError(getString(resId));
     }
 
     @Override
@@ -87,12 +76,6 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseCont
             Toasty.info(this, "Error", Toast.LENGTH_SHORT).show();
         }
     }
-
-    @Override
-    public void showMessage(@StringRes int resId) {
-        showMessage(getString(resId));
-    }
-
 
 
 

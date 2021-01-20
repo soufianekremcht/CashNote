@@ -1,6 +1,6 @@
 package com.soufianekre.highcash.ui.splash;
 
-import com.soufianekre.highcash.ui.a_base.BaseContract;
+import com.soufianekre.highcash.ui.app_base.BaseContract;
 
 public interface SplashScreenContract {
     interface View extends BaseContract.MvpView {

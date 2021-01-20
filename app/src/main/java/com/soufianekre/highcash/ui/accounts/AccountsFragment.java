@@ -19,7 +19,7 @@ import com.soufianekre.highcash.R;
 import com.soufianekre.highcash.data.db.model.CashAccount;
 import com.soufianekre.highcash.data.db.model.CashTransaction;
 import com.soufianekre.highcash.ui.account_edit.AccountEditorActivity;
-import com.soufianekre.highcash.ui.a_base.BaseFragment;
+import com.soufianekre.highcash.ui.app_base.BaseFragment;
 import com.soufianekre.highcash.ui.main.MainActivity;
 
 import java.util.ArrayList;

@@ -2,6 +2,8 @@ package com.soufianekre.highcash.ui.overview.adapters;
 
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +17,7 @@ import com.soufianekre.highcash.MyApp;
 import com.soufianekre.highcash.R;
 import com.soufianekre.highcash.data.app_preference.PrefConst;
 import com.soufianekre.highcash.data.db.model.CashTransaction;
-import com.soufianekre.highcash.ui.a_base.BaseViewHolder;
+import com.soufianekre.highcash.ui.app_base.BaseViewHolder;
 import com.soufianekre.highcash.helper.AppUtils;
 
 import java.util.Date;
@@ -28,8 +30,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import static com.soufianekre.highcash.helper.AppUtils.MAIN_DATE_FORMAT;
 
 public class RecentTransactionsAdapter extends RecyclerView.Adapter<RecentTransactionsAdapter.RecentTransactionsViewHolder> {
-    private Context context;
-    private List<CashTransaction> recentTransactions;
+    private final Context context;
+    private final List<CashTransaction> recentTransactions;
 
 
     public RecentTransactionsAdapter(Context context,List<CashTransaction> recentTransactions) {
@@ -85,11 +87,15 @@ public class RecentTransactionsAdapter extends RecyclerView.Adapter<RecentTransa
             String balance = transaction.getBalance() + " " + MyApp.AppPref().getString(PrefConst.PREF_DEFAULT_CURRENCY,"$");
 
             recentTransactionBalance.setText(balance);
-            if (transaction.getCategory() != null)
+            if (transaction.getCategory() != null) {
                 Glide.with(context)
                         .asDrawable()
-                        .load(transaction.getCategory().getCategoryImage())
+                        .load(transaction.getCategory().getImage())
                         .into(recentTransactionCategoryImg);
+                recentTransactionCategoryImg.setImageTintList(ColorStateList.valueOf(Color.WHITE));
+                recentTransactionCategoryImg.setBackgroundTintList(ColorStateList.valueOf(transaction.getCategory().getColor()));
+
+            }
             recentTransactionCreationDate.setText(AppUtils
                     .formatDate(new Date(transaction.getLastUpdatedDate()),MAIN_DATE_FORMAT));
         }

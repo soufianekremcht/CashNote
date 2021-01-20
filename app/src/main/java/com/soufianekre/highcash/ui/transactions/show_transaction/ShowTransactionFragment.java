@@ -1,7 +1,6 @@
 package com.soufianekre.highcash.ui.transactions.show_transaction;
 
 
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -78,11 +77,7 @@ public class ShowTransactionFragment extends BottomSheetDialogFragment {
         view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                if (Build.VERSION.SDK_INT < 16) {
-                    view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                } else {
-                    view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                }
+                view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 BottomSheetDialog dialog = (BottomSheetDialog) getDialog();
                 FrameLayout bottomSheet;
                 bottomSheet = (FrameLayout)
@@ -127,7 +122,7 @@ public class ShowTransactionFragment extends BottomSheetDialogFragment {
         if (transactionToShow.getCategory() != null)
             Glide.with(getActivity())
                     .asDrawable()
-                    .load(transactionToShow.getCategory().getCategoryImage())
+                    .load(transactionToShow.getCategory().getImage())
                     .into(categoryImg);
 
     }

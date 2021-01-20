@@ -2,7 +2,7 @@ package com.soufianekre.highcash.ui.account_edit;
 
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
 import com.soufianekre.highcash.data.db.model.CashAccount;
-import com.soufianekre.highcash.ui.a_base.BaseContract;
+import com.soufianekre.highcash.ui.app_base.BaseContract;
 
 public interface AccountEditorContract {
     interface Presenter<V extends View> extends BaseContract.MvpPresenter<V> {

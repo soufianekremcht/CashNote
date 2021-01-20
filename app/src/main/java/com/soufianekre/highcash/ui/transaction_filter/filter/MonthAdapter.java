@@ -13,8 +13,8 @@ import java.util.List;
 
 public class MonthAdapter extends BaseAdapter {
 
-    private Context mContext;
-    private List<String> months;
+    private final Context mContext;
+    private final List<String> months;
     public int item_selected_position = -1;
 
     public MonthAdapter(Context context,List<String> months) {
@@ -44,9 +44,9 @@ public class MonthAdapter extends BaseAdapter {
         SpannableString str = new SpannableString(months.get(position));
 
         if (item_selected_position == position)
-            str.setSpan(new BackgroundColorSpan(Color.YELLOW), 0, month.length(), 0);
+            str.setSpan(new BackgroundColorSpan(Color.MAGENTA), 0, month.length(), 0);
         else
-            str.setSpan(new BackgroundColorSpan(Color.WHITE), 0, month.length(), 0);
+            str.setSpan(new BackgroundColorSpan(Color.TRANSPARENT), 0, month.length(), 0);
 
         monthText.setText(str);
         monthText.setPadding(15,15,15,15);

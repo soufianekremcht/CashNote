@@ -1,24 +1,25 @@
 package com.soufianekre.highcash.helper;
 
+import android.graphics.Color;
+
 import com.soufianekre.highcash.R;
-import com.soufianekre.highcash.data.db.model.TransactionCategory;
+import com.soufianekre.highcash.data.db.model.CashCategory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryUtils {
 
-    private static List<TransactionCategory> categories = new ArrayList<>();
+    private static final List<CashCategory> categories = new ArrayList<>();
 
 
-    private static TransactionCategory car = new TransactionCategory("Car", R.drawable.category_car);
-    private static TransactionCategory bank = new TransactionCategory("Saving",R.drawable.category_bank);
-    private static TransactionCategory shopping = new TransactionCategory("Shopping",R.drawable.category_shopping);
-    private static TransactionCategory house = new TransactionCategory("House",R.drawable.category_home);
-//    private AccountCategory food = new AccountCategory("Food",R.drawable.category_bank);
-//    private AccountCategory  = new AccountCategory("Shelter",R.drawable.category_bank);
+    private static final CashCategory car = new CashCategory("Car", R.drawable.ctg_car, Color.RED);
+    private static final CashCategory bank = new CashCategory("Saving",R.drawable.ctg_dividends,Color.BLUE);
+    private static final CashCategory shopping = new CashCategory("Shopping",R.drawable.ctg_coupons,Color.MAGENTA);
+    private static final CashCategory house = new CashCategory("House",R.drawable.ctg_home,Color.CYAN);
 
-    public static List<TransactionCategory> getAllCategories(){
+
+    public static List<CashCategory> getAllCategories(){
         categories.clear();
         categories.add(car);
         categories.add(bank);

@@ -26,13 +26,10 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-
+import timber.log.Timber;
 
 
 public class TransactionFilterDialog extends BottomSheetDialogFragment {
-
-
 
     @BindView(R.id.filter_months_grid_view)
     GridView filterGridView;
@@ -79,7 +76,7 @@ public class TransactionFilterDialog extends BottomSheetDialogFragment {
             String chosenMonth = (String) parent.getItemAtPosition(position);
             getCurrentActivity().selected_month_position = position;
             getCurrentActivity().selected_year = year;
-            Log.e("Filter dialog" , chosenMonth);
+            Timber.e(chosenMonth);
             transactionFilterActivity.filterTransactionsByMonth(chosenMonth,year);
             dismiss();
         });
