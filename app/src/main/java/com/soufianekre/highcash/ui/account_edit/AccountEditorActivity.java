@@ -1,7 +1,9 @@
 package com.soufianekre.highcash.ui.account_edit;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -10,10 +12,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
 import com.soufianekre.highcash.R;
 import com.soufianekre.highcash.data.db.model.CashAccount;
+import com.soufianekre.highcash.helper.AppUtils;
 import com.soufianekre.highcash.ui.app_base.BaseActivity;
 import com.soufianekre.highcash.helper.KeyboardUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -29,24 +33,22 @@ import butterknife.ButterKnife;
 import static com.soufianekre.highcash.helper.AppConst.ACCOUNT_TO_EDIT_ID;
 import static com.soufianekre.highcash.ui.main.MainActivity.RESULT_A;
 
+@SuppressLint("NonConstantResourceId")
 public class AccountEditorActivity extends BaseActivity implements AccountEditorContract.View {
 
 
+    @BindView(R.id.account_edit_layout)
+    CoordinatorLayout accountEditLayout;
     @BindView(R.id.add_account_toolbar)
     Toolbar toolbar;
-
     @BindView(R.id.add_account_title_text)
     TextView accountLayoutTitle;
-
     @BindView(R.id.account_name_field)
     EditText accountNameField;
-
     @BindView(R.id.account_desc_field)
     EditText accountDescriptionField;
-
     @BindView(R.id.account_save_fab)
     FloatingActionButton accountSaveFab;
-
     @BindView(R.id.account_color_picker)
     ImageView accountColorPicker;
 
@@ -187,7 +189,7 @@ public class AccountEditorActivity extends BaseActivity implements AccountEditor
                 .accentMode(false)  // when true, will display accent palette instead of primary palette
                 .doneButton(R.string.confirm)  // changes label of the done button
                 .cancelButton(R.string.cancel)  // changes label of the cancel button
-                .backButton(R.string.go_back)  // changes label of the back button
+                .backButton(R.string.go_back)// changes label of the back button
                 // .preselect(accentMode ? accentPreselect : primaryPreselect)  // optionally preselects a color
                 .dynamicButtonColor(true)  // defaults to true, false will disable changing action buttons' color to currently selected color
                 .show(this); // an AppCompatActivity which implements ColorCallback
@@ -197,11 +199,14 @@ public class AccountEditorActivity extends BaseActivity implements AccountEditor
     @Override
     public void onColorSelection(@NonNull ColorChooserDialog dialog, int selectedColor) {
         accountColor = selectedColor;
+        accountEditLayout.setBackgroundTintList(ColorStateList.valueOf(AppUtils.getColor(this,selectedColor)));
 
     }
 
     @Override
     public void onColorChooserDismissed(@NonNull ColorChooserDialog dialog) {
         accountColorPicker.setColorFilter(accountColor);
+
+
     }
 }

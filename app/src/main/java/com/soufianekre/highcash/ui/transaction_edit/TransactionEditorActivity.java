@@ -130,7 +130,7 @@ public class TransactionEditorActivity extends BaseActivity
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white);
         }
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
-        List<CashCategory> transactionCategories = CategoryUtils.getAllCategories();
+        List<CashCategory> transactionCategories = CategoryUtils.getAllCategories(this);
         categoryAdapter = new TransactionCategoryAdapter(this, transactionCategories, this);
         categoryRecyclerView.setHasFixedSize(true);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 4);

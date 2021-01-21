@@ -36,7 +36,7 @@
 
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/add_account_transaction_fab"
+            android:id="@+id/add_account_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_anchor="@id/fragment_container"

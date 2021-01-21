@@ -2,12 +2,18 @@ package com.soufianekre.highcash.ui.transaction_filter.filter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
+import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.BackgroundColorSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import androidx.core.content.ContextCompat;
+
+import com.soufianekre.highcash.R;
 
 import java.util.List;
 
@@ -42,14 +48,23 @@ public class MonthAdapter extends BaseAdapter {
         TextView monthText= new TextView(mContext);
         String month = months.get(position);
         SpannableString str = new SpannableString(months.get(position));
+        monthText.setPadding(15,15,15,15);
 
-        if (item_selected_position == position)
-            str.setSpan(new BackgroundColorSpan(Color.MAGENTA), 0, month.length(), 0);
-        else
-            str.setSpan(new BackgroundColorSpan(Color.TRANSPARENT), 0, month.length(), 0);
+        if (item_selected_position == position) {
+            monthText.setTypeface(Typeface.DEFAULT_BOLD);
+            //monthText.setBackgroundColor(ContextCompat.getColor(mContext,R.color.primary_light_green));
+            str.setSpan(new BackgroundColorSpan(ContextCompat.getColor(mContext,R.color.primary_light_green))
+                    , 0, month.length(), 0);
+        }
+        else{
+            monthText.setTypeface(Typeface.DEFAULT);
+            //monthText.setBackgroundColor(ContextCompat.getColor(mContext,android.R.color.transparent));
+            str.setSpan(new BackgroundColorSpan(Color.TRANSPARENT),
+                    0, month.length(), 0);
+        }
 
         monthText.setText(str);
-        monthText.setPadding(15,15,15,15);
+
         return monthText;
     }
 

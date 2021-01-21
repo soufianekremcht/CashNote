@@ -12,24 +12,24 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="?android:windowBackground">
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/show_transaction_description_layout"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:background="@color/colorPrimaryDark"
             android:gravity="center|start"
-            android:orientation="vertical"
-            android:padding="@dimen/spacing_small">
+            android:orientation="horizontal"
+            android:padding="@dimen/spacing_small"
+            >
 
             <ImageView
                 android:id="@+id/show_transaction_category"
-                android:layout_width="@dimen/icon_category_size"
-                android:layout_height="@dimen/icon_category_size"
-                android:layout_centerVertical="true"
-                android:layout_margin="@dimen/spacing_normal"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:layout_margin="@dimen/spacing_small"
+                android:padding="@dimen/spacing_small"
                 android:background="@drawable/bg_circle"
                 android:backgroundTint="@color/accent_light_blue"
-                android:padding="@dimen/spacing_small"
                 android:src="@drawable/ctg_home"
                 app:tint="@color/white" />
 
@@ -38,12 +38,10 @@
                 style="@style/style_show_transaction_big_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@id/show_transaction_category"
                 android:text="Title "
                 android:textColor="@color/white" />
 
-        </RelativeLayout>
+        </LinearLayout>
 
         <RelativeLayout
             android:id="@+id/show_transaction_info_layout"
@@ -91,7 +89,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/show_transaction_last_updated_date"
-                android:text="Notes" />
+                android:text="Notes :" />
 
 
         </RelativeLayout>

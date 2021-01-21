@@ -1,6 +1,7 @@
 package com.soufianekre.highcash.ui.transactions.show_transaction;
 
 
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -80,10 +81,13 @@ public class ShowTransactionFragment extends BottomSheetDialogFragment {
                 view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 BottomSheetDialog dialog = (BottomSheetDialog) getDialog();
                 FrameLayout bottomSheet;
-                bottomSheet = (FrameLayout)
-                        dialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
-                BottomSheetBehavior behavior = BottomSheetBehavior.from(bottomSheet);
-                behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                if (dialog != null){
+                    bottomSheet = dialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+                    BottomSheetBehavior behavior = BottomSheetBehavior.from(bottomSheet);
+                    behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                    // check google io filter package for more info of how to use this
+                }
+
                 //behavior.setPeekHeight(0); // Remove this line to hide a dark background if you manually hide the dialog.
             }
         });
@@ -119,11 +123,13 @@ public class ShowTransactionFragment extends BottomSheetDialogFragment {
                 String.format(
                         "Last Updated : %s",
                         AppUtils.formatDate(new Date(transactionToShow.getLastUpdatedDate()), AppUtils.MAIN_DATE_FORMAT)));
-        if (transactionToShow.getCategory() != null)
+        if (transactionToShow.getCategory() != null) {
             Glide.with(getActivity())
                     .asDrawable()
                     .load(transactionToShow.getCategory().getImage())
                     .into(categoryImg);
+            categoryImg.setBackgroundTintList(ColorStateList.valueOf(transactionToShow.getCategory().getColor()));
+        }
 
     }
 

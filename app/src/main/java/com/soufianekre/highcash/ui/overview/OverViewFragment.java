@@ -179,6 +179,8 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
         summaryChart.setCenterTextColor(Color.BLACK);
         summaryChart.setEntryLabelColor(Color.BLACK);
         summaryChart.setDrawEntryLabels(false);
+        // not showing the center text
+        summaryChart.setDrawCenterText(false);
         ArrayList<PieEntry> values = new ArrayList<>();
         List<CashTransaction> transactionsOfThisMonth = new ArrayList<>();
 

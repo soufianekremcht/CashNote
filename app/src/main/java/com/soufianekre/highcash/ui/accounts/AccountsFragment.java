@@ -144,7 +144,7 @@ public class AccountsFragment extends BaseFragment implements AccountsContract.V
             }
         }
         // Set Info Card
-        totalBalanceValueText.setText(String.format("%,.2f", total_balance));
+        totalBalanceValueText.setText(String.format("%d", total_balance));
         transactionsCountValueText.setText(String.format("%d", transactions_count));
         accountsCountValueText.setText(String.format("%d", accounts_count));
 

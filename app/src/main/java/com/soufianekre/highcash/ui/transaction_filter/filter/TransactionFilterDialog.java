@@ -28,6 +28,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
+import static com.soufianekre.highcash.helper.AppUtils.CURRENT_YEAR;
+
 
 public class TransactionFilterDialog extends BottomSheetDialogFragment {
 
@@ -43,8 +45,7 @@ public class TransactionFilterDialog extends BottomSheetDialogFragment {
     @BindView(R.id.filter_year_text)
     TextView filterYearText;
 
-
-    int year = 2020;
+    int year = CURRENT_YEAR;
 
     private TransactionFilterActivity transactionFilterActivity;
 

@@ -2,7 +2,6 @@ package com.soufianekre.highcash.ui.main;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,9 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -63,7 +60,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     NavigationView mainNavView;
     @BindView(R.id.main_toolbar)
     Toolbar mainToolbar;
-    @BindView(R.id.add_account_transaction_fab)
+    @BindView(R.id.add_account_fab)
     FloatingActionButton addAccountTransactionFab;
 
     private ActionBarDrawerToggle drawerToggle;
@@ -116,8 +113,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         drawerToggle.syncState();
         mainNavView.setNavigationItemSelectedListener(this);
 
-        if (getCurrentFragment() instanceof OverViewFragment) addAccountTransactionFab.hide();
-        else addAccountTransactionFab.show();
+
 
         addAccountTransactionFab.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, AccountEditorActivity.class);
@@ -125,6 +121,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         });
 
     }
+
 
 
     @Override
@@ -166,6 +163,11 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     @Override
     protected void onResume() {
         super.onResume();
+        if (getCurrentFragment() instanceof OverViewFragment)
+            addAccountTransactionFab.hide();
+        else
+            addAccountTransactionFab.show();
+
         presenter.setBalanceForCurrentDay();
     }
 
@@ -231,7 +233,6 @@ public class MainActivity extends BaseActivity implements MainContract.View {
             case R.id.drawer_menu_overview:
                 presenter.onDrawerOptionOverViewClick();
                 mainNavView.setCheckedItem(R.id.drawer_menu_overview);
-                addAccountTransactionFab.hide();
                 break;
             case R.id.drawer_menu_accounts:
                 presenter.onDrawerOptionAccountsClick();

@@ -211,9 +211,9 @@ public class TransactionsActivity extends BaseActivity implements TransactionsCo
 
     @Override
     public void notifyAdapter(List<CashTransaction> transactionList, double income, double expense) {
-        accountBalanceValueText.setText(String.format("%.2f",income+expense));
-        accountExpenseValueText.setText(String.format("%.2f",expense));
-        accountIncomeValueText.setText(String.format("%.2f",income));
+        accountBalanceValueText.setText(String.format("%d",income+expense));
+        accountExpenseValueText.setText(String.format("%d",expense));
+        accountIncomeValueText.setText(String.format("%d",income));
         this.transactions = transactionList;
         transactionsAdapter.addItems(transactionList);
         checkEmptyView(transactionsAdapter);

@@ -174,13 +174,14 @@ public class TransactionFilterActivity extends BaseActivity implements Transacti
         float totalExpense = 1f;
         float totalIncome = 1f;
         Description desc = new Description();
-        desc.setText("Summary of this month's transaction");
+        desc.setText("Summary of The Month");
         monthSummaryChart.setDescription(desc);
         monthSummaryChart.setCenterTextColor(Color.BLACK);
         monthSummaryChart.setEntryLabelColor(Color.BLACK);
+        monthSummaryChart.setDrawCenterText(false);
+        monthSummaryChart.setDrawEntryLabels(false);
         ArrayList<PieEntry> values = new ArrayList<>();
         List<CashTransaction> transactionsOfThisMonth = new ArrayList<>();
-
         // check the transactions of this month
         for (CashTransaction cashTransaction : transactions) {
             if (cashTransaction.isExpense())
@@ -188,9 +189,12 @@ public class TransactionFilterActivity extends BaseActivity implements Transacti
             else
                 totalIncome += cashTransaction.getBalance();
         }
+        //Set Summary using Percent
+
         // draw a chart for the summary of total income and expenses
         values.add(new PieEntry(totalExpense,"Expense"));
         values.add(new PieEntry(totalIncome,"Income"));
+
 
         String summaryLabel = String.format(Locale.US," Summary for %d-%d",
                 selected_month_position+1,CURRENT_YEAR);
@@ -199,7 +203,8 @@ public class TransactionFilterActivity extends BaseActivity implements Transacti
         set1.setColors(ColorTemplate.createColors(new int[]{Color.RED,Color.GREEN}));
         set1.setValueTextColor(Color.BLACK);
         PieData pieData = new PieData(set1);
-
+        // testing
+        monthSummaryChart.setUsePercentValues(true);
         monthSummaryChart.animateXY(1000,1000);
         monthSummaryChart.setData(pieData);
         monthSummaryChart.invalidate();
