@@ -8,7 +8,7 @@ android {
         disable 'DefaultLocale'
     }
     defaultConfig {
-        applicationId "com.soufianekre.highcash"
+        applicationId "com.soufianekre.cashnote"
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
@@ -110,8 +110,11 @@ dependencies {
     // Debug + Test
 
     debugImplementation 'cat.ereza:customactivityoncrash:2.2.0'
+    /*
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0'
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.3'
+    
+     */
 
     testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

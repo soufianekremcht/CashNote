@@ -81,11 +81,11 @@
     <!-- cardview foreground and background -->
     <color name="cardView_foreground">#202020</color>
     <color name="cardView_background">#363F45</color>
-    <color name="disabled_button">#BDBDBD</color>
+    <color name="disabled_button">#8FBDBDBD</color>
 
     <!--Used for white vectors -->
     <color name="white">#FFFFFFFF</color>
-    <color name="white_translucent">#B7FFFFFF</color>
+    <color name="white_translucent">#63FFFFFF</color>
 
     <!-- Warning error for InputTextLayout -->
     <color name="warningColor">#ffe082</color>

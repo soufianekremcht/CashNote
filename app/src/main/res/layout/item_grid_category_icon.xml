@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/item_category_icon_img"
-        android:layout_width="@dimen/icon_size"
-        android:layout_height="@dimen/icon_size"
+        android:layout_width="@dimen/transaction_icon_size"
+        android:layout_height="@dimen/transaction_icon_size"
         android:padding="7dp"
         android:background="@drawable/bg_circle"
         android:backgroundTint="@color/accent_red"

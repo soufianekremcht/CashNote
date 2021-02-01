@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
 
     android:background="@color/colorPrimary"
-    android:backgroundTint="@color/accent_red"
     android:id="@+id/account_edit_layout">
 
     <com.google.android.material.appbar.AppBarLayout

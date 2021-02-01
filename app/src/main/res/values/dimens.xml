@@ -10,8 +10,10 @@
 
     <dimen name="fab_margin">16dp</dimen>
 
-    <!--    nav header-->
-    <dimen name="icon_size">48dp</dimen>
+    <!--  icon sizes -->
+    <dimen name="transaction_icon_size">36dp</dimen>
+    <dimen name="account_icon_size">48dp</dimen>
+    <dimen name="icon_category_size">36dp</dimen>
 
     <!-- font sizes -->
     <dimen name="font_larger">22sp</dimen>
@@ -33,7 +35,7 @@
     <dimen name="button_height_short">32dp</dimen>
 
 
-    <dimen name="icon_category_size">36dp</dimen>
+
 
 
 </resources>

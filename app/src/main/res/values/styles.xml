@@ -72,7 +72,7 @@
     </style>
 
     <style name="style_layout_info_layout">
-        <item name="background">?selectableItemBackground</item>
+        <item name="android:background">?selectableItemBackground</item>
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
         <item name="android:padding">@dimen/spacing_tiny</item>

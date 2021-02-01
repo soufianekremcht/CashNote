@@ -11,12 +11,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="?android:windowBackground">
+        android:background="?android:windowBackground"
+        android:padding="@dimen/spacing_normal">
         <LinearLayout
             android:id="@+id/show_transaction_description_layout"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:background="@color/colorPrimaryDark"
+            android:layout_height="wrap_content"
             android:gravity="center|start"
             android:orientation="horizontal"
             android:padding="@dimen/spacing_small"
@@ -24,8 +24,8 @@
 
             <ImageView
                 android:id="@+id/show_transaction_category"
-                android:layout_width="@dimen/icon_size"
-                android:layout_height="@dimen/icon_size"
+                android:layout_width="@dimen/transaction_icon_size"
+                android:layout_height="@dimen/transaction_icon_size"
                 android:layout_margin="@dimen/spacing_small"
                 android:padding="@dimen/spacing_small"
                 android:background="@drawable/bg_circle"
@@ -38,61 +38,99 @@
                 style="@style/style_show_transaction_big_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_large"
                 android:text="Title "
-                android:textColor="@color/white" />
+
+             />
 
         </LinearLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/show_transaction_info_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/spacing_normal"
-            android:padding="@dimen/spacing_large">
-
-            <TextView
-                android:id="@+id/show_transaction_source_text"
-                style="@style/style_show_transaction_text"
+            android:padding="@dimen/spacing_large"
+            android:orientation="horizontal">
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Source" />
+                android:orientation="vertical"
+                android:id="@+id/show_transaction_info_values_layout"
+                android:layout_marginEnd="@dimen/spacing_normal">
+
+                <TextView
+                    style="@style/style_show_transaction_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Source" />
 
 
-            <TextView
-                android:id="@+id/show_transaction_balance_value"
-                style="@style/style_show_transaction_text"
-                android:layout_width="wrap_content"
+                <TextView
+                    style="@style/style_show_transaction_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="20dp"
+                    android:text="Balance" />
+
+
+                <TextView
+
+                    style="@style/style_show_transaction_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/last_updated" />
+
+                <TextView
+
+                    style="@style/style_show_transaction_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Notes " />
+
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/show_transaction_source_text"
-                android:layout_marginEnd="20dp"
-                android:text="Balance : " />
+                android:orientation="vertical"
+                >
 
-            <TextView
-                android:id="@+id/show_transaction_date"
-                style="@style/style_show_transaction_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/show_transaction_balance_value"
-                android:text="@string/show_transaction_created_at" />
-
-            <TextView
-                android:id="@+id/show_transaction_last_updated_date"
-                style="@style/style_show_transaction_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/show_transaction_date"
-                android:text="@string/last_updated" />
-
-            <TextView
-                android:id="@+id/show_transaction_notes_text"
-                style="@style/style_show_transaction_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/show_transaction_last_updated_date"
-                android:text="Notes :" />
+                <TextView
+                    android:id="@+id/show_transaction_source_text"
+                    style="@style/style_show_transaction_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Source" />
 
 
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/show_transaction_balance_value"
+                    style="@style/style_show_transaction_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="20dp"
+                    android:text="Balance" />
+
+                <TextView
+                    android:id="@+id/show_transaction_last_updated_date"
+                    style="@style/style_show_transaction_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/last_updated" />
+
+                <TextView
+                    android:id="@+id/show_transaction_notes_text"
+                    style="@style/style_show_transaction_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Notes " />
+            </LinearLayout>
+
+
+
+        </LinearLayout>
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
