@@ -6,6 +6,8 @@
 CashNote is Free and Add free Android App for managing expenses and income.
 
 <img src="https://raw.githubusercontent.com/afollestad/mnml/master/showcase3.png" width="600" />
+<img src="https://raw.githubusercontent.com/afollestad/mnml/master/showcase3.png" width="600" />
+<img src="https://raw.githubusercontent.com/afollestad/mnml/master/showcase3.png" width="600" />
 
 **Redistributing this app as your own is NOT permitted.**
 
