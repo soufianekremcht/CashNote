@@ -6,12 +6,16 @@
 
     </style>
 
-    <style name="style_export_data_field">
-        <item name="android:padding">@dimen/spacing_small</item>
+    <style name="style_export_data_field_layout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
         <item name="android:background">?selectableItemBackground</item>
         <item name="android:textAlignment">center</item>
+        <item name="android:layout_margin">@dimen/spacing_tiny</item>
 
+    </style>
+
+
+    <style name="style_export_data_field" >
     </style>
 </resources>

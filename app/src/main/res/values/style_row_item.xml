@@ -1,18 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- show Transaction layout style-->
-    <style name="style_show_transaction_text">
-        <item name="android:textSize">@dimen/font_normal</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:padding">@dimen/spacing_small</item>
-    </style>
-    <style name="style_show_transaction_big_text">
-        <item name="android:textSize">@dimen/font_larger</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:layout_margin">@dimen/spacing_normal</item>
-        <item name="android:padding">@dimen/spacing_normal</item>
-    </style>
+
 
     <!--- Account fragment style -->
 

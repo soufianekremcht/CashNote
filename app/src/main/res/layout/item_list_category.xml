@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/item_list_category_layout"
+    android:gravity="center_vertical">
+
+
+    <ImageView
+        android:id="@+id/item_list_category_img"
+        android:layout_width="@dimen/icon_category_size"
+        android:layout_height="@dimen/icon_category_size"
+        android:layout_margin="@dimen/spacing_small"
+        android:padding="7dp"
+        android:background="@drawable/bg_circle"
+        android:backgroundTint="@color/accent_blue"
+        android:src="@drawable/ctg_dividends"
+        app:tint="@color/white"
+        />
+
+    <TextView
+        android:id="@+id/item_list_category_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/spacing_normal"
+        android:padding="@dimen/spacing_normal"
+        android:text="Tax"
+        />
+
+    <ImageView
+        android:id="@+id/item_list_category_option_img"
+        android:layout_width="@dimen/icon_category_size"
+        android:layout_height="@dimen/icon_category_size"
+        android:layout_margin="@dimen/spacing_small"
+        android:padding="@dimen/spacing_small"
+        android:background="@drawable/bg_circle"
+        android:backgroundTint="@color/accent_green"
+        android:src="@drawable/ctg_dividends"
+        app:tint="@color/white"
+        />
+</LinearLayout>

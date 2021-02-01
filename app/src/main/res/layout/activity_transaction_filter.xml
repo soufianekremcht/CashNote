@@ -91,7 +91,7 @@
                             android:id="@+id/expense_value_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="O"
+                            android:text="0"
                             style="@style/accounts_balance_count_text_style"
                             />
 

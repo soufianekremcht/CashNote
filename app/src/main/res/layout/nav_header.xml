@@ -11,7 +11,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="HIGH"
+        android:text="CASH"
         android:textSize="@dimen/font_large"
         android:textStyle="bold"
         android:textColor="@color/accent_amber"
@@ -22,7 +22,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="CASH"
+        android:text="NOTE"
         android:textSize="@dimen/font_large"
         android:textStyle="bold"
         android:textColor="@color/colorPrimary"

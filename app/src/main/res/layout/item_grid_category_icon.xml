@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/item_category_icon_layout"
+    android:layout_gravity="center">
+
+    <ImageView
+        android:id="@+id/item_category_icon_img"
+        android:layout_width="@dimen/transaction_icon_size"
+        android:layout_height="@dimen/transaction_icon_size"
+        android:padding="7dp"
+        android:background="@drawable/bg_circle"
+        android:backgroundTint="@color/accent_red"
+        android:src="@drawable/ctg_health"
+        app:tint="@color/white"/>
+</LinearLayout>
