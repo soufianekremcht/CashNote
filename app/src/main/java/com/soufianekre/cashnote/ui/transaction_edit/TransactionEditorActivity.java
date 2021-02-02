@@ -164,12 +164,6 @@ public class TransactionEditorActivity extends BaseActivity
         transactionBalanceField.setTextColor(transactionIsExpense ? Color.RED : Color.GREEN);
 
 
-        if (transactionToEdit != null) {
-            categorySelectedImg.setBackgroundTintList(ColorStateList.valueOf(transactionToEdit.getCategory().getColor()));
-            categorySelectedImg.setImageDrawable(
-                    ContextCompat.getDrawable(this, transactionToEdit.getCategory().getImage()));
-        }
-
 
     }
 

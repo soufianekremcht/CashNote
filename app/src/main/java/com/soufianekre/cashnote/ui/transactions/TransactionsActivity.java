@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.ActionMode;
 import android.view.Menu;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -197,8 +199,8 @@ public class TransactionsActivity extends BaseActivity implements TransactionsCo
         setSupportActionBar(transactionsToolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(currentAccount.getColor()));
         }
+        changeStatusBarColor(currentAccount.getColor());
 
         transactionsToolbar.setNavigationOnClickListener(v -> onBackPressed());
 
@@ -311,6 +313,16 @@ public class TransactionsActivity extends BaseActivity implements TransactionsCo
             transactionsAdapter.selectionMode = false;
             transactionsAdapter.notifyDataSetChanged();
         }
+    }
+
+    public void changeStatusBarColor(int color) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(color);
+        }
+        ActionBar bar = getSupportActionBar();
+        if (bar != null)
+            bar.setBackgroundDrawable(new ColorDrawable(color));
+
     }
 
 }

@@ -111,7 +111,7 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:$rootProject.dagger_version"
     annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.dagger_version"
     annotationProcessor "com.google.dagger:dagger-android-processor:$rootProject.dagger_version"
-    implementation 'javax.inject:javax.inject:1&'
+    implementation 'javax.inject:javax.inject:1'
 
 
     // logging
