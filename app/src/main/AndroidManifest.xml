@@ -20,24 +20,28 @@
         android:requestLegacyExternalStorage="true">
 
 
-        <activity android:name="com.soufianekre.cashnote.ui.transaction_filter.TransactionFilterActivity"
-            android:parentActivityName="com.soufianekre.cashnote.ui.main.MainActivity"/>
         <activity
             android:name="com.soufianekre.cashnote.ui.splash.SplashScreenActivity"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name="com.soufianekre.cashnote.ui.main.MainActivity"
             android:launchMode="singleTop"
             />
 
+
+        <activity android:name="com.soufianekre.cashnote.ui.transaction_filter.TransactionFilterActivity"
+            android:parentActivityName="com.soufianekre.cashnote.ui.main.MainActivity"/>
+
+
         <activity android:name="com.soufianekre.cashnote.ui.transactions.TransactionsActivity"
             android:parentActivityName="com.soufianekre.cashnote.ui.main.MainActivity"/>
+
         <activity
             android:name="com.soufianekre.cashnote.ui.transaction_edit.TransactionEditorActivity"
             android:parentActivityName="com.soufianekre.cashnote.ui.main.MainActivity"

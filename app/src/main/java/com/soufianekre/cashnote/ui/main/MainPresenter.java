@@ -2,10 +2,9 @@ package com.soufianekre.cashnote.ui.main;
 
 import com.soufianekre.cashnote.data.DataManager;
 import com.soufianekre.cashnote.data.db.model.BalanceHistory;
-import com.soufianekre.cashnote.data.db.model.CashAccount;
 import com.soufianekre.cashnote.data.db.model.CashTransaction;
-import com.soufianekre.cashnote.ui.app_base.BasePresenter;
 import com.soufianekre.cashnote.helper.rx.SchedulerProvider;
+import com.soufianekre.cashnote.ui.base.BasePresenter;
 
 import javax.inject.Inject;
 
@@ -13,7 +12,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import timber.log.Timber;
 
 public class MainPresenter<V extends MainContract.View> extends BasePresenter<V>
-    implements MainContract.Presenter<V> {
+        implements MainContract.Presenter<V> {
     private static final String TAG = "MainPresenter";
 
     @Inject
@@ -39,32 +38,32 @@ public class MainPresenter<V extends MainContract.View> extends BasePresenter<V>
     @Override
     public void setBalanceForCurrentDay() {
         getCompositeDisposable().add(
-                getDataManager().getRoomDb().accountDao().getAccounts()
-                .subscribeOn(getSchedulerProvider().io())
-                .observeOn(getSchedulerProvider().ui())
-                .subscribe(accounts -> {
-                    int balanceValue = 0;
-                    for (CashAccount account :accounts){
-                        for (CashTransaction transaction : account.getTransactionsList()){
-                            balanceValue+= transaction.getBalance();
-                        }
-                    }
-                    getMvpView().setBalance(balanceValue);
-                })
+                getDataManager().getRoomDb().cashTransactionDao()
+                        .getAllTransactions()
+                        .subscribeOn(getSchedulerProvider().io())
+                        .observeOn(getSchedulerProvider().ui())
+                        .subscribe(results -> {
+                            int balanceValue = 0;
+                            for (CashTransaction transaction : results) {
+                                balanceValue += transaction.getBalance();
+
+                            }
+                            getMvpView().setBalance(balanceValue);
+                        })
         );
     }
 
     @Override
-    public void saveBalanceToDb(int days,int year,int balanceValue) {
+    public void saveBalanceToDb(int days, int year, int balanceValue) {
         BalanceHistory balanceHistory = new BalanceHistory();
         balanceHistory.setDays(days);
         balanceHistory.setYear(year);
         balanceHistory.setValue(balanceValue);
         getCompositeDisposable().add(
                 getDataManager().getRoomDb().balanceHistoryDao().addBalance(balanceHistory)
-                .subscribeOn(getSchedulerProvider().io())
-                .observeOn(getSchedulerProvider().ui())
-                .subscribe(() -> Timber.i("Balance for today is saved"))
+                        .subscribeOn(getSchedulerProvider().io())
+                        .observeOn(getSchedulerProvider().ui())
+                        .subscribe(() -> Timber.i("Balance for today is saved"))
         );
     }
 

@@ -1,6 +1,7 @@
 package com.soufianekre.cashnote;
 
 import android.app.Application;
+import android.os.Build;
 
 import com.soufianekre.cashnote.data.DataManager;
 import com.soufianekre.cashnote.data.app_preference.AppPreferencesHelper;
@@ -32,7 +33,8 @@ public class MyApp extends Application {
         mApplicationComponent.inject(this);
         Utils.init(this);
         appPrefHelper = new AppPreferencesHelper(this, AppConst.PREF_NAME);
-        Timber.plant(new Timber.DebugTree());
+        if (BuildConfig.DEBUG)
+            Timber.plant(new Timber.DebugTree());
 
     }
     public AppComponent getComponent() {

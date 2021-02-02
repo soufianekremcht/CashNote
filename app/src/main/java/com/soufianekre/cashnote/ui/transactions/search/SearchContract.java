@@ -2,7 +2,7 @@ package com.soufianekre.cashnote.ui.transactions.search;
 
 
 import com.soufianekre.cashnote.data.db.model.CashTransaction;
-import com.soufianekre.cashnote.ui.app_base.BaseContract;
+import com.soufianekre.cashnote.ui.base.BaseContract;
 import com.soufianekre.cashnote.ui.transactions.TransactionsAdapter;
 import com.soufianekre.cashnote.ui.transactions.show_transaction.ShowTransactionFragment;
 

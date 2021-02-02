@@ -6,7 +6,7 @@ import com.soufianekre.cashnote.data.DataManager;
 import com.soufianekre.cashnote.data.db.model.CashAccount;
 import com.soufianekre.cashnote.data.db.model.CashTransaction;
 import com.soufianekre.cashnote.helper.rx.SchedulerProvider;
-import com.soufianekre.cashnote.ui.app_base.BasePresenter;
+import com.soufianekre.cashnote.ui.base.BasePresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +16,7 @@ import javax.inject.Inject;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 
 public class ExportDataPresenter<V extends ExportDataContract.View> extends BasePresenter<V>
         implements ExportDataContract.Presenter<V> {
@@ -28,17 +29,13 @@ public class ExportDataPresenter<V extends ExportDataContract.View> extends Base
     @Override
     public void getTransactionData() {
         getCompositeDisposable().add(getDataManager()
-                .getRoomDb().accountDao().getAccounts()
+                .getRoomDb().cashTransactionDao().getAllTransactions()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(cashAccounts -> {
+                .subscribe(results -> {
                     // get All The Transactions Within The Time Frame
-                    List<CashTransaction> transactions =new ArrayList<>();
-                    for (CashAccount account : cashAccounts){
-                        transactions.addAll(account.getTransactionsList());
-                    }
-                    getMvpView().exportToCSV(transactions);
+                    getMvpView().exportToCSV(results);
 
-                }, throwable -> Log.e("Export Presenter", throwable.getMessage())));
+                }, Timber::e));
     }
 }

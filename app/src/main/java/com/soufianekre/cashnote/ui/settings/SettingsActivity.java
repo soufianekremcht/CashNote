@@ -6,7 +6,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 
 import com.soufianekre.cashnote.R;
-import com.soufianekre.cashnote.ui.app_base.BaseActivity;
+import com.soufianekre.cashnote.ui.base.BaseActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

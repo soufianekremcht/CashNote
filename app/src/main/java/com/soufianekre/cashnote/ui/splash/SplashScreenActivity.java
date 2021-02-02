@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.soufianekre.cashnote.R;
-import com.soufianekre.cashnote.ui.app_base.BaseActivity;
+import com.soufianekre.cashnote.ui.base.BaseActivity;
 import com.soufianekre.cashnote.ui.main.MainActivity;
 
 import javax.inject.Inject;

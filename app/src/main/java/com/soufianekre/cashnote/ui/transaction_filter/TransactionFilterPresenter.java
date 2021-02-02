@@ -2,10 +2,9 @@ package com.soufianekre.cashnote.ui.transaction_filter;
 
 
 import com.soufianekre.cashnote.data.DataManager;
-import com.soufianekre.cashnote.data.db.model.CashAccount;
 import com.soufianekre.cashnote.data.db.model.CashTransaction;
 import com.soufianekre.cashnote.helper.rx.SchedulerProvider;
-import com.soufianekre.cashnote.ui.app_base.BasePresenter;
+import com.soufianekre.cashnote.ui.base.BasePresenter;
 
 import org.joda.time.DateTime;
 
@@ -20,16 +19,16 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 
-public class TransactionFilterPresenter<V extends TransactionFilterContract.View> extends BasePresenter<V> implements TransactionFilterContract.Presenter<V> {
+public class TransactionFilterPresenter<V extends TransactionFilterContract.View>
+        extends BasePresenter<V> implements TransactionFilterContract.Presenter<V> {
 
     private static final String TAG = "TransactionFilterPresenter";
 
 
-
     @Inject
     public TransactionFilterPresenter(DataManager dataManager,
-                         SchedulerProvider schedulerProvider,
-                         CompositeDisposable compositeDisposable) {
+                                      SchedulerProvider schedulerProvider,
+                                      CompositeDisposable compositeDisposable) {
         super(dataManager, schedulerProvider, compositeDisposable);
     }
 
@@ -37,33 +36,50 @@ public class TransactionFilterPresenter<V extends TransactionFilterContract.View
     @Override
     public void getTransactions(String month, int year, boolean filtered) {
         getCompositeDisposable().add(getDataManager().getRoomDb()
-                .accountDao()
-                .getAccounts()
+                .cashTransactionDao()
+                .getAllTransactions()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(accounts -> {
+                .subscribe(transactions -> {
 
                     List<CashTransaction> results = new ArrayList<>();
-                    for(CashAccount cashAccount : accounts){
-                        for (CashTransaction transaction : cashAccount.getTransactionsList()){
-                            if (filtered){
-                                if (isChosen(transaction,month,year))
-                                    results.add(transaction);
-                            }else{
+                    for (CashTransaction transaction : transactions) {
+                        if (filtered) {
+                            if (isChosen(transaction, month, year))
                                 results.add(transaction);
-                            }
-
+                        } else {
+                            results.add(transaction);
                         }
+
                     }
                     getMvpView().notifyAdapter(results);
 
-                },throwable -> getMvpView().showMessage(throwable.getLocalizedMessage()))
+                }, throwable -> getMvpView().showMessage(throwable.getLocalizedMessage()))
 
         );
 
     }
 
-    private boolean isChosen(CashTransaction transaction,String chosenMonth,int chosenYear){
+
+    @Override
+    public void getAllAccounts() {
+        getCompositeDisposable().add(getDataManager().getRoomDb()
+                .cashAccountDao()
+                .getAccounts()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(results -> {
+
+
+                    getMvpView().updateAccountList(results);
+
+                }, throwable -> getMvpView().showMessage(throwable.getLocalizedMessage()))
+
+        );
+
+    }
+
+    private boolean isChosen(CashTransaction transaction, String chosenMonth, int chosenYear) {
         Date date = new Date(transaction.getLastUpdatedDate());
         DateTime dateTime = new DateTime(date);
         String month = dateTime.toString("MMM");

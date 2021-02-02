@@ -36,6 +36,10 @@ import com.soufianekre.cashnote.ui.transactions.TransactionsAdapter;
 import com.soufianekre.cashnote.ui.transactions.TransactionsPresenter;
 import com.soufianekre.cashnote.ui.transactions.search.SearchContract;
 import com.soufianekre.cashnote.ui.transactions.search.SearchPresenter;
+import com.soufianekre.cashnote.ui.transactions.show_transaction.ShowTransactionContract;
+import com.soufianekre.cashnote.ui.transactions.show_transaction.ShowTransactionPresenter;
+
+import org.jetbrains.annotations.Contract;
 
 import java.util.ArrayList;
 
@@ -121,6 +125,7 @@ public class ActivityModule {
             OverViewPresenter<OverViewContract.View> presenter){
         return presenter;
     }
+
     @Provides
     RecentTransactionsAdapter provideRecentTransactionsAdapter(){
         return new RecentTransactionsAdapter(provideContext(),new ArrayList<>());
@@ -151,6 +156,14 @@ public class ActivityModule {
         return presenter;
 
     }
+    // Show Transaction
+
+    @Provides
+    ShowTransactionContract.Presenter<ShowTransactionContract.View> provideShowTransactionPresenter(
+            ShowTransactionPresenter<ShowTransactionContract.View> presenter){
+        return presenter;
+
+    }
 
     // Settings
 
@@ -172,6 +185,8 @@ public class ActivityModule {
             SearchPresenter<SearchContract.View> presenterImp) {
         return presenterImp;
     }
+
+
 
 
 

@@ -1,7 +1,7 @@
 package com.soufianekre.cashnote.ui.settings.export;
 
 import com.soufianekre.cashnote.data.db.model.CashTransaction;
-import com.soufianekre.cashnote.ui.app_base.BaseContract;
+import com.soufianekre.cashnote.ui.base.BaseContract;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.util.List;

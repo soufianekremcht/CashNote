@@ -19,20 +19,17 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
 
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.soufianekre.cashnote.R;
 import com.soufianekre.cashnote.data.db.model.CashAccount;
-import com.soufianekre.cashnote.helper.AppUtils;
-import com.soufianekre.cashnote.ui.app_base.BaseActivity;
 import com.soufianekre.cashnote.helper.KeyboardUtils;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.ArrayList;
+import com.soufianekre.cashnote.ui.base.BaseActivity;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
+import timber.log.Timber;
 
 import static com.soufianekre.cashnote.helper.AppConst.ACCOUNT_TO_EDIT_ID;
 import static com.soufianekre.cashnote.ui.main.MainActivity.RESULT_A;
@@ -60,46 +57,27 @@ public class AccountEditorActivity extends BaseActivity implements AccountEditor
     @Inject
     AccountEditorContract.Presenter<AccountEditorContract.View> presenter;
 
-    private ColorChooserDialog colorChooserDialog;
-    private CashAccount accountToEdit;
 
+    private CashAccount accountToEdit;
 
     private String accountName;
     private String accountDescription;
-    private int accountColor;
-    private int accountType;
+    private int accountColor = -1;
+    private int accountType = -1;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_edit);
-        getActivityComponent().inject(this);
-        setUnBinder(ButterKnife.bind(this));
-        presenter.onAttach(this);
+        if (getActivityComponent() != null) {
+            getActivityComponent().inject(this);
+            setUnBinder(ButterKnife.bind(this));
+            presenter.onAttach(this);
+        }
         checkIntents();
         setupUi();
         KeyboardUtils.showSoftInput(this, accountNameField);
-    }
-
-
-    private void setupUi() {
-        setSupportActionBar(toolbar);
-        toolbar.setTitle("Add Account");
-        toolbar.setNavigationOnClickListener(v -> onBackPressed());
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white);
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
-        }
-
-        accountSaveFab.setOnClickListener(v -> {
-            onAccountSaved();
-
-        });
-        accountColorPicker.setOnClickListener( v-> showColorDialog());
-
-
     }
 
     @Override
@@ -116,20 +94,6 @@ public class AccountEditorActivity extends BaseActivity implements AccountEditor
     protected void onDestroy() {
         presenter.onDetach();
         super.onDestroy();
-    }
-
-    private void checkIntents() {
-        if (getIntent().getExtras() != null) {
-            int accountToEditId = getIntent().getExtras().getInt(ACCOUNT_TO_EDIT_ID);
-            if (accountToEditId != -1) {
-                accountLayoutTitle.setText(R.string.edit_account);
-                presenter.getAccountToEdit(accountToEditId);
-            }
-            ;
-
-        } else {
-            showMessage("Account To Edit is " + accountToEdit);
-        }
     }
 
     @Override
@@ -150,6 +114,8 @@ public class AccountEditorActivity extends BaseActivity implements AccountEditor
         accountNameField.setText(accountName);
         accountDescriptionField.setText(accountDescription);
     }
+
+    // ColorChooserDialog Listeners
     @Override
     public void onColorSelection(@NonNull ColorChooserDialog dialog, int selectedColor) {
         accountColor = selectedColor;
@@ -163,6 +129,39 @@ public class AccountEditorActivity extends BaseActivity implements AccountEditor
         changeStatusBarColor(accountColor);
 
         accountEditLayout.setBackgroundTintList(ColorStateList.valueOf(accountColor));
+    }
+
+
+    private void checkIntents() {
+        if (getIntent().getExtras() != null) {
+            int accountToEditId = getIntent().getExtras().getInt(ACCOUNT_TO_EDIT_ID);
+            if (accountToEditId != -1) {
+                accountLayoutTitle.setText(R.string.edit_account);
+                presenter.getAccountToEdit(accountToEditId);
+            }
+        } else {
+            Timber.e("Account To Edit is %s", accountToEdit);
+        }
+    }
+
+
+    private void setupUi() {
+        setSupportActionBar(toolbar);
+        toolbar.setTitle("Add Account");
+        // change toolbar background color
+
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
+
+        accountSaveFab.setOnClickListener(v -> {
+            onAccountSaved();
+
+        });
+        accountColorPicker.setOnClickListener(v -> showColorDialog());
     }
 
 
@@ -185,10 +184,14 @@ public class AccountEditorActivity extends BaseActivity implements AccountEditor
                 presenter.saveEditedAccount(accountToEdit);
             } else {
                 accountToEdit = new CashAccount();
-                accountToEdit.setTransactionsList(new ArrayList<>());
                 accountToEdit.setName(accountName);
                 accountToEdit.setDescription(accountDescription);
-                accountToEdit.setColor(accountColor);
+                if (accountColor == -1) {
+                    accountToEdit.setColor(ContextCompat.getColor(this, R.color.colorPrimary));
+                } else {
+                    accountToEdit.setColor(accountColor);
+                }
+
                 accountToEdit.setType(accountType);
                 presenter.saveNewAccount(accountToEdit);
             }
@@ -199,19 +202,20 @@ public class AccountEditorActivity extends BaseActivity implements AccountEditor
 
     }
 
-    public void showColorDialog(){
+    public void showColorDialog() {
         // Pass a context, along with the title of the dialog
         boolean accentMode = false;
-        colorChooserDialog =
+        int primaryPreselect = ContextCompat.getColor(this, R.color.accent_amber);
+        ColorChooserDialog colorChooserDialog =
                 new ColorChooserDialog.Builder(this, R.string.choose_color)
-                .titleSub(R.string.colors)  // title of dialog when viewing shades of a color
-                .accentMode(false)  // when true, will display accent palette instead of primary palette
-                .doneButton(R.string.confirm)  // changes label of the done button
-                .cancelButton(R.string.cancel)  // changes label of the cancel button
-                .backButton(R.string.go_back)// changes label of the back button
-                // .preselect(accentMode ? accentPreselect : primaryPreselect)  // optionally preselects a color
-                .dynamicButtonColor(true)  // defaults to true, false will disable changing action buttons' color to currently selected color
-                .show(this); // an AppCompatActivity which implements ColorCallback
+                        .titleSub(R.string.colors)  // title of dialog when viewing shades of a color
+                        .accentMode(false)  // when true, will display accent palette instead of primary palette
+                        .doneButton(R.string.confirm)  // changes label of the done button
+                        .cancelButton(R.string.cancel)  // changes label of the cancel button
+                        .backButton(R.string.go_back)// changes label of the back button
+                        //.preselect()  // optionally preselects a color
+                        .dynamicButtonColor(true)  // defaults to true, false will disable changing action buttons' color to currently selected color
+                        .show(this); // an AppCompatActivity which implements ColorCallback
 
     }
 
@@ -219,13 +223,11 @@ public class AccountEditorActivity extends BaseActivity implements AccountEditor
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(color);
         }
-
         ActionBar bar = getSupportActionBar();
-        bar.setBackgroundDrawable(new ColorDrawable(color));
+        if (bar != null)
+            bar.setBackgroundDrawable(new ColorDrawable(color));
 
     }
-
-
 
 
 }

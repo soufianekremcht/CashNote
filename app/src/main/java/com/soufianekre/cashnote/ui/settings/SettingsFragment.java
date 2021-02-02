@@ -1,6 +1,5 @@
 package com.soufianekre.cashnote.ui.settings;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,7 +14,7 @@ import com.soufianekre.cashnote.data.app_preference.PrefConst;
 import com.soufianekre.cashnote.helper.PermissionHelper;
 import com.soufianekre.cashnote.helper.currency.CashCurrency;
 import com.soufianekre.cashnote.helper.currency.CurrencyHelper;
-import com.soufianekre.cashnote.ui.app_base.BasePreferenceFragment;
+import com.soufianekre.cashnote.ui.base.BasePreferenceFragment;
 import com.soufianekre.cashnote.ui.settings.export.ExportDataDialogFragment;
 
 import java.util.List;

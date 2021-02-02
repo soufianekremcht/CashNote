@@ -1,19 +1,32 @@
-package com.soufianekre.cashnote.ui.app_base;
+package com.soufianekre.cashnote.ui.base;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.preference.PreferenceFragmentCompat;
+import androidx.annotation.Nullable;
 
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.soufianekre.cashnote.di.component.ActivityComponent;
 
 import butterknife.Unbinder;
 
-abstract public class BasePreferenceFragment extends PreferenceFragmentCompat implements BaseContract.MvpView {
-
+public abstract class BaseBottomSheetFragment extends BottomSheetDialogFragment implements BaseContract.MvpView {
 
     private BaseActivity mActivity;
     private Unbinder mUnBinder;
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -46,7 +59,6 @@ abstract public class BasePreferenceFragment extends PreferenceFragmentCompat im
         }
     }
 
-
     @Override
     public void hideKeyboard() {
         if (mActivity != null) {
@@ -57,8 +69,6 @@ abstract public class BasePreferenceFragment extends PreferenceFragmentCompat im
     @Override
     public void onDestroy() {
         hideKeyboard();
-        if (mUnBinder != null)
-            mUnBinder.unbind();
         super.onDestroy();
     }
 
@@ -68,7 +78,13 @@ abstract public class BasePreferenceFragment extends PreferenceFragmentCompat im
         }
         return null;
     }
+
+    public BaseActivity getBaseActivity(){
+        return mActivity;
+    }
+
     public void setUnBinder(Unbinder unBinder) {
         mUnBinder = unBinder;
     }
+
 }

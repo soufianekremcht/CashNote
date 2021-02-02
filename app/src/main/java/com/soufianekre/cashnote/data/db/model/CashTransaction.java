@@ -3,51 +3,74 @@ package com.soufianekre.cashnote.data.db.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
+import static androidx.room.ForeignKey.CASCADE;
+
+
+@Entity(tableName = "cash_transaction",foreignKeys = @ForeignKey(entity = CashAccount.class,
+        parentColumns = "id",
+        childColumns = "account_id",
+        onDelete = CASCADE))
+
 public class CashTransaction implements Parcelable {
+
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
+    private int id;
 
     private String name;
     private int balance;
-    private long lastUpdatedDate;
-    private int accountSourceId;
-    private boolean isExpense;
-    private String accountParentName;
-    private CashCategory category;
     private String notes;
+    @ColumnInfo(name = "last_updated_date")
+    private long lastUpdatedDate;
+    @ColumnInfo(name = "is_expense")
+    private boolean isExpense;
+    @ColumnInfo(name = "category")
+    private CashCategory category;
+    @ColumnInfo(name = "account_id")
+    private int accountId;
 
 
-    public CashTransaction() {
-    }
-
-    public CashTransaction(String name, int balance, long lastUpdatedDate, int accountSourceId, boolean isExpense, String accountParentName, CashCategory category, String notes) {
+    public CashTransaction(int id, String name, int balance, String notes, long lastUpdatedDate, boolean isExpense, CashCategory category, int accountId) {
+        this.id = id;
         this.name = name;
         this.balance = balance;
-        this.lastUpdatedDate = lastUpdatedDate;
-        this.accountSourceId = accountSourceId;
-        this.isExpense = isExpense;
-        this.accountParentName = accountParentName;
-        this.category = category;
         this.notes = notes;
+        this.lastUpdatedDate = lastUpdatedDate;
+        this.isExpense = isExpense;
+        this.category = category;
+        this.accountId = accountId;
     }
 
+
+    @Ignore
+    public CashTransaction() {
+    }
+    @Ignore
     protected CashTransaction(Parcel in) {
+        id = in.readInt();
         name = in.readString();
         balance = in.readInt();
-        lastUpdatedDate = in.readLong();
-        accountSourceId = in.readInt();
-        isExpense = in.readByte() != 0;
-        accountParentName = in.readString();
         notes = in.readString();
+        lastUpdatedDate = in.readLong();
+        isExpense = in.readByte() != 0;
+        accountId = in.readInt();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
         dest.writeString(name);
         dest.writeInt(balance);
-        dest.writeLong(lastUpdatedDate);
-        dest.writeInt(accountSourceId);
-        dest.writeByte((byte) (isExpense ? 1 : 0));
-        dest.writeString(accountParentName);
         dest.writeString(notes);
+        dest.writeLong(lastUpdatedDate);
+        dest.writeByte((byte) (isExpense ? 1 : 0));
+        dest.writeInt(accountId);
     }
 
     @Override
@@ -67,6 +90,14 @@ public class CashTransaction implements Parcelable {
         }
     };
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
@@ -83,20 +114,20 @@ public class CashTransaction implements Parcelable {
         this.balance = balance;
     }
 
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
     public long getLastUpdatedDate() {
         return lastUpdatedDate;
     }
 
     public void setLastUpdatedDate(long lastUpdatedDate) {
         this.lastUpdatedDate = lastUpdatedDate;
-    }
-
-    public int getAccountSourceId() {
-        return accountSourceId;
-    }
-
-    public void setAccountSourceId(int accountSourceId) {
-        this.accountSourceId = accountSourceId;
     }
 
     public boolean isExpense() {
@@ -107,14 +138,6 @@ public class CashTransaction implements Parcelable {
         isExpense = expense;
     }
 
-    public String getAccountParentName() {
-        return accountParentName;
-    }
-
-    public void setAccountParentName(String accountParentName) {
-        this.accountParentName = accountParentName;
-    }
-
     public CashCategory getCategory() {
         return category;
     }
@@ -123,11 +146,11 @@ public class CashTransaction implements Parcelable {
         this.category = category;
     }
 
-    public String getNotes() {
-        return notes;
+    public int getAccountId() {
+        return accountId;
     }
 
-    public void setNotes(String notes) {
-        this.notes = notes;
+    public void setAccountId(int account_id) {
+        this.accountId = account_id;
     }
 }

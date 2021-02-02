@@ -19,16 +19,14 @@ import androidx.fragment.app.Fragment;
 
 import com.soufianekre.cashnote.R;
 
-import com.soufianekre.cashnote.data.db.model.CashAccount;
 import com.soufianekre.cashnote.helper.AppUtils;
 import com.soufianekre.cashnote.ui.account_edit.AccountEditorActivity;
 import com.soufianekre.cashnote.ui.accounts.AccountsFragment;
-import com.soufianekre.cashnote.ui.app_base.BaseActivity;
+import com.soufianekre.cashnote.ui.base.BaseActivity;
 import com.soufianekre.cashnote.ui.overview.OverViewFragment;
 import com.soufianekre.cashnote.ui.settings.SettingsActivity;
 import com.soufianekre.cashnote.ui.transaction_filter.TransactionFilterActivity;
 
-import com.soufianekre.cashnote.ui.transactions.TransactionsActivity;
 import com.soufianekre.cashnote.ui.transactions.search.SearchActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -48,7 +46,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     public static final int REFRESH_ACCOUNT_LIST_CODE = 44;
     public static final int RESULT_T = 533;
     public static final int RESULT_A = 511;
-    public static final String ACCOUNT_PARENT = "account_parent";
+    public static final String SELECTED_ACCOUNT = "account_parent";
 
     public int CurrentDaysCount = AppUtils.getCurrentDaysCount();
     public int CurrentYear = AppUtils.getCurrentYear();
@@ -61,7 +59,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     @BindView(R.id.main_toolbar)
     Toolbar mainToolbar;
     @BindView(R.id.add_account_fab)
-    FloatingActionButton addAccountTransactionFab;
+    FloatingActionButton newAccountFab;
 
     private ActionBarDrawerToggle drawerToggle;
 
@@ -115,7 +113,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
 
 
 
-        addAccountTransactionFab.setOnClickListener(v -> {
+        newAccountFab.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, AccountEditorActivity.class);
             startActivityForResult(intent, REFRESH_ACCOUNT_LIST_CODE);
         });
@@ -163,11 +161,6 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     @Override
     protected void onResume() {
         super.onResume();
-        if (getCurrentFragment() instanceof OverViewFragment)
-            addAccountTransactionFab.hide();
-        else
-            addAccountTransactionFab.show();
-
         presenter.setBalanceForCurrentDay();
     }
 
@@ -185,12 +178,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         setToolbarTitle(R.string.accounts);
     }
 
-    @Override
-    public void showTransactionsActivity(CashAccount account) {
-        Intent transactionActivityIntent = new Intent(this, TransactionsActivity.class);
-        transactionActivityIntent.putExtra(ACCOUNT_PARENT, account);
-        startActivity(transactionActivityIntent);
-    }
+
 
     @Override
     public void showOverViewFragment() {
@@ -251,5 +239,12 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         return true;
     }
 
+
+    public FloatingActionButton getFab(){
+        return newAccountFab;
+    }
+    public Toolbar getMainToolbar(){
+        return mainToolbar;
+    }
 
 }

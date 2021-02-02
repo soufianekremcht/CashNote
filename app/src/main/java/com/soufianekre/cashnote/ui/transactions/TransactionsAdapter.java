@@ -22,7 +22,7 @@ import com.soufianekre.cashnote.R;
 import com.soufianekre.cashnote.data.app_preference.PrefConst;
 import com.soufianekre.cashnote.data.db.model.CashTransaction;
 import com.soufianekre.cashnote.helper.AppUtils;
-import com.soufianekre.cashnote.ui.app_base.BaseViewHolder;
+import com.soufianekre.cashnote.ui.base.BaseViewHolder;
 import com.soufianekre.cashnote.ui.views.FlipAnimator;
 
 import java.util.ArrayList;
@@ -76,7 +76,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
     }
     void deleteItem(int position){
         transactionsList.remove(position);
-        listener.onTransactionDelete(position);
+        listener.onTransactionDelete(transactionsList.get(position),position);
         notifyItemRemoved(position);
     }
 
@@ -206,7 +206,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
                 transactionMoneyTextView.setTextColor(AppUtils.getColor(mContext, R.color.accent_green));
 
             // Listener
-            transactionCardView.setOnClickListener(v -> listener.onTransactionClick(currentPosition));
+            transactionCardView.setOnClickListener(v -> listener.onTransactionClick(transaction,currentPosition));
             transactionCardView.setOnLongClickListener(v -> listener.onTransactionLongClick(currentPosition));
 
             applyIconAnimation(this, currentPosition);
@@ -214,8 +214,8 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
     }
 
     public interface TransactionsAdapterListener{
-        void onTransactionClick(int position);
+        void onTransactionClick(CashTransaction transaction,int position);
         boolean onTransactionLongClick(int position);
-        void onTransactionDelete(int position);
+        void onTransactionDelete(CashTransaction transaction,int position);
     }
 }

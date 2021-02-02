@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import com.soufianekre.cashnote.MyApp;
 import com.soufianekre.cashnote.data.DataManager;
 import com.soufianekre.cashnote.data.app_preference.PrefConst;
-import com.soufianekre.cashnote.ui.app_base.BasePresenter;
+import com.soufianekre.cashnote.ui.base.BasePresenter;
 import com.soufianekre.cashnote.helper.currency.CashCurrency;
 import com.soufianekre.cashnote.helper.currency.CurrencyHelper;
 import com.soufianekre.cashnote.helper.currency.Money;

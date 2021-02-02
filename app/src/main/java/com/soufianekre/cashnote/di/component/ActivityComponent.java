@@ -15,6 +15,7 @@ import com.soufianekre.cashnote.ui.settings.SettingsActivity;
 import com.soufianekre.cashnote.ui.settings.SettingsFragment;
 import com.soufianekre.cashnote.ui.splash.SplashScreenActivity;
 import com.soufianekre.cashnote.ui.transaction_filter.TransactionFilterActivity;
+import com.soufianekre.cashnote.ui.transactions.show_transaction.ShowTransactionFragment;
 
 import dagger.Component;
 
@@ -39,10 +40,13 @@ public interface ActivityComponent {
     void inject(TransactionFilterActivity transactionFilterActivity);
 
 
+
+
     void inject(SettingsActivity settingsActivity);
     void inject(SettingsFragment settingsFragment);
     void inject(ExportDataDialogFragment exportDataDialogFragment);
-
     void inject(SearchActivity searchActivity);
+
+    void inject(ShowTransactionFragment showTransactionFragment);
 
 }

@@ -8,15 +8,12 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-
-import java.util.List;
-
-@Entity(tableName = "account")
+@Entity(tableName = "cash_account")
 public class CashAccount implements Parcelable {
 
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "account_id")
-    int accountId;
+    @ColumnInfo(name = "id")
+    int id;
 
     @ColumnInfo(name = "name")
     private String name;
@@ -26,45 +23,39 @@ public class CashAccount implements Parcelable {
     private int type;
     @ColumnInfo(name = "color")
     private int color;
+    @ColumnInfo(name = "created_at")
+    private long createdAt;
 
-    @ColumnInfo(name = "transaction_list")
-    private List<CashTransaction> transactionsList;
-
-
-    public CashAccount(int accountId, String name, String description, int type, int color, List<CashTransaction> transactionsList) {
-        this.accountId = accountId;
+    public CashAccount(int id, String name, String description, int type, int color, long createdAt) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.type = type;
         this.color = color;
-        this.transactionsList = transactionsList;
+        this.createdAt = createdAt;
     }
-
-
-
     @Ignore
     public CashAccount() {
     }
 
-
     @Ignore
     protected CashAccount(Parcel in) {
-        accountId = in.readInt();
+        id = in.readInt();
         name = in.readString();
         description = in.readString();
         type = in.readInt();
         color = in.readInt();
-        transactionsList = in.createTypedArrayList(CashTransaction.CREATOR);
+        createdAt = in.readLong();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(accountId);
+        dest.writeInt(id);
         dest.writeString(name);
         dest.writeString(description);
         dest.writeInt(type);
         dest.writeInt(color);
-        dest.writeTypedList(transactionsList);
+        dest.writeLong(createdAt);
     }
 
     @Override
@@ -84,12 +75,12 @@ public class CashAccount implements Parcelable {
         }
     };
 
-    public int getAccountId() {
-        return accountId;
+    public int getId() {
+        return id;
     }
 
-    public void setAccountId(int accountId) {
-        this.accountId = accountId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -124,11 +115,11 @@ public class CashAccount implements Parcelable {
         this.color = color;
     }
 
-    public List<CashTransaction> getTransactionsList() {
-        return transactionsList;
+    public long getCreatedAt() {
+        return createdAt;
     }
 
-    public void setTransactionsList(List<CashTransaction> transactionsList) {
-        this.transactionsList = transactionsList;
+    public void setCreatedAt(long createdAt) {
+        this.createdAt = createdAt;
     }
 }

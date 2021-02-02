@@ -5,7 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 
 import com.soufianekre.cashnote.R;
-import com.soufianekre.cashnote.ui.app_base.BaseActivity;
+import com.soufianekre.cashnote.ui.base.BaseActivity;
 
 import butterknife.ButterKnife;
 

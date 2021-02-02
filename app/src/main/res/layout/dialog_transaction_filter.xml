@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="2020"
+        android:text="@string/current_year"
         android:textSize="@dimen/font_normal"
         style="@style/style_filter_dialog_text"/>
 

@@ -1,12 +1,9 @@
 package com.soufianekre.cashnote.ui.transactions;
 
 import com.soufianekre.cashnote.data.DataManager;
-import com.soufianekre.cashnote.data.db.model.CashAccount;
 import com.soufianekre.cashnote.data.db.model.CashTransaction;
-import com.soufianekre.cashnote.ui.app_base.BasePresenter;
+import com.soufianekre.cashnote.ui.base.BasePresenter;
 import com.soufianekre.cashnote.helper.rx.SchedulerProvider;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -18,7 +15,6 @@ import timber.log.Timber;
 public class TransactionsPresenter<V extends TransactionsContract.View> extends BasePresenter<V>
         implements TransactionsContract.Presenter<V> {
 
-    private List<CashTransaction> transactionsList;
     @Inject
     public TransactionsPresenter(DataManager dataManager,
                                  SchedulerProvider schedulerProvider,
@@ -28,33 +24,31 @@ public class TransactionsPresenter<V extends TransactionsContract.View> extends 
     @Override
     public void getTransactions(int accountId){
         getCompositeDisposable().add(getDataManager()
-                .getRoomDb().accountDao().getAccount(accountId)
+                .getRoomDb().cashTransactionDao().getTransactionsFromAccount(accountId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(cashAccount -> {
+                .subscribe(cashTransactionList -> {
                     int income = 0;
                     int expense = 0;
 
-                    transactionsList = cashAccount.getTransactionsList();
-                    for (CashTransaction transaction : transactionsList) {
+                    for (CashTransaction transaction : cashTransactionList) {
                         if (transaction.isExpense()) {
                             expense += transaction.getBalance();
                         } else {
                             income += transaction.getBalance();
                         }
                     }
-                    getMvpView().notifyAdapter(transactionsList, income, expense);
-                    getMvpView().setAccountParent(cashAccount);
+                    getMvpView().notifyAdapter(cashTransactionList, income, expense);
                 }, throwable -> Timber.e("%s", throwable.getMessage())));
 
     }
 
     @Override
-    public void onDeleteOptionClick(CashAccount accountParent,List<CashTransaction> transactions, int position) {
+    public void deleteTransaction(CashTransaction transaction) {
         getCompositeDisposable().add(getDataManager()
                 .getRoomDb()
-                .accountDao()
-                .updateAccount(accountParent)
+                .cashTransactionDao()
+                .delete(transaction)
                 .subscribeOn(getSchedulerProvider().io())
                 .observeOn(getSchedulerProvider().ui())
                 .subscribe());

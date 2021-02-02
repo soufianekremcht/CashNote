@@ -91,9 +91,8 @@ public class TransactionFilterDialog extends BottomSheetDialogFragment {
 
 
     private static void filterByMonth(){
-        CashTransaction cashTransaction = new CashTransaction("moe",200,new Date().getTime(),0,false,"",null,"");
 
-        Date date = new Date(cashTransaction.getLastUpdatedDate());
+        Date date = new Date();
         DateTime dateTime = new DateTime(date);
         int month = dateTime.monthOfYear().get();
         int year = dateTime.year().get();

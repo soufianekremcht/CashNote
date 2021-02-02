@@ -26,7 +26,7 @@ import com.soufianekre.cashnote.data.db.model.CashCategory;
 import com.soufianekre.cashnote.data.db.model.CashTransaction;
 import com.soufianekre.cashnote.helper.AppUtils;
 import com.soufianekre.cashnote.helper.CategoryUtils;
-import com.soufianekre.cashnote.ui.app_base.BaseActivity;
+import com.soufianekre.cashnote.ui.base.BaseActivity;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.math.BigDecimal;
@@ -39,11 +39,9 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.soufianekre.cashnote.helper.AppConst.TRANSACTION_ACCOUNT_PARENT;
-import static com.soufianekre.cashnote.helper.AppConst.TRANSACTION_IS_EDITING;
-import static com.soufianekre.cashnote.helper.AppConst.TRANSACTION_TO_EDIT_POS;
+import static com.soufianekre.cashnote.helper.AppConst.TRANSACTION_ACCOUNT;
+import static com.soufianekre.cashnote.helper.AppConst.TRANSACTION_TO_EDIT;
 import static com.soufianekre.cashnote.helper.AppUtils.MAIN_DATE_FORMAT;
-import static com.soufianekre.cashnote.ui.main.MainActivity.ACCOUNT_PARENT;
 import static com.soufianekre.cashnote.ui.main.MainActivity.RESULT_T;
 
 @SuppressLint("NonConstantResourceId")
@@ -51,13 +49,11 @@ public class TransactionEditorActivity extends BaseActivity
         implements DatePickerDialog.OnDateSetListener
         , TransactionEditorContract.View {
 
+    private final long TomorrowInMillis = new Date().getTime() - 24 * 60 * 60 * 1000;
     @Inject
     TransactionEditorContract.Presenter<TransactionEditorContract.View> presenter;
-
-
     @BindView(R.id.add_transaction_toolbar)
     Toolbar toolbar;
-
     @BindView(R.id.add_transaction_title_text)
     TextView title;
     @BindView(R.id.transaction_description_field)
@@ -77,13 +73,12 @@ public class TransactionEditorActivity extends BaseActivity
     @BindView(R.id.category_selected_img)
     ImageView categorySelectedImg;
 
-    private TransactionCategoryAdapter categoryAdapter;
-
-    private CashAccount accountParent;
-
+    // intent info
     private CashTransaction transactionToEdit;
-    private int transactionToEditPos;
-    private boolean isEditing;
+    private CashAccount selected_account;
+
+    //
+    private TransactionCategoryAdapter categoryAdapter;
 
 
     private String transactionDescription = "";
@@ -92,9 +87,6 @@ public class TransactionEditorActivity extends BaseActivity
     private boolean transactionIsExpense = false;
     private String transactionNotes = "";
     private CashCategory currentTransactionCategory;
-
-    private final long TomorrowInMillis = new Date().getTime() - 24*60*60*1000;
-
     // Calculator as Dialog
     private CalcDialog calcDialog;
 
@@ -115,30 +107,13 @@ public class TransactionEditorActivity extends BaseActivity
         checkIntent();
         setIncomeToExpenseSwitch();
         setTransactionDateListener();
-        transactionBalanceField.setOnClickListener( v->{
+        transactionBalanceField.setOnClickListener(v -> {
             calcDialog.getSettings().setInitialValue(new BigDecimal(transactionBalance));
             calcDialog.show(getSupportFragmentManager(), "calc_dialog");
         });
         saveTransactionFab.setOnClickListener(v -> {
             saveTransaction();
         });
-
-    }
-    private void setupUi() {
-        toolbar.setTitle(R.string.empty_string);
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white);
-        }
-        toolbar.setNavigationOnClickListener(v -> onBackPressed());
-        List<CashCategory> transactionCategories = CategoryUtils.getAllCategories(this);
-        categoryAdapter = new TransactionCategoryAdapter(this, transactionCategories, this);
-        categoryRecyclerView.setHasFixedSize(true);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 4);
-        categoryRecyclerView.setLayoutManager(gridLayoutManager);
-        categoryRecyclerView.setAdapter(categoryAdapter);
-
 
     }
 
@@ -188,15 +163,23 @@ public class TransactionEditorActivity extends BaseActivity
         expenseOrIncomeSwitch.setChecked(!transactionIsExpense);
         transactionBalanceField.setTextColor(transactionIsExpense ? Color.RED : Color.GREEN);
 
-        /*
+
         if (transactionToEdit != null) {
             categorySelectedImg.setBackgroundTintList(ColorStateList.valueOf(transactionToEdit.getCategory().getColor()));
             categorySelectedImg.setImageDrawable(
                     ContextCompat.getDrawable(this, transactionToEdit.getCategory().getImage()));
         }
 
-         */
 
+    }
+
+    @Override
+    public void saveAndFinish() {
+        Intent transactionActivityIntent = new Intent();
+        transactionActivityIntent.putExtra(TRANSACTION_ACCOUNT, selected_account);
+        setResult(RESULT_T, transactionActivityIntent);
+
+        finish();
     }
 
     // date picker listener
@@ -205,16 +188,77 @@ public class TransactionEditorActivity extends BaseActivity
         setTransactionDate(year, monthOfYear, dayOfMonth);
     }
 
+
+    @Override
+    public void onValueEntered(int requestCode, @Nullable BigDecimal value) {
+        if (value != null) {
+            transactionBalance = Double.parseDouble(value.toString());
+            transactionBalanceField.setText(String.format("%.2f", transactionBalance));
+        }
+    }
+
+    @Override
+    public void animateCategory(CashCategory selectedCategory) {
+
+        /*This variable indicates the value by which the fab should rotate and the direction */
+        // TODO:Test Different Animations
+
+        currentTransactionCategory = selectedCategory;
+        // Rise Animations
+        categorySelectedImg.animate()
+                .setDuration(100)
+                .scaleX(1.3f)
+                .scaleY(1.3f)
+                //.withLayer()
+                .withEndAction(() -> {
+                    //Changing the icon by the end of animation
+                    Glide.with(this)
+                            .asDrawable()
+                            .load(selectedCategory.getImage())
+                            .into(categorySelectedImg);
+                    categorySelectedImg.setImageTintList(ColorStateList.valueOf(Color.WHITE));
+                    categorySelectedImg.setBackgroundTintList(ColorStateList.valueOf(selectedCategory.getColor()));
+
+                    categorySelectedImg.animate()
+                            //.rotationBy(rotation)   //Complete the rest of the rotation
+                            .setDuration(250)
+                            .scaleX(1)
+                            .scaleY(1)
+                            // hardware layout for optimizing animation (has some drawback)
+                            .start();
+
+                })
+                .start();
+        // Shrink Animation
+
+    }
+
+
+    private void setupUi() {
+        toolbar.setTitle(R.string.empty_string);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white);
+        }
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
+        List<CashCategory> transactionCategories = CategoryUtils.getAllCategories(this);
+        categoryAdapter = new TransactionCategoryAdapter(this, transactionCategories, this);
+        categoryRecyclerView.setHasFixedSize(true);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 4);
+        categoryRecyclerView.setLayoutManager(gridLayoutManager);
+        categoryRecyclerView.setAdapter(categoryAdapter);
+
+
+    }
+
+
     private void checkIntent() {
         if (getIntent().getExtras() != null) {
-            accountParent = getIntent().getExtras().getParcelable(TRANSACTION_ACCOUNT_PARENT);
-            isEditing = getIntent().getBooleanExtra(TRANSACTION_IS_EDITING, false);
-            if (isEditing && accountParent != null) {
-                transactionToEditPos = getIntent().getExtras().getInt(TRANSACTION_TO_EDIT_POS, -1);
-                transactionToEdit = accountParent.getTransactionsList().get(transactionToEditPos);
+            transactionToEdit = getIntent().getParcelableExtra(TRANSACTION_TO_EDIT);
+            selected_account = getIntent().getParcelableExtra(TRANSACTION_ACCOUNT);
+            if (transactionToEdit != null) {
                 transactionNotesField.setText(AppUtils.formatDate(new Date(transactionToEdit.getLastUpdatedDate()), MAIN_DATE_FORMAT));
-                //change title To Edit transaction
-                //toolbar.setTitle(R.string.edit_transaction);
                 title.setText(R.string.edit_transaction);
             }
             setOldTransactionInfo(transactionToEdit);
@@ -282,10 +326,11 @@ public class TransactionEditorActivity extends BaseActivity
 
         } else if (transactionDate != null && transactionDate.before(new Date(TomorrowInMillis))) {
             showError(getResources().getString(R.string.transaction_date_field_error));
-
             return false;
-        } else if (currentTransactionCategory == null)
+        } else if (currentTransactionCategory == null) {
             showError("You need to set A category !!");
+            return false;
+        }
         transactionDescription = transactionDescriptionField.getText().toString();
         transactionNotes = transactionNotesField.getText().toString();
         return true;
@@ -296,74 +341,30 @@ public class TransactionEditorActivity extends BaseActivity
         if (CheckSubmittedData()) {
             CashTransaction newTransaction = new CashTransaction();
             newTransaction.setName(transactionDescription);
-            if (transactionDate != null)
+            if (transactionDate != null) {
                 newTransaction.setLastUpdatedDate(transactionDate.getTime());
-            if (transactionIsExpense && transactionBalance > 0 || !transactionIsExpense && transactionBalance < 0)
+            }
+            if (transactionIsExpense && transactionBalance > 0 ||
+                    !transactionIsExpense && transactionBalance < 0) {
                 transactionBalance *= -1;
+            }
             newTransaction.setBalance((int) transactionBalance);
-            newTransaction.setAccountSourceId(accountParent.getAccountId());
             newTransaction.setLastUpdatedDate(new Date().getTime());
             newTransaction.setExpense(transactionIsExpense);
-            newTransaction.setAccountParentName(accountParent.getName());
             newTransaction.setNotes(transactionNotes);
             newTransaction.setCategory(currentTransactionCategory);
 
-            //
-            if (!isEditing) accountParent.getTransactionsList().add(newTransaction);
-            else accountParent.getTransactionsList().set(transactionToEditPos, newTransaction);
+            if (transactionToEdit != null) {
+                newTransaction.setId(transactionToEdit.getId());
+                newTransaction.setAccountId(transactionToEdit.getAccountId());
+                presenter.updateTransaction(newTransaction);
+            } else {
+                newTransaction.setAccountId(selected_account.getId());
+                presenter.insertNewTransaction(newTransaction);
+            }
 
-            presenter.saveTransaction(accountParent);
-            Intent transactionActivityIntent = new Intent();
-            // send the data back to The main activity
-            transactionActivityIntent.putExtra(ACCOUNT_PARENT, accountParent);
-            setResult(RESULT_T, transactionActivityIntent);
-            finish();
         }
     }
 
 
-    @Override
-    public void animateCategory(CashCategory selectedCategory) {
-        /*This variable indicates the value by which the fab should rotate and the direction */
-        // TODO:Test Different Animations
-
-        currentTransactionCategory = selectedCategory;
-        // Rise Animations
-        categorySelectedImg.animate()
-                .setDuration(100)
-                .scaleX(1.3f)
-                .scaleY(1.3f)
-                //.withLayer()
-                .withEndAction(() -> {
-                    //Changing the icon by the end of animation
-                    Glide.with(this)
-                            .asDrawable()
-                            .load(selectedCategory.getImage())
-                            .into(categorySelectedImg);
-                    categorySelectedImg.setImageTintList(ColorStateList.valueOf(Color.WHITE));
-                    categorySelectedImg.setBackgroundTintList(ColorStateList.valueOf(selectedCategory.getColor()));
-
-                    categorySelectedImg.animate()
-                            //.rotationBy(rotation)   //Complete the rest of the rotation
-                            .setDuration(250)
-                            .scaleX(1)
-                            .scaleY(1)
-                            // hardware layout for optimizing animation (has some drawback)
-                            .start();
-
-                })
-                .start();
-        // Shrink Animation
-
-    }
-
-    @Override
-    public void onValueEntered(int requestCode, @Nullable BigDecimal value) {
-        if (value != null){
-            transactionBalance = Double.parseDouble(value.toString());
-            transactionBalanceField.setText(String.format("%.2f",transactionBalance));
-        }
-
-
-    }
 }

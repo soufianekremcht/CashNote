@@ -2,7 +2,7 @@ package com.soufianekre.cashnote.ui.accounts;
 
 import com.soufianekre.cashnote.data.DataManager;
 import com.soufianekre.cashnote.data.db.model.CashAccount;
-import com.soufianekre.cashnote.ui.app_base.BasePresenter;
+import com.soufianekre.cashnote.ui.base.BasePresenter;
 import com.soufianekre.cashnote.helper.rx.SchedulerProvider;
 
 import java.util.List;
@@ -26,7 +26,7 @@ public class AccountsPresenter<V extends AccountsContract.View> extends BasePres
 
     @Override
     public void getAccounts(){
-        getCompositeDisposable().add(getDataManager().getRoomDb().accountDao().getAccounts()
+        getCompositeDisposable().add(getDataManager().getRoomDb().cashAccountDao().getAccounts()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(accounts -> {
@@ -37,7 +37,7 @@ public class AccountsPresenter<V extends AccountsContract.View> extends BasePres
     @Override
     public void onDeleteOptionClick(List<CashAccount> accountList, int position){
         CashAccount accountToDelete = accountList.get(position);
-        getCompositeDisposable().add(getDataManager().getRoomDb().accountDao()
+        getCompositeDisposable().add(getDataManager().getRoomDb().cashAccountDao()
                 .deleteAccount(accountToDelete)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

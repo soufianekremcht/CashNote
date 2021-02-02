@@ -1,6 +1,7 @@
 package com.soufianekre.cashnote.ui.overview;
 
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -39,13 +40,15 @@ import com.soufianekre.cashnote.data.db.model.CashAccount;
 import com.soufianekre.cashnote.data.db.model.CashTransaction;
 import com.soufianekre.cashnote.helper.chart.BalanceValueFormatter;
 import com.soufianekre.cashnote.helper.chart.DayAxisFormatter;
-import com.soufianekre.cashnote.ui.app_base.BaseFragment;
+import com.soufianekre.cashnote.ui.base.BaseFragment;
+import com.soufianekre.cashnote.ui.main.MainActivity;
 import com.soufianekre.cashnote.ui.overview.adapters.RecentAccountsAdapter;
 import com.soufianekre.cashnote.ui.overview.adapters.RecentTransactionsAdapter;
 import com.soufianekre.cashnote.ui.views.CustomItemDecoration;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -56,6 +59,7 @@ import butterknife.ButterKnife;
 import static com.soufianekre.cashnote.helper.AppUtils.CURRENT_YEAR;
 import static com.soufianekre.cashnote.helper.AppUtils.checkCurrentYearDays;
 
+@SuppressLint("NonConstantResourceId")
 
 public class OverViewFragment extends BaseFragment implements OverViewContract.View {
 
@@ -70,15 +74,21 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
     PieChart summaryPieChart;
     @BindView(R.id.balance_history_chart)
     BarChart balanceChart;
+
+
     @Inject
     OverViewContract.Presenter<OverViewContract.View> presenter;
     @Inject
     RecentTransactionsAdapter recentTransactionsAdapter;
     @Inject
     RecentAccountsAdapter recentAccountsAdapter;
+
+
     private Calendar calendar;
     private int currentMonth;
     private int currentDay;
+
+    private MainActivity mainActivity;
 
     public static void main(String[] args) {
         Calendar calendar = Calendar.getInstance();
@@ -101,11 +111,17 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         calendar = Calendar.getInstance();
+        mainActivity = (MainActivity) getActivity();
+
         // months start from 0
 
         currentMonth = calendar.get(Calendar.MONTH);
         currentDay = calendar.get(Calendar.DAY_OF_YEAR);
+        mainActivity.getFab().hide();
+        mainActivity.getMainToolbar().setTitle("Overview");
+
         setRetainInstance(true);
+
 
 
     }
@@ -127,14 +143,14 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
         super.onViewCreated(view, savedInstanceState);
         reducedAccountListView.setHasFixedSize(true);
         reducedAccountListView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
-        reducedAccountListView.addItemDecoration(new CustomItemDecoration(getContext()
+        reducedAccountListView.addItemDecoration(new CustomItemDecoration(view.getContext()
                 , CustomItemDecoration.VERTICAL_LIST, 8));
         reducedAccountListView.setAdapter(recentAccountsAdapter);
 
 
         recentTransactionListView.setHasFixedSize(true);
         recentTransactionListView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
-        recentTransactionListView.addItemDecoration(new CustomItemDecoration(getActivity(),
+        recentTransactionListView.addItemDecoration(new CustomItemDecoration(view.getContext(),
                 CustomItemDecoration.VERTICAL_LIST, 8));
         recentTransactionListView.setAdapter(recentTransactionsAdapter);
 
@@ -165,14 +181,15 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
         super.onDestroy();
     }
 
+
+
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
     }
 
-
     @Override
-    public void setSummaryPieChart(List<CashAccount> accounts) {
+    public void setupSummaryPieChart(List<CashTransaction> transactions) {
         float totalExpense = 1f;
         float totalIncome = 1f;
         Description desc = new Description();
@@ -192,30 +209,30 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
         List<CashTransaction> transactionsOfThisMonth = new ArrayList<>();
 
         // check the transactions of this month
-        for (CashAccount cashAccount : accounts) {
-            for (CashTransaction cashTransaction : cashAccount.getTransactionsList()) {
-                calendar.setTimeInMillis(cashTransaction.getLastUpdatedDate());
-                int year = calendar.get(Calendar.YEAR);
-                if (year == CURRENT_YEAR) {
-                    int month = calendar.get(Calendar.MONTH);
-                    if (month == currentMonth) {
-                        transactionsOfThisMonth.add(cashTransaction);
-                        if (cashTransaction.isExpense())
-                            totalExpense -= cashTransaction.getBalance();
-                        else
-                            totalIncome += cashTransaction.getBalance();
-                    }
-                }
 
+        for (CashTransaction cashTransaction : transactions) {
+            // check cash flow of the current month
+            calendar.setTimeInMillis(cashTransaction.getLastUpdatedDate());
+            int year = calendar.get(Calendar.YEAR);
+            if (year == CURRENT_YEAR) {
+                int month = calendar.get(Calendar.MONTH);
+                if (month == currentMonth) {
+                    transactionsOfThisMonth.add(cashTransaction);
+                    if (cashTransaction.isExpense())
+                        totalExpense -= cashTransaction.getBalance();
+                    else
+                        totalIncome += cashTransaction.getBalance();
+                }
             }
+
         }
+
         // draw a chart for the summary of total income and expenses
+
         values.add(new PieEntry(totalExpense, "Expense"));
         values.add(new PieEntry(totalIncome, "Income"));
 
-        String summaryLabel = String.format(" Summary for %d-%d",
-                currentMonth + 1, CURRENT_YEAR);
-
+        String summaryLabel = String.format(" Summary for %d-%d", currentMonth + 1, CURRENT_YEAR);
         PieDataSet set1 = new PieDataSet(values, summaryLabel);
         set1.setColors(ColorTemplate.createColors(new int[]{Color.RED, Color.GREEN}));
         set1.setValueTextColor(Color.BLACK);
@@ -227,10 +244,11 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
         summaryPieChart.setData(pieData);
         summaryPieChart.invalidate();
 
+
     }
 
     @Override
-    public void setExpenseIncomeLineChart(List<CashTransaction> transactions) {
+    public void setupExpenseIncomeLineChart(List<CashTransaction> transactions) {
         // Customize The Chart
         ValueFormatter xAxisFormatter = new DayAxisFormatter(expenseIncomeLineChart);
 
@@ -354,13 +372,51 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
 
 
     @Override
-    public void updateRecentTransactions(List<CashTransaction> transactions) {
-        recentTransactionsAdapter.addItems(transactions);
+    public void updateRecentTransactions(List<CashTransaction> allTransactions) {
+        List<CashTransaction> recentTransactions = new ArrayList<>();
+
+        // sort transaction from latest one
+        Collections.sort(allTransactions, (o1, o2) -> {
+            long c = o2.getLastUpdatedDate() - o1.getLastUpdatedDate();
+            if (c > 0) return 1;
+            else return -1;
+
+        });
+
+        setupExpenseIncomeLineChart(allTransactions);
+        setupSummaryPieChart(allTransactions);
+
+        if (allTransactions.size() < 5) {
+            recentTransactions.addAll(allTransactions);
+        } else {
+            for (int i = 0; i < 4; i++) {
+                recentTransactions.add(allTransactions.get(i));
+            }
+        }
+        recentTransactionsAdapter.addItems(recentTransactions);
     }
 
     @Override
     public void updateRecentAccounts(List<CashAccount> accounts) {
-        recentAccountsAdapter.addItems(accounts);
+
+        List<CashAccount> recentAccounts = new ArrayList<>();
+
+        // sort transaction from latest one
+        Collections.sort(accounts, (o1, o2) -> {
+            long c = o2.getCreatedAt() - o1.getCreatedAt();
+            if (c > 0) return 1;
+            else return -1;
+
+        });
+        if (accounts.size() < 5) {
+            recentAccounts.addAll(accounts);
+        } else {
+            for (int i = 0; i < 4; i++) {
+                recentAccounts.add(accounts.get(i));
+            }
+        }
+
+        recentAccountsAdapter.addItems(recentAccounts);
     }
 
 

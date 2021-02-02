@@ -1,7 +1,7 @@
 package com.soufianekre.cashnote.ui.accounts;
 
 import com.soufianekre.cashnote.data.db.model.CashAccount;
-import com.soufianekre.cashnote.ui.app_base.BaseContract;
+import com.soufianekre.cashnote.ui.base.BaseContract;
 
 import java.util.List;
 

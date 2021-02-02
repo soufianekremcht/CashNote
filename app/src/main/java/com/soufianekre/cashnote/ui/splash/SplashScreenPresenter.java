@@ -1,7 +1,7 @@
 package com.soufianekre.cashnote.ui.splash;
 
 import com.soufianekre.cashnote.data.DataManager;
-import com.soufianekre.cashnote.ui.app_base.BasePresenter;
+import com.soufianekre.cashnote.ui.base.BasePresenter;
 import com.soufianekre.cashnote.helper.rx.SchedulerProvider;
 
 import java.util.concurrent.TimeUnit;

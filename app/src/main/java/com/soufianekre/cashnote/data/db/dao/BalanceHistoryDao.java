@@ -1,4 +1,4 @@
-package com.soufianekre.cashnote.data.db;
+package com.soufianekre.cashnote.data.db.dao;
 
 import androidx.room.Dao;
 import androidx.room.Delete;

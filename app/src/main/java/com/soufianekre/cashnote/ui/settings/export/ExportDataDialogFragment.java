@@ -21,7 +21,7 @@ import com.soufianekre.cashnote.data.app_preference.PrefConst;
 import com.soufianekre.cashnote.data.db.model.CashTransaction;
 import com.soufianekre.cashnote.di.component.ActivityComponent;
 import com.soufianekre.cashnote.helper.AppUtils;
-import com.soufianekre.cashnote.ui.app_base.BaseDialogFragment;
+import com.soufianekre.cashnote.ui.base.BaseDialogFragment;
 import com.soufianekre.cashnote.ui.settings.SettingsActivity;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.opencsv.CSVWriter;
@@ -38,6 +38,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 import static com.soufianekre.cashnote.helper.AppUtils.MAIN_DATE_FORMAT;
 
@@ -145,7 +146,7 @@ public class ExportDataDialogFragment extends BaseDialogFragment implements Expo
                 shareFile(csvFile);
 
             } catch (IOException e) {
-                Log.e("Export CSV",e.getLocalizedMessage());
+                Timber.e(e.getLocalizedMessage());
             }
 
         }
@@ -159,7 +160,7 @@ public class ExportDataDialogFragment extends BaseDialogFragment implements Expo
 
 
     private void shareFile(File file){
-        Log.e("Share File","Sharing");
+        Timber.e("Sharing");
         try {
             Uri fileUri =  FileProvider.getUriForFile(
                     getSettingsActivity(),
@@ -167,15 +168,14 @@ public class ExportDataDialogFragment extends BaseDialogFragment implements Expo
                     file);
             if (fileUri != null) {
                 // Put the Uri and MIME type in the result Intent
-                Log.e("Share File","Sharing What ");
+                Timber.e("Sharing What ");
                 Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                 sharingIntent.setType("text/*");
                 sharingIntent.putExtra(Intent.EXTRA_STREAM, fileUri);
                 startActivity(Intent.createChooser(sharingIntent, getString(R.string.share_csv_file)));
             }
         }catch (IllegalArgumentException e) {
-            Log.e("File Selector",
-                    "The selected file can't be shared: " + file.toString());
+            Timber.e("The selected file can't be shared: %s", file.toString());
         }
 
     }
@@ -191,10 +191,16 @@ public class ExportDataDialogFragment extends BaseDialogFragment implements Expo
                         now.get(Calendar.YEAR),
                         now.get(Calendar.MONTH),
                         now.get(Calendar.DAY_OF_MONTH));
-        dbp.setOkColor(Color.WHITE);
-        dbp.setCancelColor(Color.WHITE);
-        dbp.show(getChildFragmentManager(),"ExportEndDatePickerDialog");
+        dbp.show(getChildFragmentManager(),"ExportTimeFrameDialog");
     }
+
+    private void setExportDate(int year, int monthOfYear, int dayOfMonth){
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year,monthOfYear,dayOfMonth);
+        Date exportDate = new Date(calendar.getTimeInMillis());
+        setDateField(exportDate);
+    }
+
 
     private void setDateField(Date date){
         if (isStartPicker)
@@ -203,13 +209,6 @@ public class ExportDataDialogFragment extends BaseDialogFragment implements Expo
             exportDataEndDateText.setText(AppUtils.formatDate(date,MAIN_DATE_FORMAT));
     }
 
-
-    private void setExportDate(int year, int monthOfYear, int dayOfMonth){
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(year,monthOfYear,dayOfMonth);
-        Date exportDate = new Date(calendar.getTimeInMillis());
-        setDateField(exportDate);
-    }
 
 
 

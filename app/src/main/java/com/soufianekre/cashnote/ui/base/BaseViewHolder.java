@@ -1,4 +1,4 @@
-package com.soufianekre.cashnote.ui.app_base;
+package com.soufianekre.cashnote.ui.base;
 
 import android.view.View;
 

@@ -18,7 +18,7 @@ import com.soufianekre.cashnote.MyApp;
 import com.soufianekre.cashnote.R;
 import com.soufianekre.cashnote.data.app_preference.PrefConst;
 import com.soufianekre.cashnote.data.db.model.CashTransaction;
-import com.soufianekre.cashnote.ui.app_base.BaseViewHolder;
+import com.soufianekre.cashnote.ui.base.BaseViewHolder;
 import com.soufianekre.cashnote.helper.AppUtils;
 
 import java.util.Date;

@@ -10,6 +10,7 @@ import android.view.View;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import com.soufianekre.cashnote.R;
 
@@ -26,12 +27,12 @@ public class CheckableCircleView extends View {
 
     public CheckableCircleView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        check = context.getResources().getDrawable(R.drawable.ic_check_white_24dp);
+        check = ContextCompat.getDrawable(context,R.drawable.ic_check_white_24dp);
     }
 
     public CheckableCircleView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        check = context.getResources().getDrawable(R.drawable.ic_check_white_24dp);
+        check = ContextCompat.getDrawable(context,R.drawable.ic_check_white_24dp);
     }
 
     public void setColor(@ColorInt int color) {

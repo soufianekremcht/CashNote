@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
 
-
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,8 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.soufianekre.cashnote.R;
 import com.soufianekre.cashnote.data.db.model.CashTransaction;
 import com.soufianekre.cashnote.helper.KeyboardUtils;
-import com.soufianekre.cashnote.ui.app_base.BaseActivity;
+import com.soufianekre.cashnote.ui.base.BaseActivity;
 import com.soufianekre.cashnote.ui.transactions.TransactionsAdapter;
+import com.soufianekre.cashnote.ui.transactions.show_transaction.ShowTransactionFragment;
 
 import java.util.List;
 
@@ -58,8 +58,6 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
-
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -86,7 +84,6 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
         searchResultRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         searchResultRecyclerView.setAdapter(transactionsAdapter);
 
-
     }
 
 
@@ -104,19 +101,21 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
         checkEmptyData();
     }
 
-    private void checkEmptyData(){
-        if (transactionsAdapter.getItemCount()>0){
+    private void checkEmptyData() {
+        if (transactionsAdapter.getItemCount() > 0) {
             searchResultRecyclerView.setVisibility(View.VISIBLE);
             searchEmptyView.setVisibility(View.GONE);
-        }else{
+        } else {
             searchResultRecyclerView.setVisibility(View.GONE);
             searchEmptyView.setVisibility(View.VISIBLE);
         }
     }
 
     @Override
-    public void onTransactionClick(int position) {
-
+    public void onTransactionClick(CashTransaction cashTransaction, int position) {
+        ShowTransactionFragment dialog = ShowTransactionFragment.newInstance(cashTransaction, position);
+        dialog.setDialogListener(this);
+        dialog.show(getSupportFragmentManager(), "Show_Transaction");
     }
 
     @Override
@@ -125,11 +124,12 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
     }
 
     @Override
-    public void onTransactionDelete(int position) {
+    public void onTransactionDelete(CashTransaction cashTransaction, int position) {
 
     }
+
     @Override
-    public void onTransactionEditClicked(View v, int position) {
+    public void onTransactionEditFabClicked(CashTransaction transaction, int position) {
 
     }
 }

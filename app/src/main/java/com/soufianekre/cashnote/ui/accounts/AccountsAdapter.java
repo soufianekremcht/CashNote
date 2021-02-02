@@ -49,8 +49,11 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.Accoun
     public void onBindViewHolder(@NonNull AccountsViewHolder holder, int position) {
         CashAccount currentAccount = accountList.get(position);
         holder.accountTitle.setText(currentAccount.getName());
+        /*
         holder.accountTotalTransactions.setText(
                 String.format(Locale.US,"%d transactions",currentAccount.getTransactionsList().size()));
+
+         */
 
         holder.accountColorImg.setColorFilter(currentAccount.getColor());
         setListeners(holder,position);

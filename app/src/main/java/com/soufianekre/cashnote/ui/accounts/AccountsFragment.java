@@ -17,10 +17,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.soufianekre.cashnote.R;
 import com.soufianekre.cashnote.data.db.model.CashAccount;
-import com.soufianekre.cashnote.data.db.model.CashTransaction;
 import com.soufianekre.cashnote.ui.account_edit.AccountEditorActivity;
-import com.soufianekre.cashnote.ui.app_base.BaseFragment;
+import com.soufianekre.cashnote.ui.base.BaseFragment;
 import com.soufianekre.cashnote.ui.main.MainActivity;
+import com.soufianekre.cashnote.ui.transactions.TransactionsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +33,7 @@ import timber.log.Timber;
 
 import static com.soufianekre.cashnote.helper.AppConst.ACCOUNT_IS_EDITING;
 import static com.soufianekre.cashnote.helper.AppConst.ACCOUNT_TO_EDIT_ID;
+import static com.soufianekre.cashnote.ui.main.MainActivity.SELECTED_ACCOUNT;
 
 public class AccountsFragment extends BaseFragment implements AccountsContract.View {
 
@@ -87,6 +88,8 @@ public class AccountsFragment extends BaseFragment implements AccountsContract.V
             presenter.onAttach(this);
         }
         mainActivity = (MainActivity) getActivity();
+        mainActivity.getFab().show();
+        mainActivity.getMainToolbar().setTitle("Accounts");
         return root;
     }
 
@@ -136,12 +139,15 @@ public class AccountsFragment extends BaseFragment implements AccountsContract.V
         int total_balance = 0;
         int accounts_count = accounts.size();
         int transactions_count = 0;
+        /*
         for (CashAccount account : accounts) {
             for (CashTransaction cashTransaction : account.getTransactionsList()) {
                 total_balance += cashTransaction.getBalance();
                 transactions_count += 1;
             }
         }
+
+         */
         // Set Info Card
         totalBalanceValueText.setText(String.format("%d", total_balance));
         transactionsCountValueText.setText(String.format("%d", transactions_count));
@@ -155,13 +161,15 @@ public class AccountsFragment extends BaseFragment implements AccountsContract.V
 
     @Override
     public void onAccountClick(int position) {
-        mainActivity.showTransactionsActivity(accountList.get(position));
+        Intent transactionActivityIntent = new Intent(getActivity(), TransactionsActivity.class);
+        transactionActivityIntent.putExtra(SELECTED_ACCOUNT, accountList.get(position));
+        startActivity(transactionActivityIntent);
     }
 
     @Override
     public void onAccountEdit(int position) {
         Intent intent = new Intent(getActivity(), AccountEditorActivity.class);
-        intent.putExtra(ACCOUNT_TO_EDIT_ID, accountList.get(position).getAccountId());
+        intent.putExtra(ACCOUNT_TO_EDIT_ID, accountList.get(position).getId());
         intent.putExtra(ACCOUNT_IS_EDITING, true);
         startActivity(intent);
     }

@@ -2,9 +2,9 @@ package com.soufianekre.cashnote.ui.transaction_edit;
 
 
 import com.soufianekre.cashnote.data.DataManager;
-import com.soufianekre.cashnote.data.db.model.CashAccount;
-import com.soufianekre.cashnote.ui.app_base.BasePresenter;
+import com.soufianekre.cashnote.data.db.model.CashTransaction;
 import com.soufianekre.cashnote.helper.rx.SchedulerProvider;
+import com.soufianekre.cashnote.ui.base.BasePresenter;
 
 import javax.inject.Inject;
 
@@ -16,22 +16,70 @@ public class TransactionEditorPresenter<V extends TransactionEditorContract.View
 
     @Inject
     public TransactionEditorPresenter(DataManager dataManager,
-                                   SchedulerProvider schedulerProvider,
-                                   CompositeDisposable compositeDisposable) {
+                                      SchedulerProvider schedulerProvider,
+                                      CompositeDisposable compositeDisposable) {
         super(dataManager, schedulerProvider, compositeDisposable);
     }
 
     @Override
-    public void saveTransaction(CashAccount accountParent) {
+    public void insertNewTransaction(CashTransaction transaction) {
 
         getCompositeDisposable().add(
                 getDataManager()
-                        .getRoomDb().accountDao()
-                        .updateAccount(accountParent)
+                        .getRoomDb().cashTransactionDao()
+                        .insert(transaction)
                         .subscribeOn(getSchedulerProvider().io())
                         .observeOn(getSchedulerProvider().ui())
-                        .subscribe(() -> getMvpView().showMessage("Transaction has been added"),
-                                throwable -> Timber.e(throwable, "Unable to To Update Account")));
+                        .subscribe(() -> {
+                                    getMvpView().showMessage("Transaction has been added");
+                                    getMvpView().saveAndFinish();
+                                },
+                                Timber::e));
+    }
+
+
+    @Override
+    public void updateTransaction(CashTransaction transaction) {
+
+        getCompositeDisposable().add(
+                getDataManager()
+                        .getRoomDb().cashTransactionDao()
+                        .update(transaction)
+                        .subscribeOn(getSchedulerProvider().io())
+                        .observeOn(getSchedulerProvider().ui())
+                        .subscribe(() -> {
+                                    getMvpView().showMessage("Transaction has been added");
+                                    getMvpView().saveAndFinish();
+                                },
+                                throwable -> Timber.e(throwable)));
+    }
+
+    @Override
+    public void getAccountList() {
+
+        getCompositeDisposable().add(
+                getDataManager()
+                        .getRoomDb().cashAccountDao()
+                        .getAccounts()
+                        .subscribeOn(getSchedulerProvider().io())
+                        .observeOn(getSchedulerProvider().ui())
+                        .subscribe(cashAccounts -> {
+                            getMvpView().saveAndFinish();
+                        }, Timber::e));
+    }
+
+    @Override
+    public void getAccount(int account_id) {
+
+        getCompositeDisposable().add(
+                getDataManager()
+                        .getRoomDb().cashAccountDao()
+                        .getAccount(account_id)
+                        .subscribeOn(getSchedulerProvider().io())
+                        .observeOn(getSchedulerProvider().ui())
+                        .subscribe(result -> {
+
+                        }, throwable -> Timber.e(throwable.getLocalizedMessage())));
     }
 
 }

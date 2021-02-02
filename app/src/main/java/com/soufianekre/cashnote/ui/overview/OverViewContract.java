@@ -3,7 +3,7 @@ package com.soufianekre.cashnote.ui.overview;
 import com.soufianekre.cashnote.data.db.model.BalanceHistory;
 import com.soufianekre.cashnote.data.db.model.CashAccount;
 import com.soufianekre.cashnote.data.db.model.CashTransaction;
-import com.soufianekre.cashnote.ui.app_base.BaseContract;
+import com.soufianekre.cashnote.ui.base.BaseContract;
 
 import java.util.List;
 
@@ -16,11 +16,11 @@ public interface OverViewContract {
 
     interface View extends BaseContract.MvpView {
 
-        void setExpenseIncomeLineChart(List<CashTransaction> accounts);
+        void setupExpenseIncomeLineChart(List<CashTransaction> transactions);
         void setBalanceChart(List<BalanceHistory> balance_history, int days);
-        void setSummaryPieChart(List<CashAccount> accounts);
-        void updateRecentTransactions(List<CashTransaction> transactions);
+        void setupSummaryPieChart(List<CashTransaction> transactions);
         void updateRecentAccounts(List<CashAccount> accounts);
+        void updateRecentTransactions(List<CashTransaction> allTransactions);
 
     }
 }

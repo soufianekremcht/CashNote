@@ -2,6 +2,8 @@ package com.soufianekre.cashnote.ui.transactions;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.ActionMode;
 import android.view.Menu;
@@ -21,12 +23,11 @@ import com.soufianekre.cashnote.R;
 import com.soufianekre.cashnote.data.db.model.CashAccount;
 import com.soufianekre.cashnote.data.db.model.CashTransaction;
 import com.soufianekre.cashnote.helper.DialogsUtil;
-import com.soufianekre.cashnote.ui.app_base.BaseActivity;
+import com.soufianekre.cashnote.ui.base.BaseActivity;
 import com.soufianekre.cashnote.ui.transaction_edit.TransactionEditorActivity;
 import com.soufianekre.cashnote.ui.transactions.search.SearchActivity;
 import com.soufianekre.cashnote.ui.transactions.show_transaction.ShowTransactionFragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -34,32 +35,27 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.soufianekre.cashnote.helper.AppConst.ACCOUNT_PARENT_ID;
-import static com.soufianekre.cashnote.helper.AppConst.TRANSACTION_ACCOUNT_PARENT;
-import static com.soufianekre.cashnote.helper.AppConst.TRANSACTION_IS_EDITING;
-import static com.soufianekre.cashnote.helper.AppConst.TRANSACTION_TO_EDIT_POS;
-import static com.soufianekre.cashnote.ui.main.MainActivity.ACCOUNT_PARENT;
-import static com.soufianekre.cashnote.ui.main.MainActivity.REFRESH_TRANSACTION_LIST_CODE;
+import static com.soufianekre.cashnote.helper.AppConst.TRANSACTION_ACCOUNT;
+import static com.soufianekre.cashnote.helper.AppConst.TRANSACTION_TO_EDIT;
 import static com.soufianekre.cashnote.ui.main.MainActivity.RESULT_T;
+import static com.soufianekre.cashnote.ui.main.MainActivity.SELECTED_ACCOUNT;
 
 @SuppressLint("NonConstantResourceId")
 public class TransactionsActivity extends BaseActivity implements TransactionsContract.View {
 
-
+    // CONSTANTS
     @BindView(R.id.transactions_toolbar)
     Toolbar transactionsToolbar;
     @BindView(R.id.transactions_recycler_view)
     RecyclerView transactionsRecyclerView;
     @BindView(R.id.transaction_empty_view_layout)
     RelativeLayout emptyView;
-
     @BindView(R.id.account_balance_value_text)
     TextView accountBalanceValueText;
     @BindView(R.id.account_incomes_value_text)
     TextView accountIncomeValueText;
     @BindView(R.id.account_expenses_value_text)
     TextView accountExpenseValueText;
-
     @BindView(R.id.add_transaction_fab)
     FloatingActionButton addTransactionFab;
 
@@ -70,11 +66,9 @@ public class TransactionsActivity extends BaseActivity implements TransactionsCo
     @Inject
     TransactionsContract.Presenter<TransactionsContract.View> presenter;
     ShowTransactionFragment dialog;
-    private List<CashTransaction> transactions;
-    private CashAccount accountParent;
     private ActionModeTransactions actionModeCallback;
     private ActionMode actionMode;
-    private int parentAccountId = 0;
+    private CashAccount currentAccount;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,32 +77,8 @@ public class TransactionsActivity extends BaseActivity implements TransactionsCo
         setUnBinder(ButterKnife.bind(this));
         getActivityComponent().inject(this);
         presenter.onAttach(this);
-        accountParent = getIntent().getParcelableExtra(ACCOUNT_PARENT);
-        parentAccountId = getIntent().getIntExtra(ACCOUNT_PARENT_ID, -1);
+        checkIntents();
         setupUi();
-
-    }
-
-    private void setupUi() {
-
-        transactionsToolbar.setTitle("Transactions");
-        setSupportActionBar(transactionsToolbar);
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        transactionsToolbar.setNavigationOnClickListener(v -> onBackPressed());
-
-        addTransactionFab.setOnClickListener(v -> {
-            Intent intent = new Intent(TransactionsActivity.this, TransactionEditorActivity.class);
-            intent.putExtra(TRANSACTION_ACCOUNT_PARENT, accountParent);
-            startActivity(intent);
-        });
-        actionModeCallback = new ActionModeTransactions();
-        // recycler_view
-        transactions = new ArrayList<>();
-        transactionsAdapter.setAdapterListener(this);
-        transactionsRecyclerView.setHasFixedSize(true);
-        transactionsRecyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
-        transactionsRecyclerView.setAdapter(transactionsAdapter);
 
     }
 
@@ -135,15 +105,21 @@ public class TransactionsActivity extends BaseActivity implements TransactionsCo
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_T) {
-            accountParent = data.getParcelableExtra(ACCOUNT_PARENT);
-            onFetchTransactions(accountParent);
+            if (getIntent() != null) {
+                currentAccount = getIntent().getParcelableExtra(TRANSACTION_ACCOUNT);
+                if (currentAccount != null)
+                    presenter.getTransactions(currentAccount.getId());
+            }
         }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        onFetchTransactions(accountParent);
+        if (currentAccount != null)
+            presenter.getTransactions(currentAccount.getId());
+        else
+            showError("We could not fetch transactions");
     }
 
     @Override
@@ -165,7 +141,6 @@ public class TransactionsActivity extends BaseActivity implements TransactionsCo
 
     @Override
     public void onDestroy() {
-        // detach The View From the presenter
         presenter.onDetach();
         super.onDestroy();
 
@@ -178,13 +153,12 @@ public class TransactionsActivity extends BaseActivity implements TransactionsCo
 
 
     @Override
-    public void onTransactionClick(int position) {
+    public void onTransactionClick(CashTransaction transaction, int position) {
         // show Dialog with customLayout instead of activity
         if (actionMode != null) {
             toggleSelection(position);
         } else {
-            CashTransaction transactionToShow = transactions.get(position);
-            dialog = ShowTransactionFragment.newInstance(transactionToShow, accountParent, position);
+            dialog = ShowTransactionFragment.newInstance(transaction, position);
             dialog.setDialogListener(this);
             dialog.show(getSupportFragmentManager(), "show_transaction_dialog");
         }
@@ -197,66 +171,50 @@ public class TransactionsActivity extends BaseActivity implements TransactionsCo
     }
 
     @Override
+    public void onTransactionDelete(CashTransaction transaction, int position) {
+        presenter.deleteTransaction(transaction);
+    }
+
+    @Override
     public void notifyAdapter(List<CashTransaction> transactionList, int income, int expense) {
         accountBalanceValueText.setText(String.format("%d", income + expense));
         accountExpenseValueText.setText(String.format("%d", expense));
         accountIncomeValueText.setText(String.format("%d", income));
-        this.transactions = transactionList;
         transactionsAdapter.addItems(transactionList);
         checkEmptyView(transactionsAdapter);
     }
 
-    @Override
-    public void onTransactionEdit(int position) {
-        Intent intent = new Intent(this, TransactionEditorActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(TRANSACTION_ACCOUNT_PARENT, accountParent);
-        bundle.putBoolean(TRANSACTION_IS_EDITING, true);
-        bundle.putInt(TRANSACTION_TO_EDIT_POS, position);
-        intent.putExtras(bundle);
-        startActivityForResult(intent, REFRESH_TRANSACTION_LIST_CODE);
-    }
 
-
-    @Override
-    public void onTransactionDelete(int position) {
-        // i don't know what to do here tell me what to do please !!
-        presenter.onDeleteOptionClick(accountParent, transactions, position);
-
-    }
-
-    @Override
-    public void onTransactionEditClicked(View v, int position) {
-
-        onTransactionEdit(position);
-    }
-
-
-    @Override
-    public void setAccountParent(CashAccount account) {
-        accountParent = account;
-    }
-
-
-    private void onFetchTransactions(CashAccount accountParent) {
-        if (accountParent != null)
-            presenter.getTransactions(accountParent.getAccountId());
-        else
-            showMessage("There is an error while fetching transactions ");
-
-    }
-
-
-    private void checkEmptyView(TransactionsAdapter transactionsAdapter) {
-        if (transactionsRecyclerView != null) {
-            if (transactionsAdapter != null && transactionsAdapter.getItemCount() > 0) {
-                transactionsRecyclerView.setVisibility(View.VISIBLE);
-                emptyView.setVisibility(View.GONE);
-            } else {
-                transactionsRecyclerView.setVisibility(View.GONE);
-                emptyView.setVisibility(View.VISIBLE);
-            }
+    private void checkIntents() {
+        if (getIntent() != null) {
+            currentAccount = getIntent().getParcelableExtra(SELECTED_ACCOUNT);
         }
+    }
+
+    private void setupUi() {
+
+        transactionsToolbar.setTitle("Transactions :" + currentAccount.getName());
+        setSupportActionBar(transactionsToolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(currentAccount.getColor()));
+        }
+
+        transactionsToolbar.setNavigationOnClickListener(v -> onBackPressed());
+
+        addTransactionFab.setOnClickListener(v -> {
+            Intent intent = new Intent(TransactionsActivity.this, TransactionEditorActivity.class);
+            intent.putExtra(TRANSACTION_ACCOUNT, currentAccount);
+            startActivity(intent);
+        });
+        actionModeCallback = new ActionModeTransactions();
+        // recycler_view
+
+        transactionsAdapter.setAdapterListener(this);
+        transactionsRecyclerView.setHasFixedSize(true);
+        transactionsRecyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+        transactionsRecyclerView.setAdapter(transactionsAdapter);
+
     }
 
 
@@ -289,6 +247,29 @@ public class TransactionsActivity extends BaseActivity implements TransactionsCo
             transactionsAdapter.deleteItem(selectedItemsPositions.get(i));
         }
         transactionsAdapter.notifyDataSetChanged();
+    }
+
+
+    @Override
+    public void onTransactionEditFabClicked(CashTransaction transaction, int position) {
+
+        Intent intent = new Intent(TransactionsActivity.this, TransactionEditorActivity.class);
+        intent.putExtra(TRANSACTION_TO_EDIT, transaction);
+        intent.putExtra(TRANSACTION_ACCOUNT, currentAccount);
+        startActivity(intent);
+
+    }
+
+    private void checkEmptyView(TransactionsAdapter transactionsAdapter) {
+        if (transactionsRecyclerView != null) {
+            if (transactionsAdapter != null && transactionsAdapter.getItemCount() > 0) {
+                transactionsRecyclerView.setVisibility(View.VISIBLE);
+                emptyView.setVisibility(View.GONE);
+            } else {
+                transactionsRecyclerView.setVisibility(View.GONE);
+                emptyView.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     class ActionModeTransactions implements ActionMode.Callback {
@@ -331,4 +312,5 @@ public class TransactionsActivity extends BaseActivity implements TransactionsCo
             transactionsAdapter.notifyDataSetChanged();
         }
     }
+
 }

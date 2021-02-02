@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.soufianekre.cashnote.R;
 import com.soufianekre.cashnote.data.db.model.CashCategory;
-import com.soufianekre.cashnote.ui.app_base.BaseViewHolder;
+import com.soufianekre.cashnote.ui.base.BaseViewHolder;
 
 import java.util.List;
 

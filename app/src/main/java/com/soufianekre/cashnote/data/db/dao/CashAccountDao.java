@@ -1,4 +1,4 @@
-package com.soufianekre.cashnote.data.db;
+package com.soufianekre.cashnote.data.db.dao;
 
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -26,13 +26,13 @@ public interface CashAccountDao {
     @Delete
     Completable deleteAccount(CashAccount account);
 
-    @Query("Select * from account Where account_id =:id LIMIT 1")
+    @Query("Select * from cash_account Where id =:id LIMIT 1")
     Flowable<CashAccount> getAccount(int id);
 
-    @Query("Select * from account")
+    @Query("Select * from cash_account")
     Flowable<List<CashAccount>> getAccounts();
 
-    @Query("Delete from account")
+    @Query("Delete from cash_account")
     void deleteTables();
 
 

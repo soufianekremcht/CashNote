@@ -2,7 +2,7 @@ package com.soufianekre.cashnote.ui.account_edit;
 
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
 import com.soufianekre.cashnote.data.db.model.CashAccount;
-import com.soufianekre.cashnote.ui.app_base.BaseContract;
+import com.soufianekre.cashnote.ui.base.BaseContract;
 
 public interface AccountEditorContract {
     interface Presenter<V extends View> extends BaseContract.MvpPresenter<V> {
