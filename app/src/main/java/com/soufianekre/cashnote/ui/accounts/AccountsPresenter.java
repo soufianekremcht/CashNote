@@ -2,8 +2,8 @@ package com.soufianekre.cashnote.ui.accounts;
 
 import com.soufianekre.cashnote.data.DataManager;
 import com.soufianekre.cashnote.data.db.model.CashAccount;
-import com.soufianekre.cashnote.ui.base.BasePresenter;
 import com.soufianekre.cashnote.helper.rx.SchedulerProvider;
+import com.soufianekre.cashnote.ui.base.BasePresenter;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 public class AccountsPresenter<V extends AccountsContract.View> extends BasePresenter<V>
-    implements AccountsContract.Presenter<V> {
+        implements AccountsContract.Presenter<V> {
 
     @Inject
     public AccountsPresenter(DataManager dataManager,
@@ -25,25 +25,30 @@ public class AccountsPresenter<V extends AccountsContract.View> extends BasePres
     }
 
     @Override
-    public void getAccounts(){
+    public void getAccounts() {
         getCompositeDisposable().add(getDataManager().getRoomDb().cashAccountDao().getAccounts()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(accounts -> {
-                    getMvpView().setupAccountsAdapter(accounts);
+                    getMvpView().notifyAccountAdapter(accounts);
 
                 }, Timber::e));
     }
+
+
+    public void getAccountTransactions(int account_id){
+
+    }
+
     @Override
-    public void onDeleteOptionClick(List<CashAccount> accountList, int position){
+    public void onDeleteAccount(List<CashAccount> accountList, int position) {
         CashAccount accountToDelete = accountList.get(position);
         getCompositeDisposable().add(getDataManager().getRoomDb().cashAccountDao()
                 .deleteAccount(accountToDelete)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(() -> {
-                            //getMvpView().showMessage("Delete account Successes");
-                        },
-                        Timber::e));
+                    getMvpView().onAccountDeleted(position);
+                }, Timber::e));
     }
 }

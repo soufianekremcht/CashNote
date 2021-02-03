@@ -20,7 +20,6 @@ import com.soufianekre.cashnote.helper.DialogsUtil;
 
 
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -75,7 +74,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.Accoun
             popupMenu.setOnMenuItemClickListener(item -> {
                 switch (item.getItemId()){
                     case R.id.popup_menu_edit:
-                        listener.onAccountEdit(position);
+                        listener.onAccountEditClicked(position);
                         break;
                     case R.id.popup_menu_delete:
                         //show delete dialog;
@@ -99,7 +98,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.Accoun
     }
     public void deleteItem(int position){
         accountList.remove(position);
-        listener.onAccountDelete(position);
+        listener.onAccountDeleteClicked(position);
         notifyItemRemoved(position);
     }
 
@@ -133,8 +132,8 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.Accoun
     }
 
     public interface AccountsAdapterListener{
-        void onAccountDelete(int position);
-        void onAccountEdit(int position);
+        void onAccountDeleteClicked(int position);
+        void onAccountEditClicked(int position);
         void onAccountClick(int position);
 
     }

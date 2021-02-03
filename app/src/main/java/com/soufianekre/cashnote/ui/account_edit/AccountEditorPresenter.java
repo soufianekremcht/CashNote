@@ -13,7 +13,7 @@ import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 public class AccountEditorPresenter<V extends AccountEditorContract.View> extends BasePresenter<V>
-    implements AccountEditorContract.Presenter<V> {
+        implements AccountEditorContract.Presenter<V> {
 
     @Inject
     public AccountEditorPresenter(DataManager dataManager,
@@ -29,7 +29,10 @@ public class AccountEditorPresenter<V extends AccountEditorContract.View> extend
                 .addAccount(newAccount)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> getMvpView().showMessage("Account has been added"),
+                .subscribe(() -> {
+                            getMvpView().saveAndExit();
+                            getMvpView().showMessage("Account has been added");
+                        },
                         throwable -> Timber.e(throwable, "Unable to To Add Account")));
     }
 
@@ -39,7 +42,10 @@ public class AccountEditorPresenter<V extends AccountEditorContract.View> extend
                 .updateAccount(accountToEdit)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> getMvpView().showMessage("Account has been Updated"),
+                .subscribe(() -> {
+                            getMvpView().saveAndExit();
+                            getMvpView().showMessage("Account has been Updated");
+                        },
                         throwable -> Timber.e(throwable, "Unable to To Update Account")));
     }
 
@@ -49,7 +55,7 @@ public class AccountEditorPresenter<V extends AccountEditorContract.View> extend
                 .getAccount(accountToEditId)
                 .subscribeOn(Schedulers.io())
                 .subscribe(cashAccount -> {
-                    getMvpView().setEditedAccountInfo(cashAccount);
-                },Throwable::printStackTrace));
+                    getMvpView().setCurrentAccountInfo(cashAccount);
+                }, Throwable::printStackTrace));
     }
 }

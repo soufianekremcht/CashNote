@@ -13,7 +13,8 @@ public interface AccountEditorContract {
     }
 
     interface View extends BaseContract.MvpView, ColorChooserDialog.ColorCallback{
-        void setEditedAccountInfo(CashAccount cashAccount);
+        void setCurrentAccountInfo(CashAccount cashAccount);
 
+        void saveAndExit();
     }
 }

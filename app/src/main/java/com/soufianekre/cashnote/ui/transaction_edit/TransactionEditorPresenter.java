@@ -64,7 +64,6 @@ public class TransactionEditorPresenter<V extends TransactionEditorContract.View
                         .subscribeOn(getSchedulerProvider().io())
                         .observeOn(getSchedulerProvider().ui())
                         .subscribe(cashAccounts -> {
-                            getMvpView().saveAndFinish();
                         }, Timber::e));
     }
 

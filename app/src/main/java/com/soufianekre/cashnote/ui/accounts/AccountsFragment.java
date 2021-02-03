@@ -135,7 +135,7 @@ public class AccountsFragment extends BaseFragment implements AccountsContract.V
     }
 
     @Override
-    public void setupAccountsAdapter(List<CashAccount> accounts) {
+    public void notifyAccountAdapter(List<CashAccount> accounts) {
         int total_balance = 0;
         int accounts_count = accounts.size();
         int transactions_count = 0;
@@ -159,6 +159,8 @@ public class AccountsFragment extends BaseFragment implements AccountsContract.V
         checkEmptyView(accountsAdapter);
     }
 
+
+
     @Override
     public void onAccountClick(int position) {
         Intent transactionActivityIntent = new Intent(getActivity(), TransactionsActivity.class);
@@ -167,16 +169,20 @@ public class AccountsFragment extends BaseFragment implements AccountsContract.V
     }
 
     @Override
-    public void onAccountEdit(int position) {
+    public void onAccountEditClicked(int position) {
         Intent intent = new Intent(getActivity(), AccountEditorActivity.class);
         intent.putExtra(ACCOUNT_TO_EDIT_ID, accountList.get(position).getId());
         intent.putExtra(ACCOUNT_IS_EDITING, true);
         startActivity(intent);
     }
 
-    public void onAccountDelete(int position) {
+    public void onAccountDeleteClicked(int position) {
         accountList = accountsAdapter.getAccountList();
-        presenter.onDeleteOptionClick(accountList, position);
+        presenter.onDeleteAccount(accountList, position);
+
+    }
+    @Override
+    public void onAccountDeleted(int position) {
         accountsAdapter.deleteItem(position);
         checkEmptyView(accountsAdapter);
     }

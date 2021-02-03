@@ -60,8 +60,8 @@ public class AccountEditorActivity extends BaseActivity implements AccountEditor
 
     private CashAccount accountToEdit;
 
-    private String accountName;
-    private String accountDescription;
+    private String accountName="";
+    private String accountDescription="";
     private int accountColor = -1;
     private int accountType = -1;
 
@@ -97,22 +97,25 @@ public class AccountEditorActivity extends BaseActivity implements AccountEditor
     }
 
     @Override
-    public void setEditedAccountInfo(CashAccount account) {
+    public void setCurrentAccountInfo(CashAccount account) {
         if (account != null) {
             accountToEdit = account;
-
             accountName = account.getName();
             accountDescription = account.getDescription();
-            accountType = 0;
             accountColor = account.getColor();
             changeStatusBarColor(accountColor);
             accountEditLayout.setBackgroundTintList(ColorStateList.valueOf(accountColor));
-        } else {
-            accountType = 0;
         }
 
         accountNameField.setText(accountName);
         accountDescriptionField.setText(accountDescription);
+    }
+
+    @Override
+    public void saveAndExit() {
+        Intent i = new Intent();
+        setResult(RESULT_A, i);
+        finish();
     }
 
     // ColorChooserDialog Listeners
@@ -195,9 +198,6 @@ public class AccountEditorActivity extends BaseActivity implements AccountEditor
                 accountToEdit.setType(accountType);
                 presenter.saveNewAccount(accountToEdit);
             }
-            Intent i = new Intent();
-            setResult(RESULT_A, i);
-            finish();
         }
 
     }

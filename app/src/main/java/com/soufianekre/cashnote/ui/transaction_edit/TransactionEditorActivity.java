@@ -6,11 +6,11 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.maltaisn.calcdialog.CalcDialog;
 import com.soufianekre.cashnote.R;
@@ -34,10 +35,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.annotations.Nullable;
+import timber.log.Timber;
 
 import static com.soufianekre.cashnote.helper.AppConst.TRANSACTION_ACCOUNT;
 import static com.soufianekre.cashnote.helper.AppConst.TRANSACTION_TO_EDIT;
@@ -52,6 +56,8 @@ public class TransactionEditorActivity extends BaseActivity
     private final long TomorrowInMillis = new Date().getTime() - 24 * 60 * 60 * 1000;
     @Inject
     TransactionEditorContract.Presenter<TransactionEditorContract.View> presenter;
+
+
     @BindView(R.id.add_transaction_toolbar)
     Toolbar toolbar;
     @BindView(R.id.add_transaction_title_text)
@@ -223,8 +229,6 @@ public class TransactionEditorActivity extends BaseActivity
 
                 })
                 .start();
-        // Shrink Animation
-
     }
 
 
@@ -236,6 +240,34 @@ public class TransactionEditorActivity extends BaseActivity
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white);
         }
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
+        AppBarLayout mAppBarLayout = findViewById(R.id.add_transaction_app_bar);
+        mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            boolean isShow = false;
+            int scrollRange = -1;
+
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                //backupDescriptionCard.setAlpha((verticalOffset+252)/252f);
+
+                if (scrollRange == -1) {
+                    scrollRange = appBarLayout.getTotalScrollRange();
+                }
+                Timber.d("Backup Collapsing VerticalOffset : %d",verticalOffset);
+                Timber.d("Backup Scroll Range %d",scrollRange);
+                if (scrollRange + verticalOffset == 10) {
+                    isShow = true;
+                    //showOption(R.id.action_info);
+                    // hide Description
+
+                } else if (isShow) {
+                    isShow = false;
+                    // show Description
+                }
+            }
+        });
+
+
+
         List<CashCategory> transactionCategories = CategoryUtils.getAllCategories(this);
         categoryAdapter = new TransactionCategoryAdapter(this, transactionCategories, this);
         categoryRecyclerView.setHasFixedSize(true);
