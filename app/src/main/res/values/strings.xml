@@ -34,4 +34,6 @@
     <string name="colors">Colors</string>
     <string name="current_year">2021</string>
     <string name="apply_changes">Apply Changes</string>
+    <string name="export_to">Export From :</string>
+    <string name="ok">OK</string>
 </resources>

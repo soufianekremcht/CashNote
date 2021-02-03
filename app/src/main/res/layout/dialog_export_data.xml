@@ -12,16 +12,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:autofillHints="Start Date"
-        android:hint="Start Date"
-        app:hintAnimationEnabled="true">
+        android:hint="Start"
+        app:hintAnimationEnabled="true"
+        android:layout_margin="@dimen/spacing_small">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/export_data_start_date"
-            style="@style/style_export_data_field"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/transparent"
+
             android:lines="1"
-            android:enabled="false"
             android:clickable="true"/>
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -32,18 +34,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:autofillHints="End Date"
-        android:hint="End Date"
-        app:hintAnimationEnabled="true">
+        android:hint="End"
+        app:hintAnimationEnabled="true"
+        android:layout_margin="@dimen/spacing_small">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/export_data_end_date"
-            style="@style/style_export_data_field"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="date"
-            android:background="@null"
+            android:backgroundTint="@android:color/transparent"
             android:lines="1"
-            android:enabled="false"
             android:clickable="true"/>
     </com.google.android.material.textfield.TextInputLayout>
 

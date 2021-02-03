@@ -1,11 +1,10 @@
 package com.soufianekre.cashnote.ui.settings.export;
 
 import android.app.Dialog;
+import android.content.ClipData;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Spinner;
@@ -15,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 
+import com.soufianekre.cashnote.BuildConfig;
 import com.soufianekre.cashnote.MyApp;
 import com.soufianekre.cashnote.R;
 import com.soufianekre.cashnote.data.app_preference.PrefConst;
@@ -69,13 +69,13 @@ public class ExportDataDialogFragment extends BaseDialogFragment implements Expo
         View dialog_view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_export_data,null);
         setupUI(dialog_view);
         builder.setView(dialog_view);
-        builder.setTitle("Export Form :");
+        builder.setTitle(R.string.export_to);
         // connect The presenter With View
         mPresenter.onAttach(this);
-        builder.setPositiveButton("OK", (dialog, which) -> {
+        builder.setPositiveButton(R.string.ok, (dialog, which) -> {
             mPresenter.getTransactionData();
         });
-        builder.setNegativeButton("Cancel", (dialog, which) -> {
+        builder.setNegativeButton(R.string.cancel, (dialog, which) -> {
             dismiss();
         });
 
@@ -113,7 +113,7 @@ public class ExportDataDialogFragment extends BaseDialogFragment implements Expo
     public void exportToCSV(List<CashTransaction> transactions)  {
         // Go Through All The Transactions in The DB And Export Them As CSV
         showMessage("Csv Exporting ");
-        String baseDirPath = android.os.Environment.getExternalStorageDirectory()+ "/HighCashData";
+        String baseDirPath = android.os.Environment.getExternalStorageDirectory()+ "/CashNoteFiles";
         File baseDir = new File(baseDirPath);
         boolean dirIsCreated = baseDir.mkdir();
         if (dirIsCreated){
@@ -143,6 +143,7 @@ public class ExportDataDialogFragment extends BaseDialogFragment implements Expo
                     writer.writeNext(column);
                 }
                 writer.close();
+
                 shareFile(csvFile);
 
             } catch (IOException e) {
@@ -164,14 +165,20 @@ public class ExportDataDialogFragment extends BaseDialogFragment implements Expo
         try {
             Uri fileUri =  FileProvider.getUriForFile(
                     getSettingsActivity(),
-                    "com.example.highcash.fileprovider",
+                    BuildConfig.APPLICATION_ID + ".fileprovider",
                     file);
             if (fileUri != null) {
                 // Put the Uri and MIME type in the result Intent
-                Timber.e("Sharing What ");
+                Timber.e("Sharing File ");
                 Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                 sharingIntent.setType("text/*");
                 sharingIntent.putExtra(Intent.EXTRA_STREAM, fileUri);
+                sharingIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                ClipData clipData = ClipData.newUri(getActivity().getContentResolver(),
+                        getString(R.string.app_name),
+                        fileUri);
+
+                sharingIntent.setClipData(clipData);
                 startActivity(Intent.createChooser(sharingIntent, getString(R.string.share_csv_file)));
             }
         }catch (IllegalArgumentException e) {

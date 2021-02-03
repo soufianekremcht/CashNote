@@ -28,7 +28,7 @@ public class ShowTransactionPresenter<V extends ShowTransactionContract.View> ex
                         .subscribeOn(getSchedulerProvider().io())
                         .observeOn(getSchedulerProvider().ui())
                         .subscribe(result -> {
-
+                            getMvpView().setTransactionAccount(result);
                         }, throwable -> Timber.e(throwable.getLocalizedMessage())));
     }
 }

@@ -6,14 +6,12 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,7 +32,6 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
 
 import javax.inject.Inject;
 
@@ -60,8 +57,7 @@ public class TransactionEditorActivity extends BaseActivity
 
     @BindView(R.id.add_transaction_toolbar)
     Toolbar toolbar;
-    @BindView(R.id.add_transaction_title_text)
-    TextView title;
+;
     @BindView(R.id.transaction_description_field)
     EditText transactionDescriptionField;
     @BindView(R.id.transaction_amount_field)
@@ -233,11 +229,9 @@ public class TransactionEditorActivity extends BaseActivity
 
 
     private void setupUi() {
-        toolbar.setTitle(R.string.empty_string);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white);
         }
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
         AppBarLayout mAppBarLayout = findViewById(R.id.add_transaction_app_bar);
@@ -285,7 +279,7 @@ public class TransactionEditorActivity extends BaseActivity
             selected_account = getIntent().getParcelableExtra(TRANSACTION_ACCOUNT);
             if (transactionToEdit != null) {
                 transactionNotesField.setText(AppUtils.formatDate(new Date(transactionToEdit.getLastUpdatedDate()), MAIN_DATE_FORMAT));
-                title.setText(R.string.edit_transaction);
+                toolbar.setTitle(R.string.edit_transaction);
             }
             setOldTransactionInfo(transactionToEdit);
         }

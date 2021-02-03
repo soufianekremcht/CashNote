@@ -92,4 +92,6 @@
     <!-- Error error for InputTextLayout -->
     <color name="error_color_material">#F4511E</color>
     <color name="bg_action_mode">@color/colorPrimaryDark</color>
+
+    <!--    Theme Colors-->
 </resources>

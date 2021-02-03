@@ -63,6 +63,17 @@
             android:name="preloaded_fonts"
             android:resource="@array/fonts_preloaded" />
 
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths" />
+        </provider>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.soufianekre.cashnote.fileprovider"

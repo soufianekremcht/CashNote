@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
             app:contentScrim="?colorPrimary"
-            app:expandedTitleGravity="center_horizontal|top"
+            app:expandedTitleGravity="center"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <androidx.appcompat.widget.Toolbar
@@ -26,24 +26,10 @@
                 style="@style/MainToolbarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:collapseContentDescription="Show Stuff"
+                app:title="Add New Transaction"
+                app:collapseContentDescription="Show"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopUpOverLay" />
-
-            <TextView
-                android:id="@+id/add_transaction_title_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/spacing_small"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="@dimen/spacing_large"
-                android:text="@string/add_new_transaction_title"
-                android:textColor="@color/white"
-                android:textSize="30sp"
-                android:textStyle="bold" />
-
             <ImageView
                 android:id="@+id/add_transaction_collapsing_img"
                 android:layout_width="match_parent"

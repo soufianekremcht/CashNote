@@ -75,8 +75,8 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         notifyDataSetChanged();
     }
     void deleteItem(int position){
-        transactionsList.remove(position);
         listener.onTransactionDelete(transactionsList.get(position),position);
+        transactionsList.remove(position);
         notifyItemRemoved(position);
     }
 

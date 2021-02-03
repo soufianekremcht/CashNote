@@ -29,7 +29,6 @@
                 android:layout_margin="@dimen/spacing_small"
                 android:padding="@dimen/spacing_small"
                 android:background="@drawable/bg_circle"
-                android:backgroundTint="@color/accent_light_blue"
                 android:src="@drawable/ctg_home"
                 app:tint="@color/white" />
 

@@ -154,7 +154,6 @@ public class ShowTransactionFragment extends BaseBottomSheetFragment implements 
         descriptionText.setText(description);
         notesText.setText(transactionToShow.getNotes());
         balanceValueText.setText(transactionBalance);
-
         lastUpdatedDateText.setText(lastUpdateDateText);
 
 
