@@ -35,7 +35,7 @@
         <item name="actionModeBackground">?colorPrimary</item>
 
         <!--        Dialog      -->
-        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogThemeDark</item>
+<!--        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogThemeDark</item>-->
         <item name="android:popupBackground">@color/darkWindowBackground</item>
         <item name="android:dialogTheme">@style/DialogThemeDark</item>
         <item name="android:alertDialogTheme">@style/DialogThemeDark</item>
@@ -84,8 +84,8 @@
     </style>
 
     <style name="ThemeDark.Green" parent="ThemeDark">
-        <item name="colorPrimary">@color/md_green_700</item>
-        <item name="colorPrimaryDark">@color/md_green_700</item>
+        <item name="colorPrimary">@color/accent_green</item>
+        <item name="colorPrimaryDark">@color/primary_green</item>
         <item name="colorAccent">@color/accent_green</item>
         <item name="colorSecondary">?colorAccent</item>
         <item name="colorControlNormal">?colorAccent</item>
@@ -164,8 +164,8 @@
     <style name="DialogThemeDark" parent="Theme.AppCompat.Dialog.Alert">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="card_background">#2D3035</item>
-        <item name="icon_color">#eee</item>
+<!--        <item name="card_background">#2D3035</item>-->
+<!--        <item name="icon_color">#eee</item>-->
         <item name="colorPrimary">#2D3035</item>
         <item name="colorPrimaryDark">#26282C</item>
         <item name="android:windowBackground">@color/darkWindowBackground</item>
