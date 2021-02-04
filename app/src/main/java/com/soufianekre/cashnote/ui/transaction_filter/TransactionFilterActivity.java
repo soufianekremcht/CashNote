@@ -186,7 +186,7 @@ public class TransactionFilterActivity extends BaseActivity implements Transacti
     }
 
     @Override
-    public void onTransactionDelete(CashTransaction cashTransaction, int position) {
+    public void onTransactionDeleteClicked(CashTransaction cashTransaction, int position) {
 
     }
 

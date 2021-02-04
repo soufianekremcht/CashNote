@@ -179,7 +179,7 @@ public class ExportDataDialogFragment extends BaseDialogFragment implements Expo
                         fileUri);
 
                 sharingIntent.setClipData(clipData);
-                startActivity(Intent.createChooser(sharingIntent, getString(R.string.share_csv_file)));
+                startActivity(Intent.createChooser(sharingIntent, getString(R.string.share_file_to)));
             }
         }catch (IllegalArgumentException e) {
             Timber.e("The selected file can't be shared: %s", file.toString());

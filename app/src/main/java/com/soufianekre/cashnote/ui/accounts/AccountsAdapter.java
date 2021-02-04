@@ -83,7 +83,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.Accoun
                                 R.string.dialog_delete_account_title,
                                 R.string.confirm,
                                 R.string.cancel,
-                                (dialog, which) -> deleteItem(position)).show();
+                                (dialog, which) -> {listener.onAccountDeleteClicked(position);}).show();
                         break;
                 }
                 return true;
@@ -91,15 +91,15 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.Accoun
             popupMenu.show();
         });
     }
-    public void addItems(List<CashAccount> accounts){
+    public void insertItems(List<CashAccount> accounts){
         accountList.clear();
         accountList.addAll(accounts);
         notifyDataSetChanged();
     }
     public void deleteItem(int position){
         accountList.remove(position);
-        listener.onAccountDeleteClicked(position);
         notifyItemRemoved(position);
+
     }
 
     public List<CashAccount> getAccountList(){

@@ -2,39 +2,54 @@
     <string name="app_name">Cash Note</string>
     <string name="navigation_drawer_open">drawer_open</string>
     <string name="navigation_drawer_close">drawer_close</string>
+
+    <string name="ok">OK</string>
+    <string name="about">About</string>
+    <string name="go_back">Go back</string>
+    <string name="all">All</string>
+
     <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+
+    <string name="colors">Colors</string>
     <string name="choose_color">Choose color</string>
     <string name="default_string">DEFAULT</string>
-    <string name="transaction_date_field_error">the lastUpdatedDate is already passed , enter a new one</string>
+
+    <string name="transaction_date_field_error">this Date is already passed , Enter a new one</string>
     <string name="transaction_description_error">the field is empty, you should enter something</string>
-    <string name="account_name_field_error">the field is empty, you should enter something</string>
+    <string name="account_name_field_error">the field is empty, you should enter something...</string>
+
     <string name="delete_message">Are you sure you want to delete this item ?</string>
     <string name="dialog_delete_transaction_title">Delete Transaction: </string>
     <string name="dialog_delete_account_title">Delete Account</string>
-    <string name="confirm">Confirm</string>
+
+
     <string name="show_transaction_created_at">Created At</string>
     <string name="balance_text">balance</string>
     <string name="transactions_text">Transactions</string>
+
     <string name="latest_accounts">Latest Accounts</string>
     <string name="latest_transactions">Latest Transactions</string>
+
     <string name="add_new_transaction_title">Add New Transaction</string>
     <string name="add_new_transaction_description">Description :</string>
+
     <string name="empty_string" />
     <string name="edit_account">Edit Account :</string>
     <string name="accounts">Accounts</string>
-    <string name="created_at">Created At</string>
-    <string name="last_updated">Last Updated</string>
+    <string name="created_at">Created at</string>
+    <string name="last_updated">Last updated</string>
     <string name="income">Income</string>
     <string name="expense">Expense</string>
-    <string name="all">All</string>
-    <string name="share_csv_file">Share File To :</string>
-    <string name="app_name_upper_case">HIGH CASH</string>
-    <string name="edit_transaction">Edit Transaction</string>
-    <string name="go_back">Go back</string>
-    <string name="colors">Colors</string>
+
+    <string name="share_file_to">Share file to :</string>
+    <string name="app_name_upper_case">CASH NOTE</string>
+    <string name="edit_transaction">Edit transaction</string>
+
+
     <string name="current_year">2021</string>
-    <string name="apply_changes">Apply Changes</string>
-    <string name="export_to">Export From :</string>
-    <string name="ok">OK</string>
-    <string name="about">About</string>
+    <string name="apply_changes">Apply changes</string>
+    <string name="export_to">Export from :</string>
+    <string name="empty_data_desc">Nothing Here.</string>
+
 </resources>

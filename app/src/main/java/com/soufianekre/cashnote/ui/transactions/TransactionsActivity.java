@@ -173,9 +173,10 @@ public class TransactionsActivity extends BaseActivity implements TransactionsCo
     }
 
     @Override
-    public void onTransactionDelete(CashTransaction transaction, int position) {
-        presenter.deleteTransaction(transaction);
+    public void onTransactionDeleteClicked(CashTransaction transaction, int position) {
+        presenter.deleteTransaction(transaction,position);
     }
+
 
     @Override
     public void notifyAdapter(List<CashTransaction> transactionList, int income, int expense) {

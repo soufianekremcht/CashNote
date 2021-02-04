@@ -2,7 +2,6 @@ package com.soufianekre.cashnote.ui.accounts;
 
 import com.soufianekre.cashnote.data.DataManager;
 import com.soufianekre.cashnote.data.db.model.CashAccount;
-import com.soufianekre.cashnote.data.db.model.CashTransaction;
 import com.soufianekre.cashnote.helper.rx.SchedulerProvider;
 import com.soufianekre.cashnote.ui.base.BasePresenter;
 
@@ -36,24 +35,15 @@ public class AccountsPresenter<V extends AccountsContract.View> extends BasePres
                 }, Timber::e));
     }
 
-
-    public void getAccountTransactions(int accountId){
+    @Override
+    public void getTransactions(){
         getCompositeDisposable().add(getDataManager()
-                .getRoomDb().cashTransactionDao().getTransactionsFromAccount(accountId)
+                .getRoomDb().cashTransactionDao().getAllTransactions()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(cashTransactionList -> {
-                    int income = 0;
-                    int expense = 0;
+                .subscribe(results -> {
 
-                    for (CashTransaction transaction : cashTransactionList) {
-                        if (transaction.isExpense()) {
-                            expense += transaction.getBalance();
-                        } else {
-                            income += transaction.getBalance();
-                        }
-                    }
-                    //getMvpView().notifyAdapter(cashTransactionList, income, expense);
+                    getMvpView().setInfo(results);
                 }, throwable -> Timber.e("%s", throwable.getMessage())));
 
     }

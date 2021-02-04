@@ -9,6 +9,7 @@ import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Action;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
@@ -44,14 +45,16 @@ public class TransactionsPresenter<V extends TransactionsContract.View> extends 
     }
 
     @Override
-    public void deleteTransaction(CashTransaction transaction) {
+    public void deleteTransaction(CashTransaction transaction,int position) {
         getCompositeDisposable().add(getDataManager()
                 .getRoomDb()
                 .cashTransactionDao()
                 .delete(transaction)
                 .subscribeOn(getSchedulerProvider().io())
                 .observeOn(getSchedulerProvider().ui())
-                .subscribe());
+                .subscribe(() -> {
+                    //getMvpView().onTransactionDeleted(position);
+                },Timber::e));
 
     }
 }

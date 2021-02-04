@@ -75,9 +75,8 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         notifyDataSetChanged();
     }
     void deleteItem(int position){
-        listener.onTransactionDelete(transactionsList.get(position),position);
-        transactionsList.remove(position);
-        notifyItemRemoved(position);
+        listener.onTransactionDeleteClicked(transactionsList.get(position),position);
+
     }
 
     // Selections
@@ -216,6 +215,6 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
     public interface TransactionsAdapterListener{
         void onTransactionClick(CashTransaction transaction,int position);
         boolean onTransactionLongClick(int position);
-        void onTransactionDelete(CashTransaction transaction,int position);
+        void onTransactionDeleteClicked(CashTransaction transaction, int position);
     }
 }

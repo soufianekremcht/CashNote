@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface TransactionsContract {
     interface Presenter<V extends View> extends BaseContract.MvpPresenter<V> {
-        void deleteTransaction(CashTransaction transaction);
+        void deleteTransaction(CashTransaction transaction,int position);
         void getTransactions(int accountId);
 
 

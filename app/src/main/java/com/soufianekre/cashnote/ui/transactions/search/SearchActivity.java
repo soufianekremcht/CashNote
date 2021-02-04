@@ -124,7 +124,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
     }
 
     @Override
-    public void onTransactionDelete(CashTransaction cashTransaction, int position) {
+    public void onTransactionDeleteClicked(CashTransaction cashTransaction, int position) {
 
     }
 
