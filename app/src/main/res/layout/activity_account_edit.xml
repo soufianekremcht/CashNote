@@ -12,14 +12,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
-        app:elevation="0dp">
+        app:elevation="0dp"
+        android:theme="@style/AppTheme.ThemeOverLay">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/add_account_toolbar"
-            style="@style/MainToolbarStyle"
+
+
             android:layout_width="match_parent"
 
             android:layout_height="?attr/actionBarSize"
+            app:popupTheme="@style/AppTheme.PopUpOverLay"
 
             />
     </com.google.android.material.appbar.AppBarLayout>

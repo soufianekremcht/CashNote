@@ -17,7 +17,7 @@ import androidx.core.content.FileProvider;
 import com.soufianekre.cashnote.BuildConfig;
 import com.soufianekre.cashnote.MyApp;
 import com.soufianekre.cashnote.R;
-import com.soufianekre.cashnote.data.app_preference.PrefConst;
+import com.soufianekre.cashnote.data.app_preference.PrefsConst;
 import com.soufianekre.cashnote.data.db.model.CashTransaction;
 import com.soufianekre.cashnote.di.component.ActivityComponent;
 import com.soufianekre.cashnote.helper.AppUtils;
@@ -138,7 +138,7 @@ public class ExportDataDialogFragment extends BaseDialogFragment implements Expo
                     String[] column = new String[4];
                     column[0] = transaction.getName();
                     column[1] = String.format("%d %s", transaction.getBalance(),
-                            MyApp.AppPref().getString(PrefConst.PREF_DEFAULT_CURRENCY, "$"));
+                            MyApp.AppPref().getString(PrefsConst.PREF_DEFAULT_CURRENCY, "$"));
                     column[2] = AppUtils.formatDate(new Date(transaction.getLastUpdatedDate()),AppUtils.MAIN_DATE_FORMAT);
                     writer.writeNext(column);
                 }

@@ -88,6 +88,10 @@ dependencies {
     implementation "com.maltaisn:calcdialog:2.2.1"
     implementation "com.opencsv:opencsv:4.0"
 
+    // finger print
+    implementation 'co.infinum:goldfinger:2.0.1'
+    implementation 'co.infinum:goldfinger-rx:2.0.1'
+
 
 
     // Gson

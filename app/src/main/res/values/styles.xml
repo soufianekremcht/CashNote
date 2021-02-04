@@ -1,46 +1,33 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
-        <item name="colorAccent">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
 
         <!--        Material Components Attrs   -->
-        <item name="colorSecondary">@color/accent_indigo</item>
-        <item name="colorSurface">@color/mdtp_white</item>
-        <item name="colorControlNormal">?colorAccent</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <item name="colorOnSecondary">@color/white</item>
-        <item name="colorOnSurface">@color/accent_black</item>
-        <item name="colorOnPrimarySurface">@color/accent_black</item>
+        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="colorSurface">@color/colorSurface</item>
+        <item name="colorControlNormal">@color/colorControlNormal</item>
+        <item name="colorOnPrimary">@color/colorOnPrimary</item>
+        <item name="colorOnSecondary">@color/colorOnSecondary</item>
+        <item name="colorOnSurface">@color/colorOnSurface</item>
+        <item name="colorOnPrimarySurface">@color/colorOnPrimarySurface</item>
 
-    </style>
-
-
-    <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-
         <item name="windowActionModeOverlay">true</item>
         <item name="android:actionModeBackground">@color/holo_dark_action_mode</item>
 
     </style>
+
     <style name="AppTheme.ThemeOverLay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar"/>
     <style name="AppTheme.PopUpOverLay" parent="ThemeOverlay.MaterialComponents.Dark"/>
 
 
-
-    <style name="MainToolbarStyle" parent="Widget.AppCompat.Toolbar">
-        <item name="android:textColorPrimary">@android:color/white</item>
-        <item name="android:textColorSecondary">@android:color/white</item>
-        <item name="actionMenuTextColor">@android:color/white</item>
-        <item name="android:textColor">@color/mdtp_white</item>
-
-    </style>
-
-    <style name="style_appBar" parent="Widget.MaterialComponents.AppBarLayout.Surface">
+    <style name="style_app_bar" parent="Widget.MaterialComponents.AppBarLayout.Surface">
         <item name="android:background">@color/mdtp_white</item>
         <item name="android:elevation">8dp</item>
     </style>

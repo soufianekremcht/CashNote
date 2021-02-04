@@ -3,6 +3,8 @@ package com.soufianekre.cashnote;
 import android.app.Application;
 import android.os.Build;
 
+import androidx.appcompat.app.AppCompatDelegate;
+
 import com.soufianekre.cashnote.data.DataManager;
 import com.soufianekre.cashnote.data.app_preference.AppPreferencesHelper;
 import com.soufianekre.cashnote.data.app_preference.PreferencesHelper;
@@ -35,6 +37,9 @@ public class MyApp extends Application {
         appPrefHelper = new AppPreferencesHelper(this, AppConst.PREF_NAME);
         if (BuildConfig.DEBUG)
             Timber.plant(new Timber.DebugTree());
+
+        AppCompatDelegate.setDefaultNightMode(
+                AppCompatDelegate.MODE_NIGHT_NO);
 
     }
     public AppComponent getComponent() {

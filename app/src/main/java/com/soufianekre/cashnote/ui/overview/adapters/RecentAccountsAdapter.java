@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.soufianekre.cashnote.MyApp;
 import com.soufianekre.cashnote.R;
-import com.soufianekre.cashnote.data.app_preference.PrefConst;
+import com.soufianekre.cashnote.data.app_preference.PrefsConst;
 import com.soufianekre.cashnote.data.db.model.CashAccount;
 import com.soufianekre.cashnote.ui.base.BaseViewHolder;
 
@@ -90,7 +90,7 @@ public class RecentAccountsAdapter extends RecyclerView.Adapter<RecentAccountsAd
             accountName.setText(cashAccount.getName());
             accountColorImg.setColorFilter(R.color.accent_amber);
             String balance = getAccountTotalBalance(position) + " " +
-                    MyApp.AppPref().getString(PrefConst.PREF_DEFAULT_CURRENCY,"$");
+                    MyApp.AppPref().getString(PrefsConst.PREF_DEFAULT_CURRENCY,"$");
 
             accountBalance.setText(balance);
             accountColorImg.setBackgroundTintList(ColorStateList.valueOf(cashAccount.getColor()));

@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.soufianekre.cashnote.MyApp;
 import com.soufianekre.cashnote.R;
-import com.soufianekre.cashnote.data.app_preference.PrefConst;
+import com.soufianekre.cashnote.data.app_preference.PrefsConst;
 import com.soufianekre.cashnote.data.db.model.CashTransaction;
 import com.soufianekre.cashnote.ui.base.BaseViewHolder;
 import com.soufianekre.cashnote.helper.AppUtils;
@@ -84,7 +84,7 @@ public class RecentTransactionsAdapter extends RecyclerView.Adapter<RecentTransa
 
             CashTransaction transaction = recentTransactions.get(currentPosition);
             recentTransactionTitle.setText(String.format("%s",transaction.getName()));
-            String balance = transaction.getBalance() + " " + MyApp.AppPref().getString(PrefConst.PREF_DEFAULT_CURRENCY,"$");
+            String balance = transaction.getBalance() + " " + MyApp.AppPref().getString(PrefsConst.PREF_DEFAULT_CURRENCY,"$");
 
             recentTransactionBalance.setText(balance);
             if (transaction.getCategory() != null) {

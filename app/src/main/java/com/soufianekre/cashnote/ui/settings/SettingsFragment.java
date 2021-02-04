@@ -1,5 +1,6 @@
 package com.soufianekre.cashnote.ui.settings;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,11 +11,12 @@ import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 
 import com.soufianekre.cashnote.R;
-import com.soufianekre.cashnote.data.app_preference.PrefConst;
+import com.soufianekre.cashnote.data.app_preference.PrefsConst;
 import com.soufianekre.cashnote.helper.PermissionHelper;
 import com.soufianekre.cashnote.helper.currency.CashCurrency;
 import com.soufianekre.cashnote.helper.currency.CurrencyHelper;
 import com.soufianekre.cashnote.ui.base.BasePreferenceFragment;
+import com.soufianekre.cashnote.ui.settings.about.AboutActivity;
 import com.soufianekre.cashnote.ui.settings.export.ExportDataDialogFragment;
 
 import java.util.List;
@@ -94,7 +96,7 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
     public boolean onPreferenceChange(Preference preference, Object newValue) {
 
         switch (preference.getKey()){
-            case PrefConst.PREF_DEFAULT_CURRENCY:
+            case PrefsConst.PREF_DEFAULT_CURRENCY:
                 mPresenter.setDefaultCurrencyCode(newValue.toString());
                 String currencyCode = CurrencyHelper.getCommodity(newValue.toString()).getMnemonic();
                 String full_name = CurrencyHelper.getCommodity(newValue.toString()).getFullName();
@@ -110,7 +112,7 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
     @Override
     public boolean onPreferenceClick(Preference preference) {
         switch (preference.getKey()){
-            case PrefConst.PREF_EXPORT_DATA:
+            case PrefsConst.PREF_EXPORT_DATA:
                 // open Export Dialog
 
                 if (PermissionHelper.isStoragePermissionGranted(getContext())){
@@ -130,7 +132,9 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
                 }
 
                 return true;
-            case PrefConst.PREF_RATE_US:
+
+            case PrefsConst.PREF_ABOUT:
+                startActivity(new Intent(getActivity(), AboutActivity.class));
                 return true;
             default:
                 return false;
@@ -150,7 +154,7 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
         Timber.e("Currency Should Be Displayed");
 
 
-        ListPreference pref = findPreference(PrefConst.PREF_DEFAULT_CURRENCY);
+        ListPreference pref = findPreference(PrefsConst.PREF_DEFAULT_CURRENCY);
         String currencyName = CurrencyHelper.getCommodity(defaultCurrency).getFullName();
         Timber.e("Currerncy Entries Size : " + mCurrencyEntries.length);
 
@@ -166,7 +170,7 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
 
     }
     private void setupPreferences(){
-        Preference exportPref = findPreference(PrefConst.PREF_EXPORT_DATA);
+        Preference exportPref = findPreference(PrefsConst.PREF_EXPORT_DATA);
         exportPref.setOnPreferenceClickListener(this);
     }
 

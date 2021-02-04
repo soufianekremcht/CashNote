@@ -10,15 +10,18 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
+import com.soufianekre.cashnote.MyApp;
 import com.soufianekre.cashnote.R;
-
+import com.soufianekre.cashnote.data.app_preference.PrefsConst;
 import com.soufianekre.cashnote.helper.AppUtils;
 import com.soufianekre.cashnote.ui.account_edit.AccountEditorActivity;
 import com.soufianekre.cashnote.ui.accounts.AccountsFragment;
@@ -26,28 +29,25 @@ import com.soufianekre.cashnote.ui.base.BaseActivity;
 import com.soufianekre.cashnote.ui.overview.OverViewFragment;
 import com.soufianekre.cashnote.ui.settings.SettingsActivity;
 import com.soufianekre.cashnote.ui.transaction_filter.TransactionFilterActivity;
-
 import com.soufianekre.cashnote.ui.transactions.search.SearchActivity;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationView;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import co.infinum.goldfinger.Goldfinger;
+import co.infinum.goldfinger.rx.RxGoldfinger;
+import io.reactivex.observers.DisposableObserver;
 
 @SuppressLint("NonConstantResourceId")
 public class MainActivity extends BaseActivity implements MainContract.View {
     public static final String FRAGMENT_ACCOUNT_TAG = "fragment_account";
-    private static final String FRAGMENT_OVERVIEW_TAG = "overviewFragment";
-
-
     public static final int REFRESH_TRANSACTION_LIST_CODE = 55;
     public static final int REFRESH_ACCOUNT_LIST_CODE = 44;
     public static final int RESULT_T = 533;
     public static final int RESULT_A = 511;
     public static final String SELECTED_ACCOUNT = "account_parent";
-
+    private static final String FRAGMENT_OVERVIEW_TAG = "overviewFragment";
     public int CurrentDaysCount = AppUtils.getCurrentDaysCount();
     public int CurrentYear = AppUtils.getCurrentYear();
 
@@ -60,20 +60,14 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     Toolbar mainToolbar;
     @BindView(R.id.add_account_fab)
     FloatingActionButton newAccountFab;
-
-    private ActionBarDrawerToggle drawerToggle;
-
     @Inject
     MainContract.Presenter<MainContract.View> presenter;
+    private ActionBarDrawerToggle drawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /*
-        AppCompatDelegate.setDefaultNightMode(
-                AppCompatDelegate.MODE_NIGHT_YES);
 
-         */
         setContentView(R.layout.activity_main);
         setUnBinder(ButterKnife.bind(this));
         getActivityComponent().inject(this);
@@ -86,7 +80,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     }
 
 
-    private void checkThemeSwitch(){
+    private void checkThemeSwitch() {
         int currentNightMode = getResources().getConfiguration().uiMode
                 & Configuration.UI_MODE_NIGHT_MASK;
         switch (currentNightMode) {
@@ -112,14 +106,12 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         mainNavView.setNavigationItemSelectedListener(this);
 
 
-
         newAccountFab.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, AccountEditorActivity.class);
             startActivityForResult(intent, REFRESH_ACCOUNT_LIST_CODE);
         });
 
     }
-
 
 
     @Override
@@ -175,9 +167,8 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     @Override
     public void showAccountFragment() {
         loadFragmentWithoutAnimations(AccountsFragment.newInstance(), FRAGMENT_ACCOUNT_TAG);
-        setToolbarTitle(R.string.accounts);
+        getMainToolbar().setTitle(R.string.accounts);
     }
-
 
 
     @Override
@@ -189,6 +180,38 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     public void setBalance(int balanceValue) {
         presenter.saveBalanceToDb(CurrentDaysCount, CurrentYear, balanceValue);
     }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        drawerLayout.closeDrawer(GravityCompat.START);
+        new Handler().postDelayed(() -> {
+            switch (item.getItemId()) {
+                case R.id.drawer_menu_overview:
+                    presenter.onDrawerOptionOverViewClick();
+                    mainNavView.setCheckedItem(R.id.drawer_menu_overview);
+                    break;
+                case R.id.drawer_menu_accounts:
+                    presenter.onDrawerOptionAccountsClick();
+                    mainNavView.setCheckedItem(R.id.drawer_menu_accounts);
+                    break;
+                case R.id.drawer_menu_filter:
+                    startActivity(new Intent(this, TransactionFilterActivity.class));
+                    break;
+                case R.id.drawer_menu_toggle_night_mode:
+                    switchTheme();
+                    break;
+
+                case R.id.drawer_menu_settings:
+                    startActivity(new Intent(this, SettingsActivity.class));
+                    break;
+
+            }
+
+
+        }, 250);
+        return true;
+    }
+
 
     public void loadFragment(Fragment fragment, String tag) {
         getSupportFragmentManager().beginTransaction()
@@ -205,45 +228,61 @@ public class MainActivity extends BaseActivity implements MainContract.View {
 
     }
 
+
+    private void switchTheme() {
+        if (MyApp.AppPref().getBoolean(PrefsConst.ALLOW_DARK_MODE)) {
+            AppCompatDelegate.setDefaultNightMode(
+                    AppCompatDelegate.MODE_NIGHT_NO);
+            MyApp.AppPref().set(PrefsConst.ALLOW_DARK_MODE, false);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(
+                    AppCompatDelegate.MODE_NIGHT_YES);
+            MyApp.AppPref().set(PrefsConst.ALLOW_DARK_MODE, true);
+        }
+    }
+
     private Fragment getCurrentFragment() {
         return getSupportFragmentManager().findFragmentById(R.id.fragment_container);
     }
 
-    public void setToolbarTitle(@StringRes int stringResId) {
-        mainToolbar.setTitle(stringResId);
-    }
+    private void checkFingerPrint() {
+        RxGoldfinger goldfinger = new RxGoldfinger.Builder(this).build();
+        Goldfinger.PromptParams params = new Goldfinger.PromptParams.Builder(this)
+                .title("Check For FingerPrint")
+                .negativeButtonText("Cancel")
+                .description("Description...")
+                .subtitle("Subtitle...")
+                .build();
 
+        if (goldfinger.canAuthenticate()) {
+            goldfinger.authenticate(params).subscribe(new DisposableObserver<Goldfinger.Result>() {
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                @Override
+                public void onComplete() {
+                    /* Fingerprint authentication is finished */
+                    showMessage("You have been verified Successfully! ");
+                }
 
-        switch (item.getItemId()) {
-            case R.id.drawer_menu_overview:
-                presenter.onDrawerOptionOverViewClick();
-                mainNavView.setCheckedItem(R.id.drawer_menu_overview);
-                break;
-            case R.id.drawer_menu_accounts:
-                presenter.onDrawerOptionAccountsClick();
-                mainNavView.setCheckedItem(R.id.drawer_menu_accounts);
-                break;
-            case R.id.drawer_menu_filter:
-                startActivity(new Intent(this, TransactionFilterActivity.class));
-                break;
-            case R.id.drawer_menu_settings:
-                startActivity(new Intent(this, SettingsActivity.class));
-                break;
+                @Override
+                public void onError(Throwable e) {
+                    /* Critical error happened */
+                    showError("You are not verified ,Check Again! ");
+                }
+
+                @Override
+                public void onNext(Goldfinger.Result result) {
+                    /* Result received */
+                }
+            });
         }
-        new Handler().postDelayed(() -> {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        }, 250);
-        return true;
     }
 
 
-    public FloatingActionButton getFab(){
+    public FloatingActionButton getFab() {
         return newAccountFab;
     }
-    public Toolbar getMainToolbar(){
+
+    public Toolbar getMainToolbar() {
         return mainToolbar;
     }
 

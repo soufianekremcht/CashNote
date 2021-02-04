@@ -58,7 +58,7 @@ public class SettingsActivity extends BaseActivity {
     void show_settings_fragment(){
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.settings_fragment_container,SettingsFragment.newInstance())
+                .replace(R.id.settings_container,SettingsFragment.newInstance())
                 .commit();
     }
 }

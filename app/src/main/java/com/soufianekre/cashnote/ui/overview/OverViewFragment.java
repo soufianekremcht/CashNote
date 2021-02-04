@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,7 +35,7 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.soufianekre.cashnote.MyApp;
 import com.soufianekre.cashnote.R;
-import com.soufianekre.cashnote.data.app_preference.PrefConst;
+import com.soufianekre.cashnote.data.app_preference.PrefsConst;
 import com.soufianekre.cashnote.data.db.model.BalanceHistory;
 import com.soufianekre.cashnote.data.db.model.CashAccount;
 import com.soufianekre.cashnote.data.db.model.CashTransaction;
@@ -194,7 +195,7 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
         float totalIncome = 1f;
         Description desc = new Description();
         desc.setText("Summary of this month");
-
+        int textColor = ContextCompat.getColor(getActivity(),R.color.colorOnSurface);
 
         summaryPieChart.setDescription(desc);
         summaryPieChart.setUsePercentValues(true);
@@ -234,8 +235,10 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
 
         String summaryLabel = String.format(" Summary for %d-%d", currentMonth + 1, CURRENT_YEAR);
         PieDataSet set1 = new PieDataSet(values, summaryLabel);
+
         set1.setColors(ColorTemplate.createColors(new int[]{Color.RED, Color.GREEN}));
-        set1.setValueTextColor(Color.BLACK);
+        set1.setValueTextColor(textColor);
+
 
         PieData pieData = new PieData(set1);
         pieData.setValueFormatter(new PercentFormatter());
@@ -348,7 +351,7 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
 
         Description desc = new Description();
         desc.setText(String.format("Balance per day in %s",
-                MyApp.AppPref().getString(PrefConst.PREF_DEFAULT_CURRENCY, "$")));
+                MyApp.AppPref().getString(PrefsConst.PREF_DEFAULT_CURRENCY, "$")));
 
         balanceChart.setDescription(desc);
 

@@ -5,7 +5,7 @@ import androidx.annotation.NonNull;
 
 import com.soufianekre.cashnote.MyApp;
 import com.soufianekre.cashnote.data.DataManager;
-import com.soufianekre.cashnote.data.app_preference.PrefConst;
+import com.soufianekre.cashnote.data.app_preference.PrefsConst;
 import com.soufianekre.cashnote.ui.base.BasePresenter;
 import com.soufianekre.cashnote.helper.currency.CashCurrency;
 import com.soufianekre.cashnote.helper.currency.CurrencyHelper;
@@ -44,14 +44,14 @@ public class SettingsPresenter<V extends SettingsContract.View> extends BasePres
             Timber.e("%s", e.getMessage());
         } finally {
             currencyCode = MyApp.AppPref().getString(
-                    PrefConst.PREF_DEFAULT_CURRENCY,currencyCode);
+                    PrefsConst.PREF_DEFAULT_CURRENCY,currencyCode);
         }
         return currencyCode;
     }
 
 
     public void setDefaultCurrencyCode(@NonNull String currencyCode){
-        MyApp.AppPref().set(PrefConst.PREF_DEFAULT_CURRENCY,currencyCode);
+        MyApp.AppPref().set(PrefsConst.PREF_DEFAULT_CURRENCY,currencyCode);
         Money.DEFAULT_CURRENCY_CODE = currencyCode;
         CashCurrency.defaultCashCurrency = CurrencyHelper.getCommodity(currencyCode);
     }

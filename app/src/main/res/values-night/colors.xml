@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <color name="colorSecondary">@color/accent_indigo</color>
+    <color name="colorSurface">@color/accent_black</color>
+    <color name="colorControlNormal">@color/colorAccent</color>
+    <color name="colorOnPrimary">@color/white</color>
+    <color name="colorOnSecondary">@color/white</color>
+    <color name="colorOnSurface">@color/white</color>
+    <color name="colorOnPrimarySurface">@color/white</color>
+
+
+</resources>

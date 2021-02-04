@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -131,8 +132,9 @@ public class TransactionFilterActivity extends BaseActivity implements Transacti
         desc.setText("Summary of The Month");
         monthSummaryPieChart.setDescription(desc);
         monthSummaryPieChart.setUsePercentValues(true);
-        monthSummaryPieChart.setCenterTextColor(Color.BLACK);
-        monthSummaryPieChart.setEntryLabelColor(Color.BLACK);
+        int textColor = ContextCompat.getColor(this,R.color.colorOnSurface);
+        monthSummaryPieChart.setCenterTextColor(textColor);
+        monthSummaryPieChart.setEntryLabelColor(textColor);
         monthSummaryPieChart.setDrawCenterText(false);
         monthSummaryPieChart.setDrawEntryLabels(false);
 
@@ -156,9 +158,10 @@ public class TransactionFilterActivity extends BaseActivity implements Transacti
         String summaryLabel = String.format(Locale.US, " Summary for %d-%d",
                 selected_month_position + 1, CURRENT_YEAR);
 
+
         PieDataSet set1 = new PieDataSet(values, summaryLabel);
         set1.setColors(ColorTemplate.createColors(new int[]{Color.RED, Color.GREEN}));
-        set1.setValueTextColor(Color.BLACK);
+        set1.setValueTextColor(textColor);
         PieData pieData = new PieData(set1);
         pieData.setValueFormatter(new PercentFormatter());
         // testing

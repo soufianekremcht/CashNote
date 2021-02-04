@@ -8,11 +8,12 @@
             android:summary="Set The Default Currency"
             />
         <Preference
-            android:key="app_about"
-            android:title="About the App"
+            android:key="about"
+            android:title="About"
             android:summary="More Info About The App"
             android:icon="@drawable/ic_outline_account_box_black"
             />
+
     </PreferenceCategory>
     <PreferenceCategory android:title="Account">
         <Preference
@@ -21,11 +22,16 @@
             android:icon="@drawable/ic_file_upload_black"
             android:summary="Export The Data To CSV OR EXCEL"
             />
-        <Preference
-            android:key="key_rate_us"
-            android:title="Rate Us "
-            android:icon="@drawable/ic_feedback"
-            android:summary="Give us feedback on the Play Store"
+        <SwitchPreferenceCompat
+            android:key="key_set_pin_lock"
+            android:title="set Pin Lock"
+
+            android:summary="set Pin Lock for The app"
+            />
+        <SwitchPreferenceCompat
+            android:key="key_set_finger_print_lock"
+            android:title="Set Finger Print Lock"
+            android:summary="Required Compatible Hardware"
             />
     </PreferenceCategory>
 
