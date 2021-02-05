@@ -78,7 +78,7 @@
                     style="@style/style_account_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Transaction Description"
+                    android:hint="@string/transaction_description_hint"
                     android:inputType="text"
                     android:maxLines="1"
                     android:minLines="1" />
@@ -90,7 +90,7 @@
                 style="@style/style_account_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Category" />
+                android:text="@string/category" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/category_recycler_view"
@@ -104,7 +104,7 @@
                 style="@style/style_account_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Balance :" />
+                android:text="@string/balance" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -128,7 +128,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:hint="Type an Amount"
+                    android:hint="@string/transaction_balance_hing"
                     android:maxEms="8"
                     android:maxLength="8" />
 
@@ -145,7 +145,7 @@
                     android:layout_height="match_parent"
                     android:layout_margin="4dp"
                     android:checked="true"
-                    android:text="Income" />
+                    android:text="@string/income" />
 
             </LinearLayout>
 
@@ -153,7 +153,7 @@
                 style="@style/style_transaction_card_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Date :" />
+                android:text="@string/date" />
 
             <LinearLayout
                 android:id="@+id/transaction_account_layout"
@@ -176,7 +176,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:hint="Choose a Date"
+                    android:hint="@string/transaction_date_hint"
                     android:importantForAutofill="no" />
 
 
@@ -186,7 +186,7 @@
                 style="@style/style_account_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Notes :" />
+                android:text="@string/notes" />
 
             <LinearLayout
                 android:id="@+id/transaction_notes_layout"
@@ -207,7 +207,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:hint="Write a Note."
+                    android:hint="@string/transaction_notes_hint"
                     android:inputType="textMultiLine"
                     android:padding="@dimen/spacing_normal"
                     android:textSize="@dimen/font_small" />

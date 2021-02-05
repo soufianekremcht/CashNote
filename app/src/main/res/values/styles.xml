@@ -27,10 +27,6 @@
     <style name="AppTheme.PopUpOverLay" parent="ThemeOverlay.MaterialComponents.Dark"/>
 
 
-    <style name="style_app_bar" parent="Widget.MaterialComponents.AppBarLayout.Surface">
-        <item name="android:background">@color/mdtp_white</item>
-        <item name="android:elevation">8dp</item>
-    </style>
 
 
 

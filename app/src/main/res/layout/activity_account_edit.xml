@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:padding="20dp"
-            android:text="Add New Account :"
+            android:text="@string/add_new_account"
             android:textColor="@color/mdtp_white"
             android:textSize="30sp"
             android:textStyle="bold" />
@@ -51,7 +51,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/rounded_corner_bg"
+            android:background="@drawable/bg_rounded_corner"
             android:padding="@dimen/spacing_large"
 
             >
@@ -61,7 +61,7 @@
                 style="@style/style_account_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Account Name" />
+                android:text="@string/account_name" />
 
             <EditText
                 android:id="@+id/account_name_field"
@@ -75,7 +75,7 @@
                 android:importantForAutofill="no"
                 android:inputType="text"
                 android:maxLength="30"
-                android:hint="Type a Name"/>
+                android:hint="@string/account_name_hint"/>
 
             <!--            Account Category Color-->
             <de.hdodenhof.circleimageview.CircleImageView
@@ -95,7 +95,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/account_name_field"
-                android:text="Description" />
+                android:text="@string/account_description" />
 
             <EditText
                 android:id="@+id/account_desc_field"
@@ -104,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/edit_account_desc_text"
                 android:layout_margin="@dimen/spacing_small"
-                android:hint="Account Description"
+                android:hint="@string/account_description_hint"
                 android:importantForAutofill="no"
                 android:inputType="textMultiLine" />
 
@@ -122,6 +122,6 @@
         android:src="@drawable/ic_check_white_24dp"
         app:layout_anchor="@id/account_field_layout"
         app:layout_anchorGravity="bottom|end"
-        android:contentDescription="TODO" />
+        android:contentDescription="Apply Changes" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

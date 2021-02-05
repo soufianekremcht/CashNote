@@ -42,8 +42,7 @@
             app:layout_anchor="@id/fragment_container"
             app:layout_anchorGravity="bottom|end"
             android:layout_margin="@dimen/activity_horizontal_margin"
-            android:src="@drawable/ic_add_white_24dp"
-            android:contentDescription="TODO" />
+            android:src="@drawable/ic_add_white_24dp" />
 
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -6,11 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/search_app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/style_app_bar"
+        android:background="?colorAccent"
+        android:elevation="8dp"
         >
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/search_toolbar"
@@ -41,11 +43,15 @@
         android:id="@+id/search_result_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        />
 
     <include
+
         android:id="@+id/search_empty_data_view"
         layout="@layout/view_empty_data"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
