@@ -22,17 +22,19 @@
             android:icon="@drawable/ic_file_upload_black"
             android:summary="Export The Data To CSV OR EXCEL"
             />
-        <SwitchPreferenceCompat
-            android:key="key_set_pin_lock"
-            android:title="set Pin Lock"
 
-            android:summary="set Pin Lock for The app"
-            />
-        <SwitchPreferenceCompat
-            android:key="key_set_finger_print_lock"
-            android:title="Set Finger Print Lock"
-            android:summary="Required Compatible Hardware"
-            />
+<!--        -->
+<!--        <SwitchPreferenceCompat-->
+<!--            android:key="key_set_pin_lock"-->
+<!--            android:title="set Pin Lock"-->
+
+<!--            android:summary="set Pin Lock for The app"-->
+<!--            />-->
+<!--        <SwitchPreferenceCompat-->
+<!--            android:key="key_set_finger_print_lock"-->
+<!--            android:title="Set Finger Print Lock"-->
+<!--            android:summary="Required Compatible Hardware"-->
+<!--            />-->
     </PreferenceCategory>
 
 

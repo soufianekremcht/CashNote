@@ -8,7 +8,7 @@
             android:summary = "1.0.1"/>
 
         <Preference android:title="App Developer"
-            android:key="appDev"
+            android:key="app_dev"
             android:summary = "Soufiane Kremcht"/>
 
         <Preference android:title="Rate Us on PlayStore"

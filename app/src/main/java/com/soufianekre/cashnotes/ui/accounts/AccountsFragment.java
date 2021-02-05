@@ -55,6 +55,8 @@ public class AccountsFragment extends BaseFragment implements AccountsContract.V
     TextView transactionsCountValueText;
 
 
+
+
     @Inject
     AccountsContract.Presenter<AccountsContract.View> presenter;
     @Inject
@@ -63,6 +65,7 @@ public class AccountsFragment extends BaseFragment implements AccountsContract.V
     LinearLayoutManager linearLayoutManager;
 
 
+    private List<CashTransaction> currentTransactions;
     private List<CashAccount> currentAccountList;
     private MainActivity mainActivity;
 
@@ -114,7 +117,7 @@ public class AccountsFragment extends BaseFragment implements AccountsContract.V
     public void onStart() {
         super.onStart();
         presenter.getAccounts();
-        presenter.getTransactions();
+
     }
 
     @Override
@@ -139,14 +142,35 @@ public class AccountsFragment extends BaseFragment implements AccountsContract.V
     }
 
     @Override
-    public void notifyAccountAdapter(List<CashAccount> accounts) {
+    public void notifyAccountAdapter(List<CashAccount> accounts,List<CashTransaction> transactions) {
         int total_balance = 0;
         int accounts_count = accounts.size();
+        // Set Info Card
+        int transactions_count = transactions.size();
+
+        int income = 0;
+        int expense = 0;
+
+        for (CashTransaction transaction : transactions) {
+            if (transaction.isExpense()) {
+                expense += transaction.getBalance();
+            } else {
+                income += transaction.getBalance();
+            }
+
+        }
+
+        String totalBalance =String.format("%d %s", income +expense,
+                MyApp.AppPref().getString(PrefsConst.PREF_DEFAULT_CURRENCY, "$"));
+        totalBalanceValueText.setText(totalBalance);
+        transactionsCountValueText.setText(String.format("%d", transactions_count));
 
         accountsCountValueText.setText(String.format("%d", accounts_count));
 
         accountsAdapter.insertItems(accounts);
+
         currentAccountList = accountsAdapter.getAccountList();
+        currentTransactions = transactions;
         Timber.e("The size of accounts %s ", accountsAdapter.getAccountList().size());
         checkEmptyView(accountsAdapter);
     }
@@ -157,6 +181,17 @@ public class AccountsFragment extends BaseFragment implements AccountsContract.V
         Intent transactionActivityIntent = new Intent(getActivity(), TransactionsActivity.class);
         transactionActivityIntent.putExtra(SELECTED_ACCOUNT, currentAccountList.get(position));
         startActivity(transactionActivityIntent);
+    }
+
+    @Override
+    public int onAccountTransactionsCount(int accountId) {
+        int transaction_count = 0;
+        for (CashTransaction transaction: currentTransactions){
+            if (transaction.getAccountId() == accountId){
+                transaction_count++;
+            }
+        }
+        return transaction_count;
     }
 
     @Override
@@ -178,29 +213,6 @@ public class AccountsFragment extends BaseFragment implements AccountsContract.V
     public void onAccountDeleted(int position) {
         accountsAdapter.deleteItem(position);
         checkEmptyView(accountsAdapter);
-    }
-
-    public void setInfo(List<CashTransaction> results) {
-
-        int transactions_count = results.size();
-
-        int income = 0;
-        int expense = 0;
-
-        for (CashTransaction transaction : results) {
-            if (transaction.isExpense()) {
-                expense += transaction.getBalance();
-            } else {
-                income += transaction.getBalance();
-            }
-
-        }
-        // Set Info Card
-        String totalBalance =String.format("%d %s", income +expense,
-                MyApp.AppPref().getString(PrefsConst.PREF_DEFAULT_CURRENCY, "$"));
-        totalBalanceValueText.setText(totalBalance);
-        transactionsCountValueText.setText(String.format("%d", transactions_count));
-
     }
 
     private void checkEmptyView(AccountsAdapter accountsAdapter) {

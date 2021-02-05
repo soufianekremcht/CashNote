@@ -170,6 +170,7 @@ public class AccountEditorActivity extends BaseActivity implements AccountEditor
 
     private boolean getData() {
         accountName = accountNameField.getText().toString();
+        accountDescription = accountDescriptionField.getText().toString();
         if (accountName.equals("")) {
             accountNameField.setError("You need to set A name for the account !!");
             return false;

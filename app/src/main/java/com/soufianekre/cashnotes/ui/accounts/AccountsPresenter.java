@@ -2,6 +2,7 @@ package com.soufianekre.cashnotes.ui.accounts;
 
 import com.soufianekre.cashnotes.data.DataManager;
 import com.soufianekre.cashnotes.data.db.model.CashAccount;
+import com.soufianekre.cashnotes.data.db.model.CashTransaction;
 import com.soufianekre.cashnotes.helper.rx.SchedulerProvider;
 import com.soufianekre.cashnotes.ui.base.BasePresenter;
 
@@ -29,21 +30,16 @@ public class AccountsPresenter<V extends AccountsContract.View> extends BasePres
         getCompositeDisposable().add(getDataManager().getRoomDb().cashAccountDao().getAccounts()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(accounts -> {
-                    getMvpView().notifyAccountAdapter(accounts);
-
-                }, Timber::e));
+                .subscribe(this::getTransactions, Timber::e));
     }
 
-    @Override
-    public void getTransactions(){
+    public void getTransactions(List<CashAccount> cashAccounts){
         getCompositeDisposable().add(getDataManager()
                 .getRoomDb().cashTransactionDao().getAllTransactions()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(results -> {
-
-                    getMvpView().setInfo(results);
+                    getMvpView().notifyAccountAdapter(cashAccounts,results);
                 }, throwable -> Timber.e("%s", throwable.getMessage())));
 
     }

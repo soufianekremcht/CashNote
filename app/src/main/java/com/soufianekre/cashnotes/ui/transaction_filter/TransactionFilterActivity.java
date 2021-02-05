@@ -85,6 +85,7 @@ public class TransactionFilterActivity extends BaseActivity implements Transacti
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
+        menu.findItem(R.id.main_menu_search).setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 

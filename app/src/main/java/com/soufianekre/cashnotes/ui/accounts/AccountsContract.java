@@ -9,15 +9,12 @@ import java.util.List;
 public interface AccountsContract {
     interface Presenter<V extends View> extends BaseContract.MvpPresenter<V> {
         void getAccounts();
-        void getTransactions();
         void onDeleteAccount(List<CashAccount> accounts, int position);
     }
 
     interface View extends BaseContract.MvpView, AccountsAdapter.AccountsAdapterListener {
-        void notifyAccountAdapter(List<CashAccount> accounts);
+        void notifyAccountAdapter(List<CashAccount> accounts,List<CashTransaction> transactions);
 
         void onAccountDeleted(int position);
-
-        void setInfo(List<CashTransaction> results);
     }
 }

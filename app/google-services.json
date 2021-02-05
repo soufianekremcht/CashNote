@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "249450668257",
+    "project_id": "cashnotes-66590",
+    "storage_bucket": "cashnotes-66590.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:249450668257:android:bb91eda60f1556433e97a0",
+        "android_client_info": {
+          "package_name": "com.soufianekre.cashnotes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "249450668257-r7b44nv5n1lmhtnb13ps2hshe1e9dp52.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmiKlAdc2WJhWr5r96v7LX5bfIKMqc-GQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "249450668257-r7b44nv5n1lmhtnb13ps2hshe1e9dp52.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

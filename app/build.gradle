@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 
+apply plugin: 'com.google.firebase.crashlytics'
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
@@ -49,6 +51,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'
+
+
 
     implementation "androidx.cardview:cardview:1.0.0"
     implementation "androidx.recyclerview:recyclerview:1.1.0"
@@ -108,7 +112,7 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxjava:2.2.17'
 
     // dexter permission
-    implementation 'com.karumi:dexter:6.0.1'
+    implementation 'com.karumi:dexter:6.2.2'
 
     // dagger
     implementation "com.google.dagger:dagger:$rootProject.dagger_version"
@@ -117,6 +121,14 @@ dependencies {
     annotationProcessor "com.google.dagger:dagger-android-processor:$rootProject.dagger_version"
     implementation 'javax.inject:javax.inject:1'
 
+    // firebase Crashlyst
+    // Import the BoM for the Firebase platform
+    implementation platform('com.google.firebase:firebase-bom:26.4.0')
+
+    // Declare the dependencies for the Crashlytics and Analytics libraries
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
 
     // logging
     implementation 'com.jakewharton.timber:timber:4.7.1'

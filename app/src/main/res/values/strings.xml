@@ -84,6 +84,7 @@
     <string name="add_new_transaction_description">Description :</string>
     <string name="add_new_account">Add New Account</string>
     <string name="account_name_hint">Type a Name</string>
+    <string name="transactions_count">Transaction Count</string>
 
 
 </resources>

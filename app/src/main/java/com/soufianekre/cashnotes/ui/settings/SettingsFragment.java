@@ -130,10 +130,9 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
                 }else{
                     showMessage("You need storage permissions To use This feature");
                 }
-
                 return true;
             case PrefsConst.PREF_ABOUT:
-                startActivity(new Intent(getActivity(), AboutActivity.class));
+                getActivity().startActivity(new Intent(getActivity(), AboutActivity.class));
                 return true;
             default:
                 return false;
@@ -170,6 +169,8 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
     }
     private void setupPreferences(){
         Preference exportPref = findPreference(PrefsConst.PREF_EXPORT_DATA);
+        Preference aboutPref = findPreference(PrefsConst.PREF_ABOUT);
+        aboutPref.setOnPreferenceClickListener(this);
         exportPref.setOnPreferenceClickListener(this);
     }
 

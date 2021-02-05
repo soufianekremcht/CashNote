@@ -18,7 +18,6 @@ import com.soufianekre.cashnotes.R;
 import com.soufianekre.cashnotes.data.db.model.CashAccount;
 import com.soufianekre.cashnotes.helper.DialogsUtil;
 
-
 import java.util.List;
 
 import butterknife.BindView;
@@ -31,7 +30,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.Accoun
     private final List<CashAccount> accountList;
     private AccountsAdapterListener listener;
 
-    public AccountsAdapter(Context mContext,List<CashAccount> accountList,AccountsAdapterListener listener) {
+    public AccountsAdapter(Context mContext, List<CashAccount> accountList, AccountsAdapterListener listener) {
         this.mContext = mContext;
         this.accountList = accountList;
         this.listener = listener;
@@ -48,31 +47,31 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.Accoun
     public void onBindViewHolder(@NonNull AccountsViewHolder holder, int position) {
         CashAccount currentAccount = accountList.get(position);
         holder.accountTitle.setText(currentAccount.getName());
-        /*
-        holder.accountTotalTransactions.setText(
-                String.format(Locale.US,"%d transactions",currentAccount.getTransactionsList().size()));
+        int transaction_count = listener.onAccountTransactionsCount(currentAccount.getId());
+        String transaction_count_text = mContext.getString(R.string.transactions_count)
+                + ": " + transaction_count;
 
-         */
-
+        holder.accountTotalTransactions.setText(transaction_count_text);
         holder.accountColorImg.setColorFilter(currentAccount.getColor());
-        setListeners(holder,position);
+        setListeners(holder, position);
     }
+
     @Override
     public int getItemCount() {
         return accountList.size();
     }
 
-    private void setListeners(AccountsViewHolder holder,int position){
+    private void setListeners(AccountsViewHolder holder, int position) {
 
-        holder.accountCardView.setOnClickListener(v ->{
+        holder.accountCardView.setOnClickListener(v -> {
             listener.onAccountClick(position);
         });
         holder.accountOptionsBtn.setOnClickListener(v -> {
             // pop up
-            PopupMenu popupMenu = new PopupMenu(holder.itemView.getContext(),v);
+            PopupMenu popupMenu = new PopupMenu(holder.itemView.getContext(), v);
             popupMenu.inflate(R.menu.popup_menu_edit);
             popupMenu.setOnMenuItemClickListener(item -> {
-                switch (item.getItemId()){
+                switch (item.getItemId()) {
                     case R.id.popup_menu_edit:
                         listener.onAccountEditClicked(position);
                         break;
@@ -83,7 +82,9 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.Accoun
                                 R.string.dialog_delete_account_title,
                                 R.string.confirm,
                                 R.string.cancel,
-                                (dialog, which) -> {listener.onAccountDeleteClicked(position);}).show();
+                                (dialog, which) -> {
+                                    listener.onAccountDeleteClicked(position);
+                                }).show();
                         break;
                 }
                 return true;
@@ -91,29 +92,40 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.Accoun
             popupMenu.show();
         });
     }
-    public void insertItems(List<CashAccount> accounts){
+
+    public void insertItems(List<CashAccount> accounts) {
         accountList.clear();
         accountList.addAll(accounts);
         notifyDataSetChanged();
     }
-    public void deleteItem(int position){
+
+    public void deleteItem(int position) {
         accountList.remove(position);
         notifyItemRemoved(position);
 
     }
 
-    public List<CashAccount> getAccountList(){
+    public List<CashAccount> getAccountList() {
         return accountList;
     }
 
-    public void setAdapterListener(AccountsAdapterListener listener){
+    public void setAdapterListener(AccountsAdapterListener listener) {
         this.listener = listener;
     }
 
 
+    public interface AccountsAdapterListener {
+        void onAccountDeleteClicked(int position);
 
+        void onAccountEditClicked(int position);
 
-    public static class AccountsViewHolder extends RecyclerView.ViewHolder{
+        void onAccountClick(int position);
+
+        int onAccountTransactionsCount(int accountId);
+
+    }
+
+    public static class AccountsViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.account_card_view)
         CardView accountCardView;
         @BindView(R.id.card_account_title)
@@ -127,14 +139,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.Accoun
 
         AccountsViewHolder(@NonNull View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
-    }
-
-    public interface AccountsAdapterListener{
-        void onAccountDeleteClicked(int position);
-        void onAccountEditClicked(int position);
-        void onAccountClick(int position);
-
     }
 }

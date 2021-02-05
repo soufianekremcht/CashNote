@@ -232,6 +232,7 @@ public class TransactionEditorActivity extends BaseActivity
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white);
         }
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
         AppBarLayout mAppBarLayout = findViewById(R.id.add_transaction_app_bar);
