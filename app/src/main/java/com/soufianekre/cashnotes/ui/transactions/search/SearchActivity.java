@@ -3,6 +3,7 @@ package com.soufianekre.cashnotes.ui.transactions.search;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
 
@@ -57,6 +58,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
         setSupportActionBar(searchToolbar);
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -113,7 +115,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
 
     @Override
     public void onTransactionClick(CashTransaction cashTransaction, int position) {
-        ShowTransactionFragment dialog = ShowTransactionFragment.newInstance(cashTransaction, position);
+        ShowTransactionFragment dialog = ShowTransactionFragment.newInstance(cashTransaction, position,false);
         dialog.setDialogListener(this);
         dialog.show(getSupportFragmentManager(), "Show_Transaction");
     }

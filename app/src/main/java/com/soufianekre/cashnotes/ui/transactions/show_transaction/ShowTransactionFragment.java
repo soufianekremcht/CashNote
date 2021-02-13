@@ -59,13 +59,15 @@ public class ShowTransactionFragment extends BaseBottomSheetFragment implements 
     private ShowTransactionDialogListener listener;
     private CashTransaction transactionToShow;
     private int current_position;
+    private boolean isEditable = true;
 
 
-    public static ShowTransactionFragment newInstance(CashTransaction transaction, int position) {
+    public static ShowTransactionFragment newInstance(CashTransaction transaction, int position,boolean isEditable) {
 
         Bundle args = new Bundle();
         args.putParcelable(TRANSACTION_SHOW, transaction);
         args.putInt("transaction_to_show_position", position);
+        args.putBoolean("is_editable",isEditable);
         ShowTransactionFragment fragment = new ShowTransactionFragment();
         fragment.setArguments(args);
         return fragment;
@@ -132,12 +134,16 @@ public class ShowTransactionFragment extends BaseBottomSheetFragment implements 
         if (getArguments() != null) {
             transactionToShow = getArguments().getParcelable(TRANSACTION_SHOW);
             current_position = getArguments().getInt("transaction_to_show_position");
+            isEditable = getArguments().getBoolean("is_editable");
         }
 
     }
 
     private void initView(View dialogView) {
         mPresenter.getTransactionAccount(transactionToShow.getAccountId());
+
+        if (isEditable) editBtn.setVisibility(View.VISIBLE);
+        else editBtn.setVisibility(View.GONE);
 
         editBtn.setOnClickListener(v -> {
             if (listener != null) {

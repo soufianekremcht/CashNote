@@ -168,7 +168,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         @BindView(R.id.transaction_money_text)
         TextView transactionMoneyTextView;
         @BindView(R.id.transaction_last_up_date_txt)
-        TextView transactionLastUpdatedDate;
+        TextView transactionDate;
 
 
         TransactionViewHolder(@NonNull View itemView) {
@@ -182,9 +182,10 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
             CashTransaction transaction = transactionsList.get(currentPosition);
             transactionName.setText(String.format("%s", transaction.getName()));
 
-            transactionLastUpdatedDate.setText(String.format("%s %s",
-                    mContext.getString(R.string.last_updated),
-                    AppUtils.formatDate(new Date(transaction.getLastUpdatedDate()), AppUtils.MAIN_DATE_FORMAT)));
+            transactionDate.setText(String.format("%s : %s",
+                    mContext.getString(R.string.date),
+                    AppUtils.formatDate(new Date(transaction.getLastUpdatedDate()),
+                            AppUtils.MAIN_DATE_FORMAT)));
 
 
             String balance = transaction.getBalance() + " " + MyApp.AppPref().getString(

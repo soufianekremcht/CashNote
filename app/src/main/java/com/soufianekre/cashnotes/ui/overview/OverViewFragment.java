@@ -199,9 +199,7 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
 
         summaryPieChart.setDescription(desc);
         summaryPieChart.setUsePercentValues(true);
-        summaryPieChart.setExtraOffsets(5, 10, 5, 5);
-        summaryPieChart.setCenterTextColor(Color.BLACK);
-        summaryPieChart.setEntryLabelColor(Color.BLACK);
+
         summaryPieChart.setDrawEntryLabels(false);
         // not showing the center text
         summaryPieChart.setDrawCenterText(false);
@@ -237,7 +235,7 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
         PieDataSet set1 = new PieDataSet(values, summaryLabel);
 
         set1.setColors(ColorTemplate.createColors(new int[]{Color.RED, Color.GREEN}));
-        set1.setValueTextColor(textColor);
+        //set1.setValueTextColor(textColor);
 
 
         PieData pieData = new PieData(set1);

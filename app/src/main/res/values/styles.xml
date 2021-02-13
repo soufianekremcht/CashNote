@@ -1,36 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimary</item>
-        <item name="colorAccent">@color/colorAccent</item>
-
-        <!--        Material Components Attrs   -->
-        <item name="colorSecondary">@color/colorSecondary</item>
-        <item name="colorSurface">@color/colorSurface</item>
-        <item name="colorControlNormal">@color/colorControlNormal</item>
-        <item name="colorOnPrimary">@color/colorOnPrimary</item>
-        <item name="colorOnSecondary">@color/colorOnSecondary</item>
-        <item name="colorOnSurface">@color/colorOnSurface</item>
-        <item name="colorOnPrimarySurface">@color/colorOnPrimarySurface</item>
-
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="windowActionModeOverlay">true</item>
-        <item name="android:actionModeBackground">@color/holo_dark_action_mode</item>
-
-    </style>
-
-    <style name="AppTheme.ThemeOverLay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar"/>
-    <style name="AppTheme.PopUpOverLay" parent="ThemeOverlay.MaterialComponents.Dark"/>
-
-
-
-
-
-    <style name="CardViewStyle" parent="Widget.MaterialComponents.CardView">
+    <style name="style_cardview" parent="Widget.MaterialComponents.CardView">
         <item name="cardCornerRadius">5dp</item>
         <item name="cardUseCompatPadding">true</item>
         <item name="cardPreventCornerOverlap">false</item>
@@ -41,7 +12,7 @@
 
     </style>
 
-    <style name="CustomAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+    <style name="style_alert_dialog" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:windowBackground">@drawable/popup_background</item>
     </style>
 
@@ -50,6 +21,7 @@
         <item name="android:textSize">@dimen/font_small</item>
         <item name="android:textStyle">bold</item>
     </style>
+
     <style name="overview_card_text_style">
         <item name="android:textSize">@dimen/font_normal</item>
         <item name="android:padding">@dimen/spacing_small</item>
@@ -63,6 +35,7 @@
         <item name="android:padding">@dimen/spacing_tiny</item>
         <item name="android:layout_margin">@dimen/spacing_small</item>
     </style>
+
     <style name="accounts_balance_count_text_style">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">@dimen/font_large</item>

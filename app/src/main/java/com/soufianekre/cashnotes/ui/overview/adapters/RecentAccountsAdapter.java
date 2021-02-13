@@ -72,8 +72,7 @@ public class RecentAccountsAdapter extends RecyclerView.Adapter<RecentAccountsAd
         ImageView accountColorImg;
         @BindView(R.id.recent_account_name_text)
         TextView accountName;
-        @BindView(R.id.recent_account_balance_text)
-        TextView accountBalance;
+
         @BindView(R.id.recent_account_transaction_count)
         TextView accountTransactionsCounter;
 
@@ -92,7 +91,6 @@ public class RecentAccountsAdapter extends RecyclerView.Adapter<RecentAccountsAd
             String balance = getAccountTotalBalance(position) + " " +
                     MyApp.AppPref().getString(PrefsConst.PREF_DEFAULT_CURRENCY,"$");
 
-            accountBalance.setText(balance);
             accountColorImg.setBackgroundTintList(ColorStateList.valueOf(cashAccount.getColor()));
         }
     }

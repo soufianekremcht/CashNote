@@ -56,49 +56,8 @@
             android:orientation="vertical"
             android:padding="30dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/spacing_small">
-
-                <ImageView
-                    android:id="@+id/category_selected_img"
-                    android:layout_width="@dimen/icon_category_size"
-                    android:layout_height="@dimen/icon_category_size"
-                    android:layout_gravity="center"
-                    android:layout_margin="@dimen/spacing_small"
-                    android:background="@drawable/bg_circle"
-                    android:backgroundTint="@color/accent_blue"
-                    android:padding="@dimen/spacing_small"
-                    android:src="@drawable/ctg_sport"
-                    app:tint="@color/white" />
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/transaction_description_field"
-                    style="@style/style_account_field"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/transaction_description_hint"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:minLines="1" />
 
 
-            </LinearLayout>
-
-            <TextView
-                style="@style/style_account_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/category" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/category_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/spacing_small"
-                android:padding="@dimen/spacing_small" />
 
             <TextView
                 style="@style/style_account_text"
@@ -149,8 +108,53 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_small">
+
+                <ImageView
+                    android:id="@+id/category_selected_img"
+                    android:layout_width="@dimen/icon_category_size"
+                    android:layout_height="@dimen/icon_category_size"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/spacing_small"
+                    android:background="@drawable/bg_circle"
+                    android:backgroundTint="@color/accent_blue"
+                    android:padding="@dimen/spacing_small"
+                    android:src="@drawable/ctg_sport"
+                    app:tint="@color/white" />
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/transaction_description_field"
+                    style="@style/style_account_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/transaction_description_hint"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:minLines="1" />
+
+
+            </LinearLayout>
+
+
             <TextView
-                style="@style/style_transaction_card_text"
+                style="@style/style_account_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/category" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/category_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/spacing_small"
+                android:padding="@dimen/spacing_small" />
+
+            <TextView
+                style="@style/style_account_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/date" />

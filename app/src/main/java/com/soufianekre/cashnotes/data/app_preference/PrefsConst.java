@@ -6,6 +6,7 @@ public class PrefsConst {
     public static final String PREF_DEFAULT_CURRENCY ="set_currency";
     public static final String PREF_EXPORT_DATA = "export_data";
     public static final String PREF_ABOUT = "about";
+    public static final String PREF_SET_FINGER_PRINT = "set_finger_print_lock";
 
 
     public static final String PREF_ABOUT_PRIVACY_POLICY = "privacy_policy";

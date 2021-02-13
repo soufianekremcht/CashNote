@@ -15,6 +15,7 @@
             android:id="@+id/settings_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            app:title="@string/settings"
             app:popupTheme="@style/AppTheme.PopUpOverLay"
             />
     </com.google.android.material.appbar.AppBarLayout>

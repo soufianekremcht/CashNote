@@ -26,6 +26,7 @@ import com.soufianekre.cashnotes.helper.AppUtils;
 import com.soufianekre.cashnotes.ui.account_edit.AccountEditorActivity;
 import com.soufianekre.cashnotes.ui.accounts.AccountsFragment;
 import com.soufianekre.cashnotes.ui.base.BaseActivity;
+import com.soufianekre.cashnotes.ui.google_sign_in.GoogleSignInActivity;
 import com.soufianekre.cashnotes.ui.overview.OverViewFragment;
 import com.soufianekre.cashnotes.ui.settings.SettingsActivity;
 import com.soufianekre.cashnotes.ui.transaction_filter.TransactionFilterActivity;
@@ -73,27 +74,19 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         getActivityComponent().inject(this);
         presenter.onAttach(this);
 
-        setupUi();
+        // Finger Print authentication
+        if (MyApp.AppPref().getBoolean(PrefsConst.PREF_SET_FINGER_PRINT)){
+            checkFingerPrint();
+        }else{
+            setupUi();
+        }
+
+
+
         if (savedInstanceState == null)
             showAccountFragment();
 
     }
-
-
-    private void checkThemeSwitch() {
-        int currentNightMode = getResources().getConfiguration().uiMode
-                & Configuration.UI_MODE_NIGHT_MASK;
-        switch (currentNightMode) {
-            case Configuration.UI_MODE_NIGHT_NO:
-                // Night mode is not active, we're in day time
-            case Configuration.UI_MODE_NIGHT_YES:
-                // Night mode is active, we're at night!
-            case Configuration.UI_MODE_NIGHT_UNDEFINED:
-                // We don't know what mode we're in, assume notnight
-        }
-    }
-
-
     private void setupUi() {
         setSupportActionBar(mainToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -194,6 +187,10 @@ public class MainActivity extends BaseActivity implements MainContract.View {
                     presenter.onDrawerOptionAccountsClick();
                     mainNavView.setCheckedItem(R.id.drawer_menu_accounts);
                     break;
+                case R.id.drawer_menu_user:
+                    Intent intent = new Intent(this, GoogleSignInActivity.class);
+                    startActivity(intent);
+                    break;
                 case R.id.drawer_menu_filter:
                     startActivity(new Intent(this, TransactionFilterActivity.class));
                     break;
@@ -241,42 +238,51 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         }
     }
 
-    private Fragment getCurrentFragment() {
-        return getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-    }
 
     private void checkFingerPrint() {
         RxGoldfinger goldfinger = new RxGoldfinger.Builder(this).build();
+
         Goldfinger.PromptParams params = new Goldfinger.PromptParams.Builder(this)
-                .title("Check For FingerPrint")
-                .negativeButtonText("Cancel")
-                .description("Description...")
-                .subtitle("Subtitle...")
+                .title("Checking For FingerPrint ..")
+                .negativeButtonText(R.string.cancel)
+                .description("Check your fingerprint to use the app..")
                 .build();
 
-        if (goldfinger.canAuthenticate()) {
-            goldfinger.authenticate(params).subscribe(new DisposableObserver<Goldfinger.Result>() {
+        if (goldfinger.hasFingerprintHardware()) {
+            if (goldfinger.canAuthenticate()) {
+                goldfinger.authenticate(params).subscribe(new DisposableObserver<Goldfinger.Result>() {
 
-                @Override
-                public void onComplete() {
-                    /* Fingerprint authentication is finished */
-                    showMessage("You have been verified Successfully! ");
-                }
+                    @Override
+                    public void onComplete() {
+                        /* Fingerprint authentication is finished */
 
-                @Override
-                public void onError(Throwable e) {
-                    /* Critical error happened */
-                    showError("You are not verified ,Check Again! ");
-                }
+                    }
 
-                @Override
-                public void onNext(Goldfinger.Result result) {
-                    /* Result received */
-                }
-            });
+                    @Override
+                    public void onError(Throwable e) {
+                        /* Critical error happened */
+                        showError("You are not verified ,Check Again! ");
+                        finish();
+                    }
+
+                    @Override
+                    public void onNext(Goldfinger.Result result) {
+                        /* Result received */
+                        showMessage("You have been verified Successfully! ");
+                        setupUi();
+                    }
+                });
+            }
+        }else{
+            showError("This Device does't support FingerPrint Hardware");
+            setupUi();
         }
     }
 
+
+    private Fragment getCurrentFragment() {
+        return getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+    }
 
     public FloatingActionButton getFab() {
         return newAccountFab;

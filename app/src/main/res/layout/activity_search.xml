@@ -1,37 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/search_app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?colorAccent"
+        android:background="?android:windowBackground"
         android:elevation="8dp"
-        >
+        android:theme="@style/AppTheme.ThemeOverLay">
+
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/search_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:popupTheme="@style/AppTheme.PopUpOverLay"
 
             >
+
             <SearchView
                 android:id="@+id/search_field"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="?android:windowBackground"
                 android:iconifiedByDefault="false"
-                android:queryBackground="@android:color/transparent"
-                android:queryHint="Search For Transactions"
-                android:searchIcon="@null"
                 android:imeOptions="flagNoFullscreen"
+                android:queryHint="@string/search_for_transactions"
                 android:searchHintIcon="@null"
-                tools:targetApi="lollipop_mr1"
-                >
+                android:searchIcon="@null"
+                tools:targetApi="lollipop_mr1">
 
             </SearchView>
         </androidx.appcompat.widget.Toolbar>
@@ -39,19 +41,21 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
         android:id="@+id/search_result_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="@dimen/spacing_small"
+        android:padding="@dimen/spacing_small"
         android:visibility="gone"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+
         />
 
     <include
-
         android:id="@+id/search_empty_data_view"
         layout="@layout/view_empty_data"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"/>
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

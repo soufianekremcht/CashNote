@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 
+import com.soufianekre.cashnotes.MyApp;
 import com.soufianekre.cashnotes.R;
 import com.soufianekre.cashnotes.data.app_preference.PrefsConst;
 import com.soufianekre.cashnotes.helper.PermissionHelper;
@@ -103,8 +104,9 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
                 preference.setSummary(full_name);
                 mPresenter.setDefaultCurrencyCode(currencyCode);
                 return true;
-
-
+            case PrefsConst.PREF_SET_FINGER_PRINT:
+                MyApp.AppPref().set(PrefsConst.PREF_SET_FINGER_PRINT,newValue);
+                return true;
         }
         return false;
     }
@@ -138,6 +140,14 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
                 return false;
         }
     }
+    private void setupPreferences(){
+        Preference exportPref = findPreference(PrefsConst.PREF_EXPORT_DATA);
+        Preference aboutPref = findPreference(PrefsConst.PREF_ABOUT);
+        Preference fingerPrintLockPref = findPreference(PrefsConst.PREF_SET_FINGER_PRINT);
+        fingerPrintLockPref.setOnPreferenceChangeListener(this);
+        aboutPref.setOnPreferenceClickListener(this);
+        exportPref.setOnPreferenceClickListener(this);
+    }
     private void setupCurrencyPicker(){
         List<CashCurrency> currenciesList = CurrencyHelper.fetchAllCurrency();
         CharSequence[] mCurrencyEntries = new CharSequence[currenciesList.size()];
@@ -167,12 +177,7 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
         }
 
     }
-    private void setupPreferences(){
-        Preference exportPref = findPreference(PrefsConst.PREF_EXPORT_DATA);
-        Preference aboutPref = findPreference(PrefsConst.PREF_ABOUT);
-        aboutPref.setOnPreferenceClickListener(this);
-        exportPref.setOnPreferenceClickListener(this);
-    }
+
 
 
 }

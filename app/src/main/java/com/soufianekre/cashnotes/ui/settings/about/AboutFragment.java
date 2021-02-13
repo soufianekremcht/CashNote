@@ -27,10 +27,8 @@ public class AboutFragment extends PreferenceFragmentCompat implements
 
     private void setupPreferences() {
         Preference appDevPref = findPreference(PrefsConst.PREF_ABOUT_APP_DEV);
-        Preference openSourcePref = findPreference(PrefsConst.PREF_ABOUT_OPEN_SOURCE_LICENSES);
         Preference privacyPref = findPreference(PrefsConst.PREF_ABOUT_PRIVACY_POLICY);
         appDevPref.setOnPreferenceClickListener(this);
-        openSourcePref.setOnPreferenceClickListener(this);
         privacyPref.setOnPreferenceClickListener(this);
     }
 
@@ -51,13 +49,11 @@ public class AboutFragment extends PreferenceFragmentCompat implements
             case PrefsConst.PREF_ABOUT_PRIVACY_POLICY:
                 openBrowser("https://cash-notes.flycricket.io/privacy.html");
                 return true;
-            case PrefsConst.PREF_ABOUT_OPEN_SOURCE_LICENSES:
-                return true;
             case PrefsConst.PREF_ABOUT_APP_DEV:
                 goToReportIssuesPage();
                 return true;
             case PrefsConst.PREF_ABOUT_RATE_US:
-                //goToGooglePlayStore();
+                goToGooglePlayStore();
                 return true;
 
             default:

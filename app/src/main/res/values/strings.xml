@@ -85,6 +85,12 @@
     <string name="add_new_account">Add New Account</string>
     <string name="account_name_hint">Type a Name</string>
     <string name="transactions_count">Transaction Count</string>
+    <string name="source">Source</string>
+    <string name="search_for_transactions">Search For Transactions</string>
+    <string name="sign_out">Sign out</string>
+    <string name="account_source">Account Source</string>
+    <string name="login">Login</string>
+    <string name="please_wait">Please Wait</string>
 
 
 </resources>

@@ -175,7 +175,7 @@ public class TransactionFilterActivity extends BaseActivity implements Transacti
 
     @Override
     public void onTransactionClick(CashTransaction cashTransaction, int position) {
-        ShowTransactionFragment dialog = ShowTransactionFragment.newInstance(cashTransaction, position);
+        ShowTransactionFragment dialog = ShowTransactionFragment.newInstance(cashTransaction, position,false);
         dialog.setDialogListener(null);
         dialog.show(getSupportFragmentManager(), FILTER_SHOW_TRANSACTION_TAG);
 

@@ -1,4 +1,4 @@
-package com.soufianekre.cashnotes.ui.category_add;
+package com.soufianekre.cashnotes.ui.category.category_add;
 
 import android.os.Bundle;
 

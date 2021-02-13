@@ -4,8 +4,10 @@
     package="com.soufianekre.cashnotes">
 
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
     <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
 
 
@@ -66,6 +68,10 @@
 
         <activity android:name="com.soufianekre.cashnotes.ui.settings.about.AboutActivity"
             android:parentActivityName="com.soufianekre.cashnotes.ui.settings.SettingsActivity"/>
+        <activity android:name=".ui.google_sign_in.UserProfileActivity"
+            android:parentActivityName=".ui.main.MainActivity"/>
+        <activity android:name=".ui.google_sign_in.GoogleSignInActivity"
+            android:parentActivityName=".ui.main.MainActivity"/>
 
 
         <meta-data

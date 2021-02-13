@@ -57,7 +57,7 @@ public class TransactionEditorActivity extends BaseActivity
 
     @BindView(R.id.add_transaction_toolbar)
     Toolbar toolbar;
-;
+
     @BindView(R.id.transaction_description_field)
     EditText transactionDescriptionField;
     @BindView(R.id.transaction_amount_field)
@@ -166,7 +166,6 @@ public class TransactionEditorActivity extends BaseActivity
         transactionBalanceField.setTextColor(transactionIsExpense ? Color.RED : Color.GREEN);
 
 
-
     }
 
     @Override
@@ -247,8 +246,8 @@ public class TransactionEditorActivity extends BaseActivity
                 if (scrollRange == -1) {
                     scrollRange = appBarLayout.getTotalScrollRange();
                 }
-                Timber.d("Backup Collapsing VerticalOffset : %d",verticalOffset);
-                Timber.d("Backup Scroll Range %d",scrollRange);
+                Timber.d("Backup Collapsing VerticalOffset : %d", verticalOffset);
+                Timber.d("Backup Scroll Range %d", scrollRange);
                 if (scrollRange + verticalOffset == 10) {
                     isShow = true;
                     //showOption(R.id.action_info);
@@ -261,16 +260,26 @@ public class TransactionEditorActivity extends BaseActivity
             }
         });
 
+        setupCategoryList(false);
 
 
-        List<CashCategory> transactionCategories = CategoryUtils.getAllCategories(this);
-        categoryAdapter = new TransactionCategoryAdapter(this, transactionCategories, this);
+
+    }
+
+    private void setupCategoryList(boolean isExpense) {
+
+        List<CashCategory> categories;
+        if (isExpense){
+            categories = CategoryUtils.getExpensesCategories(this);
+        }else{
+            categories = CategoryUtils.getIncomeCategories(this);
+        }
+
+        categoryAdapter = new TransactionCategoryAdapter(this, categories, this);
         categoryRecyclerView.setHasFixedSize(true);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 4);
         categoryRecyclerView.setLayoutManager(gridLayoutManager);
         categoryRecyclerView.setAdapter(categoryAdapter);
-
-
     }
 
 
@@ -305,10 +314,13 @@ public class TransactionEditorActivity extends BaseActivity
             if (!transactionIsExpense) {
                 expenseOrIncomeSwitch.setText(R.string.income);
                 transactionBalanceField.setTextColor(Color.GREEN);
+                setupCategoryList(false);
+
 
             } else {
                 expenseOrIncomeSwitch.setText(R.string.expense);
                 transactionBalanceField.setTextColor(Color.RED);
+                setupCategoryList(true);
             }
         });
     }

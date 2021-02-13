@@ -30,11 +30,11 @@
 
 <!--            android:summary="set Pin Lock for The app"-->
 <!--            />-->
-<!--        <SwitchPreferenceCompat-->
-<!--            android:key="key_set_finger_print_lock"-->
-<!--            android:title="Set Finger Print Lock"-->
-<!--            android:summary="Required Compatible Hardware"-->
-<!--            />-->
+        <SwitchPreferenceCompat
+            android:key="set_finger_print_lock"
+            android:title="Set Finger Print Lock"
+            android:summary="Required Compatible Hardware"
+            />
     </PreferenceCategory>
 
 

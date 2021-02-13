@@ -159,7 +159,7 @@ public class TransactionsActivity extends BaseActivity implements TransactionsCo
         if (actionMode != null) {
             toggleSelection(position);
         } else {
-            dialog = ShowTransactionFragment.newInstance(transaction, position);
+            dialog = ShowTransactionFragment.newInstance(transaction, position,true);
             dialog.setDialogListener(this);
             dialog.show(getSupportFragmentManager(), "show_transaction_dialog");
         }
