@@ -4,11 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="75dp">
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <ImageView
         android:id="@+id/recent_account_color_img"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@drawable/bg_circle"
+        android:background="@drawable/bg_circle"
+        android:backgroundTint="@color/accent_amber"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
         style="@style/recent_account_img_style"
@@ -37,17 +38,6 @@
             android:text="Account transaction counts"
             style="@style/recent_account_text_style"/>
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/recent_account_balance_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="00.00 $"
-        android:layout_centerVertical="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="16dp"
-        style="@style/recent_transaction_big_text_style"/>
-
 
 
 </RelativeLayout>

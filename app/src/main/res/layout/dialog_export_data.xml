@@ -11,17 +11,19 @@
         style="@style/style_export_data_field_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/spacing_small"
         android:autofillHints="Start Date"
-        android:hint="Start Date"
+        android:hint="@string/start_date"
         app:hintAnimationEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/export_data_start_date"
-            style="@style/style_export_data_field"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:lines="1"
-            android:editable="false"/>
+            android:backgroundTint="@android:color/transparent"
+            android:clickable="true"
+            android:lines="1" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -30,26 +32,27 @@
         style="@style/style_export_data_field_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/spacing_small"
         android:autofillHints="End Date"
-        android:hint="End Date"
+        android:hint="@string/end_date"
         app:hintAnimationEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/export_data_end_date"
-            style="@style/style_export_data_field"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/transparent"
+            android:clickable="true"
             android:inputType="date"
-            android:background="@null"
-            android:lines="1"
-            android:editable="false"/>
+            android:lines="1" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         style="@style/style_export_data_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Type" />
+        android:text="@string/type" />
 
     <androidx.appcompat.widget.AppCompatSpinner
         android:id="@+id/export_data_type_spinner"

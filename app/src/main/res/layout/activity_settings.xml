@@ -15,14 +15,14 @@
             android:id="@+id/settings_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            style="@style/MainToolbarStyle"
+            app:title="@string/settings"
             app:popupTheme="@style/AppTheme.PopUpOverLay"
             />
     </com.google.android.material.appbar.AppBarLayout>
 
 
     <FrameLayout
-        android:id="@+id/settings_fragment_container"
+        android:id="@+id/settings_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"

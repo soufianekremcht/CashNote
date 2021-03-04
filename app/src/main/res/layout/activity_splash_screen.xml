@@ -8,7 +8,7 @@
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="240dp"
         android:layout_height="240dp"
-        android:src="@drawable/app_splash_img"
+        android:src="@drawable/app_splash_screen"
         android:layout_gravity="center"/>
 
 

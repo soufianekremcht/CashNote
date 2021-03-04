@@ -13,6 +13,7 @@
 
     <style name="style_account_img">
         <item name="android:padding">@dimen/spacing_normal</item>
+        <item name="background">?selectableItemBackgroundBorderless</item>
     </style>
 
 

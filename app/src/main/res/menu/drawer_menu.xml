@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group
         android:id="@+id/menu_top"
         android:checkableBehavior="single">
         <item
             android:id="@+id/drawer_menu_accounts"
-            android:title="Accounts"
+            android:title="@string/accounts"
             android:icon="@drawable/ic_outline_account_wallet"/>
         <item
             android:id="@+id/drawer_menu_overview"
-            android:title="Over View"
+            android:title="@string/over_view"
             android:icon="@drawable/ic_over_view_black_24dp"
             />
         <item
             android:id="@+id/drawer_menu_filter"
-            android:title="Filter"
+            android:title="@string/filter"
             android:icon="@drawable/ic_calender_black_24dp"/>
     </group>
 
@@ -24,14 +23,14 @@
         android:checkableBehavior="none">
 
         <item android:id="@+id/drawer_menu_user"
-            android:title="User"
+            android:title="@string/user"
             android:icon="@drawable/ic_outline_account_box_black"/>
-        <item android:id="@+id/drawer_menu_toggle_nigh_mode"
-            android:title="Toggle Night Mode"
+        <item android:id="@+id/drawer_menu_toggle_night_mode"
+            android:title="@string/toggle_night_mode"
             android:icon="@drawable/ic_toggle_night_mode"
-            app:actionViewClass="androidx.appcompat.widget.SwitchCompat"/>
+            />
         <item android:id="@+id/drawer_menu_settings"
-            android:title="Settings"
+            android:title="@string/settings"
             android:icon="@drawable/ic_settings_black_24dp"/>
 
 

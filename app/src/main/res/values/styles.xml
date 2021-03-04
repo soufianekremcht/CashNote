@@ -1,51 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimary</item>
-        <item name="colorAccent">@color/colorPrimaryDark</item>
-
-        <!--        Material Components Attrs   -->
-        <item name="colorSecondary">@color/accent_indigo</item>
-        <item name="colorSurface">@color/mdtp_white</item>
-
-        <item name="colorOnSecondary">@color/mdtp_white</item>
-        <item name="colorOnSurface">@color/accent_black</item>
-
-    </style>
-
-
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-
-        <item name="windowActionModeOverlay">true</item>
-        <item name="android:actionModeBackground">@color/holo_dark_action_mode</item>
-
-    </style>
-    <style name="AppTheme.ThemeOverLay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar"/>
-    <style name="AppTheme.PopUpOverLay" parent="ThemeOverlay.MaterialComponents.Dark"/>
-
-
-
-    <style name="MainToolbarStyle" parent="Widget.AppCompat.Toolbar">
-        <item name="android:textColorPrimary">@android:color/white</item>
-        <item name="android:textColorSecondary">@android:color/white</item>
-        <item name="actionMenuTextColor">@android:color/white</item>
-        <item name="android:textColor">@color/mdtp_white</item>
-
-    </style>
-
-    <style name="style_appBar" parent="Widget.MaterialComponents.AppBarLayout.Surface">
-        <item name="android:background">@color/mdtp_white</item>
-        <item name="android:elevation">8dp</item>
-    </style>
-
-
-
-    <style name="CardViewStyle" parent="Widget.MaterialComponents.CardView">
+    <style name="style_cardview" parent="Widget.MaterialComponents.CardView">
         <item name="cardCornerRadius">5dp</item>
         <item name="cardUseCompatPadding">true</item>
         <item name="cardPreventCornerOverlap">false</item>
@@ -56,7 +12,7 @@
 
     </style>
 
-    <style name="CustomAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+    <style name="style_alert_dialog" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:windowBackground">@drawable/popup_background</item>
     </style>
 
@@ -65,6 +21,7 @@
         <item name="android:textSize">@dimen/font_small</item>
         <item name="android:textStyle">bold</item>
     </style>
+
     <style name="overview_card_text_style">
         <item name="android:textSize">@dimen/font_normal</item>
         <item name="android:padding">@dimen/spacing_small</item>
@@ -78,6 +35,7 @@
         <item name="android:padding">@dimen/spacing_tiny</item>
         <item name="android:layout_margin">@dimen/spacing_small</item>
     </style>
+
     <style name="accounts_balance_count_text_style">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">@dimen/font_large</item>

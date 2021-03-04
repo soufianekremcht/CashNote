@@ -1,125 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/summary_graph_card_view"
+            style="@style/overview_card_style"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            style="@style/overview_card_style">
+            android:layout_height="150dp">
+
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/monthly_summary_chart"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
                 style="@style/overview_chart_style"
-                />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/accounts_card_view"
+            style="@style/overview_card_style"
             android:layout_width="match_parent"
-            android:layout_height="190dp"
-            style="@style/overview_card_style">
-            <RelativeLayout
+            android:layout_height="190dp">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                >
+                android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/overview_accounts_title"
-                    android:text="@string/latest_accounts"
-                    android:layout_centerHorizontal="true"
                     style="@style/OverViewCardTitleStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <ImageView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:src="@drawable/ic_more_black_24dp"
-                    style="@style/FragmentOverViewImgBtnStyle"
-                    android:contentDescription="TODO" />
+                    android:text="@string/latest_accounts"
+                    android:textAlignment="center"
+                    app:drawableEndCompat="@drawable/ic_more_black_24dp" />
+
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/accounts_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/overview_accounts_title"/>
-            </RelativeLayout>
+                    android:layout_below="@id/overview_accounts_title" />
+
+            </LinearLayout>
+
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/transaction_chart_card_view"
+            style="@style/overview_card_style"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/overview_card_style">
-            <RelativeLayout
+            android:layout_height="wrap_content">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:gravity="center"
-                >
+                android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/overview_transaction_chart_title"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_centerHorizontal="true"
                     style="@style/OverViewCardTitleStyle"
-                    android:text="Chart"
-                    />
-                <ImageView
-                    android:id="@+id/overview_transaction_chart_option_btn"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:src="@drawable/ic_more_black_24dp"
-                    style="@style/FragmentOverViewImgBtnStyle"
-                    android:contentDescription="TODO" />
+                    android:text="Chart"
+                    android:textAlignment="center"
+                    app:drawableEndCompat="@drawable/ic_more_black_24dp" />
+
                 <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/expense_chart"
-                    android:layout_below="@id/overview_transaction_chart_title"
+                    style="@style/overview_chart_style"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    style="@style/overview_chart_style"
-                    android:layout_margin="@dimen/spacing_normal"/>
-            </RelativeLayout>
+                    android:layout_margin="@dimen/spacing_normal" />
+            </LinearLayout>
 
 
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/recent_transaction_card_view"
+            style="@style/overview_card_style"
             android:layout_width="match_parent"
-            android:layout_height="190dp"
-            style="@style/overview_card_style">
+            android:layout_height="190dp">
+
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                >
+                android:layout_height="wrap_content">
+
                 <TextView
                     android:id="@+id/overview_transaction_title"
+                    style="@style/OverViewCardTitleStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/latest_transactions"
                     android:layout_centerHorizontal="true"
-                    style="@style/OverViewCardTitleStyle"/>
+                    android:text="@string/latest_transactions" />
+
                 <ImageView
+                    style="@style/FragmentOverViewImgBtnStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:src="@drawable/ic_more_black_24dp"
-                    style="@style/FragmentOverViewImgBtnStyle"
-                    android:contentDescription="TODO" />
+                    android:contentDescription="TODO"
+                    android:src="@drawable/ic_more_black_24dp" />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recent_transaction_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/overview_transaction_title"/>
+                    android:layout_below="@id/overview_transaction_title" />
             </RelativeLayout>
 
 
@@ -127,37 +124,38 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/balance_graph_card_view"
+            style="@style/overview_card_style"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            style="@style/overview_card_style">
+            android:layout_height="200dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                >
+                android:layout_height="wrap_content">
+
                 <TextView
                     android:id="@+id/overview_balance_title"
+                    style="@style/OverViewCardTitleStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/balance_text"
                     android:layout_centerHorizontal="true"
-                    android:padding="10dp"
                     android:layout_margin="5dp"
-                    style="@style/OverViewCardTitleStyle"/>
+                    android:padding="10dp"
+                    android:text="@string/balance_text" />
+
                 <ImageView
+                    style="@style/FragmentOverViewImgBtnStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:src="@drawable/ic_more_black_24dp"
-                    style="@style/FragmentOverViewImgBtnStyle"
-                    android:contentDescription="TODO" />
+                    android:contentDescription="TODO"
+                    android:src="@drawable/ic_more_black_24dp" />
+
                 <com.github.mikephil.charting.charts.BarChart
                     android:id="@+id/balance_history_chart"
+                    style="@style/overview_chart_style"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_below="@id/overview_balance_title"
-                    style="@style/overview_chart_style"
-                    />
+                    android:layout_below="@id/overview_balance_title" />
             </RelativeLayout>
 
 
@@ -166,6 +164,5 @@
     </LinearLayout>
 
 
-
-</ScrollView>
+</androidx.core.widget.NestedScrollView>
 
