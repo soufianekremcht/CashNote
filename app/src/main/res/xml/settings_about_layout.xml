@@ -18,7 +18,7 @@
     <PreferenceCategory android:title="LEGAL">
         <Preference android:title="Credit"
             android:key="open_source_licenses"
-            android:summary="some of the icons made by Freepik from www.flaticon.com"
+            android:summary="@string/app_credit_free_pick"
             />
         <Preference android:title="Privacy Policy"
             android:key="privacy_policy" />
