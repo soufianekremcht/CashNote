@@ -1,6 +1,7 @@
 package com.soufianekre.cashnotes.ui.overview.adapters;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
@@ -50,23 +51,13 @@ public class RecentAccountsAdapter extends RecyclerView.Adapter<RecentAccountsAd
         return recentAccountList.size();
     }
 
-    private int getAccountTotalBalance(int position){
-        int totalBalance = 0;
-        CashAccount account = recentAccountList.get(position);
-        /*
-        for (CashTransaction transaction : account.getTransactionsList()){
-            totalBalance += transaction.getBalance();
-        }
-
-         */
-        return totalBalance;
-    }
     public void addItems(List<CashAccount> accounts){
         recentAccountList.clear();
         recentAccountList.addAll(accounts);
         notifyDataSetChanged();
     }
 
+    @SuppressLint("NonConstantResourceId")
     public class AccountReducedViewHolder extends BaseViewHolder {
         @BindView(R.id.recent_account_color_img)
         ImageView accountColorImg;
@@ -87,10 +78,6 @@ public class RecentAccountsAdapter extends RecyclerView.Adapter<RecentAccountsAd
             super.onBind(position);
             CashAccount cashAccount = recentAccountList.get(position);
             accountName.setText(cashAccount.getName());
-            accountColorImg.setColorFilter(R.color.accent_amber);
-            String balance = getAccountTotalBalance(position) + " " +
-                    MyApp.AppPref().getString(PrefsConst.PREF_DEFAULT_CURRENCY,"$");
-
             accountColorImg.setBackgroundTintList(ColorStateList.valueOf(cashAccount.getColor()));
         }
     }

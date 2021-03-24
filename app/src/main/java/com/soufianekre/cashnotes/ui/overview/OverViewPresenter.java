@@ -26,7 +26,6 @@ public class OverViewPresenter<V extends OverViewContract.View> extends BasePres
 
     @Override
     public void getOverView() {
-        getMvpView().showMessage("OverView show");
         getAccounts();
         getTransactions();
 
@@ -53,7 +52,6 @@ public class OverViewPresenter<V extends OverViewContract.View> extends BasePres
                 .subscribeOn(getSchedulerProvider().io())
                 .observeOn(getSchedulerProvider().ui())
                 .subscribe(transactions -> {
-
                             getMvpView().updateRecentTransactions(transactions);
 
                         }, throwable -> {

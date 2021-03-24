@@ -2,7 +2,7 @@
 <resources>
 
 
-    <color name="colorSecondary">@color/accent_indigo</color>
+    <color name="colorSecondary">@color/accent_amber</color>
     <color name="colorSurface">@color/accent_black</color>
     <color name="colorControlNormal">@color/colorAccent</color>
     <color name="colorOnPrimary">@color/white</color>

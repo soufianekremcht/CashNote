@@ -3,21 +3,29 @@ package com.soufianekre.cashnotes.ui.overview;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -33,6 +41,7 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.utils.MPPointF;
 import com.soufianekre.cashnotes.MyApp;
 import com.soufianekre.cashnotes.R;
 import com.soufianekre.cashnotes.data.app_preference.PrefsConst;
@@ -56,6 +65,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 import static com.soufianekre.cashnotes.helper.AppUtils.CURRENT_YEAR;
 import static com.soufianekre.cashnotes.helper.AppUtils.checkCurrentYearDays;
@@ -167,6 +177,41 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
     @Override
     public void onResume() {
         super.onResume();
+        if (MyApp.AppPref().getBoolean(PrefsConst.ALLOW_DARK_MODE)) {
+            summaryPieChart.setEntryLabelColor(Color.WHITE);
+            summaryPieChart.getDescription().setTextColor(Color.WHITE);
+            summaryPieChart.getLegend().setTextColor(Color.WHITE);
+
+            expenseIncomeLineChart.getXAxis().setTextColor(Color.WHITE);
+            expenseIncomeLineChart.getAxisLeft().setTextColor(Color.WHITE);
+            expenseIncomeLineChart.getLegend().setTextColor(Color.BLACK);
+            expenseIncomeLineChart.getDescription().setTextColor(Color.WHITE);
+
+            balanceChart.getXAxis().setTextColor(Color.WHITE);
+            balanceChart.getAxisLeft().setTextColor(Color.WHITE);
+            if (balanceChart.getBarData() != null)
+                balanceChart.getBarData().setValueTextColor(Color.WHITE);
+            balanceChart.getLegend().setTextColor(Color.WHITE);
+            balanceChart.getDescription().setTextColor(Color.WHITE);
+
+        } else {
+            summaryPieChart.setEntryLabelColor(Color.BLACK);
+            summaryPieChart.getDescription().setTextColor(Color.BLACK);
+            summaryPieChart.getLegend().setTextColor(Color.BLACK);
+
+
+            expenseIncomeLineChart.getXAxis().setTextColor(Color.BLACK);
+            expenseIncomeLineChart.getAxisLeft().setTextColor(Color.BLACK);
+            expenseIncomeLineChart.getLegend().setTextColor(Color.BLACK);
+            expenseIncomeLineChart.getDescription().setTextColor(Color.BLACK);
+
+            balanceChart.getXAxis().setTextColor(Color.BLACK);
+            balanceChart.getAxisLeft().setTextColor(Color.BLACK);
+            if (balanceChart.getBarData() != null)
+                balanceChart.getBarData().setValueTextColor(Color.BLACK);
+            balanceChart.getLegend().setTextColor(Color.BLACK);
+            balanceChart.getDescription().setTextColor(Color.BLACK);
+        }
 
     }
 
@@ -195,20 +240,35 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
         float totalIncome = 1f;
         Description desc = new Description();
         desc.setText("Summary of this month");
-        int textColor = ContextCompat.getColor(getActivity(),R.color.colorOnSurface);
 
         summaryPieChart.setDescription(desc);
+
         summaryPieChart.setUsePercentValues(true);
+        summaryPieChart.setDragDecelerationFrictionCoef(0.95f);
+        summaryPieChart.setExtraOffsets(5, 10, 5, 5);
 
-        summaryPieChart.setDrawEntryLabels(false);
-        // not showing the center text
-        summaryPieChart.setDrawCenterText(false);
+        summaryPieChart.setCenterTextTypeface(tfLight);
+        //summaryPieChart.setCenterText(generateCenterSpannableText());
 
+
+
+        summaryPieChart.setDrawHoleEnabled(true);
+        summaryPieChart.setHoleColor(Color.TRANSPARENT);
+
+        summaryPieChart.setTransparentCircleColor(Color.TRANSPARENT);
+        summaryPieChart.setTransparentCircleAlpha(110);
+
+        summaryPieChart.setHoleRadius(58f);
+        summaryPieChart.setTransparentCircleRadius(61f);
+        summaryPieChart.setDrawCenterText(true);
+        summaryPieChart.setRotationAngle(0);
+
+        // enable rotation of the chart by touch
+        summaryPieChart.setRotationEnabled(true);
+        summaryPieChart.setHighlightPerTapEnabled(true);
+
+        // Getting Data
         ArrayList<PieEntry> values = new ArrayList<>();
-        List<CashTransaction> transactionsOfThisMonth = new ArrayList<>();
-
-        // check the transactions of this month
-
         for (CashTransaction cashTransaction : transactions) {
             // check cash flow of the current month
             calendar.setTimeInMillis(cashTransaction.getLastUpdatedDate());
@@ -216,7 +276,6 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
             if (year == CURRENT_YEAR) {
                 int month = calendar.get(Calendar.MONTH);
                 if (month == currentMonth) {
-                    transactionsOfThisMonth.add(cashTransaction);
                     if (cashTransaction.isExpense())
                         totalExpense -= cashTransaction.getBalance();
                     else
@@ -227,26 +286,50 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
         }
 
         // draw a chart for the summary of total income and expenses
-
         values.add(new PieEntry(totalExpense, "Expense"));
         values.add(new PieEntry(totalIncome, "Income"));
+        Timber.d("Total Expense : " + totalExpense +" Income : " + totalExpense);
 
         String summaryLabel = String.format(" Summary for %d-%d", currentMonth + 1, CURRENT_YEAR);
-        PieDataSet set1 = new PieDataSet(values, summaryLabel);
+        PieDataSet dataSet = new PieDataSet(values, summaryLabel);
 
-        set1.setColors(ColorTemplate.createColors(new int[]{Color.RED, Color.GREEN}));
-        //set1.setValueTextColor(textColor);
+        dataSet.setSliceSpace(3f);
+        dataSet.setSelectionShift(5f);
 
+        int lightGreen = ContextCompat.getColor(getContext(),R.color.accent_light_green);
+        dataSet.setColors(ColorTemplate.createColors(new int[]{Color.RED,lightGreen}));
 
-        PieData pieData = new PieData(set1);
-        pieData.setValueFormatter(new PercentFormatter());
+        PieData data = new PieData(dataSet);
+        data.setValueFormatter(new PercentFormatter());
+        data.setValueTextSize(11f);
+        data.setValueTextColor(Color.WHITE);
+        //data.setValueTypeface(tfLight);
+
+        Legend l = summaryPieChart.getLegend();
+        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
+        l.setOrientation(Legend.LegendOrientation.VERTICAL);
+        l.setDrawInside(false);
+        l.setXEntrySpace(7f);
+        l.setYEntrySpace(0f);
+        l.setYOffset(0f);
+
+        // entry label styling
+
+        summaryPieChart.setEntryLabelColor(Color.WHITE);
+        summaryPieChart.setEntryLabelTextSize(12f);
+
 
         summaryPieChart.animateXY(1000, 1000);
-        summaryPieChart.setData(pieData);
+        summaryPieChart.setData(data);
         summaryPieChart.invalidate();
 
 
+
+
+
     }
+
 
     @Override
     public void setupExpenseIncomeLineChart(List<CashTransaction> transactions) {
@@ -277,9 +360,16 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
         YAxis rightAxis = expenseIncomeLineChart.getAxisRight();
         rightAxis.setEnabled(false);
 
+        Description desc = new Description();
+        desc.setText(String.format("Transactions of last Week in %s",
+                MyApp.AppPref().getString(PrefsConst.PREF_DEFAULT_CURRENCY, "$")));
+        expenseIncomeLineChart.setDescription(desc);
+
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         ArrayList<Entry> ExpenseValues = new ArrayList<>();
         ArrayList<Entry> IncomeValues = new ArrayList<>();
+
+
 
         for (int i = 0; i < 7; i++) {
 
@@ -302,16 +392,15 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
             IncomeValues.add(new Entry(currentDay + i - 6, incomeValue));
         }
 
-        LineDataSet expenseDataSet = new LineDataSet(ExpenseValues, " Expense");
+        LineDataSet expenseDataSet = new LineDataSet(ExpenseValues, " Expense ");
         expenseDataSet.setColor(Color.RED);
+        //expenseDataSet.setValueTextColor(Color.WHITE);
         dataSets.add(expenseDataSet);
 
-        LineDataSet incomeDataSet = new LineDataSet(IncomeValues, " Income");
+        LineDataSet incomeDataSet = new LineDataSet(IncomeValues, " Income ");
         incomeDataSet.setColor(Color.GREEN);
         dataSets.add(incomeDataSet);
-        /*
-        dataSets.setDrawCircleHole(true);
-         */
+
         expenseIncomeLineChart.animateX(2000);
         LineData data = new LineData(dataSets);
         expenseIncomeLineChart.setData(data);
@@ -350,7 +439,6 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
         Description desc = new Description();
         desc.setText(String.format("Balance per day in %s",
                 MyApp.AppPref().getString(PrefsConst.PREF_DEFAULT_CURRENCY, "$")));
-
         balanceChart.setDescription(desc);
 
 
@@ -384,13 +472,15 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
 
         });
 
-        setupExpenseIncomeLineChart(allTransactions);
+        showMessage("Transactions Size : " + allTransactions.size());
         setupSummaryPieChart(allTransactions);
+        setupExpenseIncomeLineChart(allTransactions);
+
 
         if (allTransactions.size() < 5) {
             recentTransactions.addAll(allTransactions);
         } else {
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < 5; i++) {
                 recentTransactions.add(allTransactions.get(i));
             }
         }
@@ -420,5 +510,18 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
         recentAccountsAdapter.addItems(recentAccounts);
     }
 
+
+
+    private SpannableString generateCenterSpannableText() {
+
+        SpannableString s = new SpannableString("Summary of this month.");
+        s.setSpan(new RelativeSizeSpan(1.7f), 0, 14, 0);
+        s.setSpan(new StyleSpan(Typeface.NORMAL), 14, s.length() - 15, 0);
+        s.setSpan(new ForegroundColorSpan(Color.GRAY), 14, s.length() - 15, 0);
+        s.setSpan(new RelativeSizeSpan(.8f), 14, s.length() - 15, 0);
+        s.setSpan(new StyleSpan(Typeface.ITALIC), s.length() - 14, s.length(), 0);
+        s.setSpan(new ForegroundColorSpan(ColorTemplate.getHoloBlue()), s.length() - 14, s.length(), 0);
+        return s;
+    }
 
 }

@@ -5,6 +5,7 @@ package com.soufianekre.cashnotes.ui.base;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -28,9 +29,16 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseCont
     private Unbinder mUnBinder;
     private ActivityComponent mActivityComponent;
 
+    Typeface tfRegular;
+    Typeface tfLight;
+
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        tfRegular = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
+        tfLight = Typeface.createFromAsset(getAssets(), "OpenSans-Light.ttf");
         mActivityComponent = DaggerActivityComponent.builder()
                 .activityModule(new ActivityModule(this))
                 .appComponent(((MyApp) getApplication()).getComponent())

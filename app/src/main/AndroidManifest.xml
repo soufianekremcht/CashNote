@@ -5,15 +5,15 @@
 
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-    <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
 
 
-    <uses-feature android:name="android.hardware.biometrics"
-        android:required="false"/>
-
+    <uses-feature
+        android:name="android.hardware.biometrics"
+        android:required="false" />
 
 
     <application
@@ -22,11 +22,11 @@
         android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning"
-        android:requestLegacyExternalStorage="true">
+        tools:ignore="GoogleAppIndexingWarning">
 
 
         <activity
@@ -40,45 +40,52 @@
 
         <activity
             android:name="com.soufianekre.cashnotes.ui.main.MainActivity"
-            android:launchMode="singleTop"
-            />
-
-
-        <activity android:name="com.soufianekre.cashnotes.ui.transaction_filter.TransactionFilterActivity"
-            android:parentActivityName="com.soufianekre.cashnotes.ui.main.MainActivity"/>
-
-
-        <activity android:name="com.soufianekre.cashnotes.ui.transactions.TransactionsActivity"
-            android:parentActivityName="com.soufianekre.cashnotes.ui.main.MainActivity"/>
-
-        <activity
-            android:name="com.soufianekre.cashnotes.ui.transaction_edit.TransactionEditorActivity"
-            android:parentActivityName="com.soufianekre.cashnotes.ui.main.MainActivity"
-            android:windowSoftInputMode="adjustResize" />
+            android:launchMode="singleTop" />
+        <!--        Accounts    -->
         <activity
             android:name="com.soufianekre.cashnotes.ui.account_edit.AccountEditorActivity"
             android:parentActivityName="com.soufianekre.cashnotes.ui.main.MainActivity"
             android:windowSoftInputMode="adjustResize" />
 
-        <activity android:name="com.soufianekre.cashnotes.ui.settings.SettingsActivity" />
+        <!--        Transactions -->
+        <activity
+            android:name="com.soufianekre.cashnotes.ui.transactions.TransactionsActivity"
+            android:parentActivityName="com.soufianekre.cashnotes.ui.main.MainActivity" />
 
-        <activity android:name="com.soufianekre.cashnotes.ui.transactions.search.SearchActivity"
+        <activity
+            android:name="com.soufianekre.cashnotes.ui.transaction_filter.TransactionFilterActivity"
+            android:parentActivityName="com.soufianekre.cashnotes.ui.main.MainActivity" />
+
+        <activity
+            android:name="com.soufianekre.cashnotes.ui.transaction_edit.TransactionEditorActivity"
             android:parentActivityName="com.soufianekre.cashnotes.ui.main.MainActivity"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
 
-        <activity android:name="com.soufianekre.cashnotes.ui.settings.about.AboutActivity"
-            android:parentActivityName="com.soufianekre.cashnotes.ui.settings.SettingsActivity"/>
-        <activity android:name=".ui.google_sign_in.UserProfileActivity"
-            android:parentActivityName=".ui.main.MainActivity"/>
-        <activity android:name=".ui.google_sign_in.GoogleSignInActivity"
-            android:parentActivityName=".ui.main.MainActivity"/>
+        <activity
+            android:name="com.soufianekre.cashnotes.ui.settings.SettingsActivity"
+            android:parentActivityName=".ui.main.MainActivity" />
+
+        <activity
+            android:name="com.soufianekre.cashnotes.ui.transactions.search.SearchActivity"
+            android:parentActivityName="com.soufianekre.cashnotes.ui.main.MainActivity"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name="com.soufianekre.cashnotes.ui.settings.about.AboutActivity"
+            android:parentActivityName="com.soufianekre.cashnotes.ui.settings.SettingsActivity" />
+
+        <activity
+            android:name=".ui.google_sign_in.UserProfileActivity"
+            android:parentActivityName=".ui.main.MainActivity" />
+
+        <activity
+            android:name=".ui.google_sign_in.GoogleSignInActivity"
+            android:parentActivityName=".ui.main.MainActivity" />
 
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/fonts_preloaded" />
-
-
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -92,8 +99,8 @@
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.soufianekre.cashnotes.fileprovider"
-            android:grantUriPermissions="true"
-            android:exported="false">
+            android:exported="false"
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/filepaths" />

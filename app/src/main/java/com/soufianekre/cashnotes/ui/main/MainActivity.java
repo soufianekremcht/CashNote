@@ -2,7 +2,6 @@ package com.soufianekre.cashnotes.ui.main;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
@@ -193,6 +192,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
                     break;
                 case R.id.drawer_menu_filter:
                     startActivity(new Intent(this, TransactionFilterActivity.class));
+
                     break;
                 case R.id.drawer_menu_toggle_night_mode:
                     switchTheme();

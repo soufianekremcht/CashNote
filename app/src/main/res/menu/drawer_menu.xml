@@ -14,7 +14,8 @@
         <item
             android:id="@+id/drawer_menu_filter"
             android:icon="@drawable/ic_calender_black_24dp"
-            android:title="@string/filter" />
+            android:title="@string/filter"
+            android:checkable="false"/>
     </group>
 
     <group

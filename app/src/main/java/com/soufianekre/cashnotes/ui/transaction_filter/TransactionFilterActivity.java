@@ -11,18 +11,21 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.soufianekre.cashnotes.MyApp;
 import com.soufianekre.cashnotes.R;
+import com.soufianekre.cashnotes.data.app_preference.PrefsConst;
 import com.soufianekre.cashnotes.data.db.model.CashAccount;
 import com.soufianekre.cashnotes.data.db.model.CashTransaction;
 import com.soufianekre.cashnotes.ui.base.BaseActivity;
@@ -52,6 +55,8 @@ public class TransactionFilterActivity extends BaseActivity implements Transacti
     public static final String SELECTED_MONTH = "selected_month";
     public int selected_month_position = -1;
     public int selected_year = 2020;
+
+
     @BindView(R.id.transaction_filter_toolbar)
     Toolbar transactionFilterToolbar;
     @BindView(R.id.month_filter_chooser_btn)
@@ -61,7 +66,7 @@ public class TransactionFilterActivity extends BaseActivity implements Transacti
     @BindView(R.id.filter_empty_view)
     RelativeLayout filterEmptyView;
     @BindView(R.id.month_summary_chart)
-    PieChart monthSummaryPieChart;
+    PieChart monthPieChart;
     @Inject
     TransactionFilterPresenter<TransactionFilterContract.View> mPresenter;
     private TransactionsAdapter transactionsAdapter;
@@ -94,6 +99,19 @@ public class TransactionFilterActivity extends BaseActivity implements Transacti
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (MyApp.AppPref().getBoolean(PrefsConst.ALLOW_DARK_MODE)) {
+            monthPieChart.setEntryLabelColor(Color.WHITE);
+            monthPieChart.getDescription().setTextColor(Color.WHITE);
+            monthPieChart.getLegend().setTextColor(Color.WHITE);
+        }else{
+            monthPieChart.setEntryLabelColor(Color.BLACK);
+            monthPieChart.getDescription().setTextColor(Color.BLACK);
+            monthPieChart.getLegend().setTextColor(Color.BLACK);
+        }
+    }
 
     @Override
     protected void onDestroy() {
@@ -131,13 +149,49 @@ public class TransactionFilterActivity extends BaseActivity implements Transacti
         float totalIncome = 1f;
         Description desc = new Description();
         desc.setText("Summary of The Month");
-        monthSummaryPieChart.setDescription(desc);
-        monthSummaryPieChart.setUsePercentValues(true);
-        int textColor = ContextCompat.getColor(this,R.color.colorOnSurface);
-        monthSummaryPieChart.setCenterTextColor(textColor);
-        monthSummaryPieChart.setEntryLabelColor(textColor);
-        monthSummaryPieChart.setDrawCenterText(false);
-        monthSummaryPieChart.setDrawEntryLabels(false);
+
+        monthPieChart.setUsePercentValues(true);
+        monthPieChart.getDescription().setEnabled(false);
+
+        //monthSummaryPieChart.setCenterTextTypeface(tfLight);
+        //monthSummaryPieChart.setCenterText(generateCenterSpannableText());
+
+        monthPieChart.setDrawHoleEnabled(true);
+        monthPieChart.setHoleColor(Color.TRANSPARENT);
+
+        monthPieChart.setTransparentCircleColor(Color.TRANSPARENT);
+        monthPieChart.setTransparentCircleAlpha(110);
+
+        monthPieChart.setHoleRadius(58f);
+        monthPieChart.setTransparentCircleRadius(61f);
+
+        monthPieChart.setDrawCenterText(true);
+
+        monthPieChart.setRotationEnabled(false);
+        monthPieChart.setHighlightPerTapEnabled(true);
+
+        monthPieChart.setMaxAngle(180f); // HALF CHART
+        monthPieChart.setRotationAngle(180f);
+        monthPieChart.setCenterTextOffset(0, -20);
+
+
+        monthPieChart.animateY(1400, Easing.EaseInOutQuad);
+
+        Legend l = monthPieChart.getLegend();
+        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+        l.setDrawInside(false);
+        l.setXEntrySpace(7f);
+        l.setYEntrySpace(0f);
+        l.setYOffset(0f);
+
+        // entry label styling
+        monthPieChart.setEntryLabelColor(Color.WHITE);
+        monthPieChart.setEntryLabelTextSize(12f);
+
+
+        // Getting Data
 
 
         ArrayList<PieEntry> values = new ArrayList<>();
@@ -162,13 +216,12 @@ public class TransactionFilterActivity extends BaseActivity implements Transacti
 
         PieDataSet set1 = new PieDataSet(values, summaryLabel);
         set1.setColors(ColorTemplate.createColors(new int[]{Color.RED, Color.GREEN}));
-        set1.setValueTextColor(textColor);
         PieData pieData = new PieData(set1);
         pieData.setValueFormatter(new PercentFormatter());
+        pieData.setValueTextColor(Color.WHITE);
         // testing
-        monthSummaryPieChart.animateXY(1000, 1000);
-        monthSummaryPieChart.setData(pieData);
-        monthSummaryPieChart.invalidate();
+        monthPieChart.setData(pieData);
+        monthPieChart.invalidate();
 
     }
 

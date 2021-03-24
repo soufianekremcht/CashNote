@@ -229,11 +229,15 @@ public class TransactionEditorActivity extends BaseActivity
 
     private void setupUi() {
         setSupportActionBar(toolbar);
+        toolbar.setTitle("Add Account");
+        // change toolbar background color
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
-        toolbar.setNavigationOnClickListener(v -> onBackPressed());
+
         AppBarLayout mAppBarLayout = findViewById(R.id.add_transaction_app_bar);
         mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = false;

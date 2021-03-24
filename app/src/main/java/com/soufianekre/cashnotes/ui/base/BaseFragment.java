@@ -1,6 +1,7 @@
 package com.soufianekre.cashnotes.ui.base;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 
@@ -18,10 +19,14 @@ public abstract class BaseFragment extends Fragment implements BaseContract.MvpV
     private BaseActivity mActivity;
     private Unbinder mUnBinder;
 
+    public Typeface tfLight;
+    public Typeface tfRegular;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -34,6 +39,8 @@ public abstract class BaseFragment extends Fragment implements BaseContract.MvpV
         super.onAttach(context);
         if (context instanceof BaseActivity) {
             this.mActivity = (BaseActivity) context;
+            tfLight = mActivity.tfLight;
+            tfRegular = mActivity.tfRegular;
         }
     }
 
