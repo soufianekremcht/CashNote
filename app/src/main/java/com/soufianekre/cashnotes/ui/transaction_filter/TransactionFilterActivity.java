@@ -35,14 +35,11 @@ import com.soufianekre.cashnotes.ui.transactions.show_transaction.ShowTransactio
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static com.soufianekre.cashnotes.helper.AppUtils.CURRENT_YEAR;
 
 @SuppressLint("NonConstantResourceId")
 
@@ -89,7 +86,7 @@ public class TransactionFilterActivity extends BaseActivity implements Transacti
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
+        getMenuInflater().inflate(R.menu.main, menu);
         menu.findItem(R.id.main_menu_search).setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
@@ -102,7 +99,7 @@ public class TransactionFilterActivity extends BaseActivity implements Transacti
     @Override
     protected void onResume() {
         super.onResume();
-        if (MyApp.AppPref().getBoolean(PrefsConst.ALLOW_DARK_MODE)) {
+        if (MyApp.AppPref().getBoolean(PrefsConst.ACTIVATE_DARK_MODE)) {
             monthPieChart.setEntryLabelColor(Color.WHITE);
             monthPieChart.getDescription().setTextColor(Color.WHITE);
             monthPieChart.getLegend().setTextColor(Color.WHITE);
@@ -151,15 +148,15 @@ public class TransactionFilterActivity extends BaseActivity implements Transacti
         desc.setText("Summary of The Month");
 
         monthPieChart.setUsePercentValues(true);
-        monthPieChart.getDescription().setEnabled(false);
 
+        monthPieChart.getDescription().setEnabled(false);
         //monthSummaryPieChart.setCenterTextTypeface(tfLight);
         //monthSummaryPieChart.setCenterText(generateCenterSpannableText());
 
         monthPieChart.setDrawHoleEnabled(true);
         monthPieChart.setHoleColor(Color.TRANSPARENT);
 
-        monthPieChart.setTransparentCircleColor(Color.TRANSPARENT);
+        monthPieChart.setTransparentCircleColor(Color.WHITE);
         monthPieChart.setTransparentCircleAlpha(110);
 
         monthPieChart.setHoleRadius(58f);
@@ -203,22 +200,26 @@ public class TransactionFilterActivity extends BaseActivity implements Transacti
             else
                 totalIncome += cashTransaction.getBalance();
         }
-        //Set Summary using Percent
+        // set Summary using Percent
 
         // draw a chart for the summary of total income and expenses
         values.add(new PieEntry(totalExpense, "Expense"));
         values.add(new PieEntry(totalIncome, "Income"));
 
 
-        String summaryLabel = String.format(Locale.US, " Summary for %d-%d",
-                selected_month_position + 1, CURRENT_YEAR);
 
 
-        PieDataSet set1 = new PieDataSet(values, summaryLabel);
-        set1.setColors(ColorTemplate.createColors(new int[]{Color.RED, Color.GREEN}));
+        PieDataSet set1 = new PieDataSet(values, "Summary");
+        set1.setColors(ColorTemplate.MATERIAL_COLORS);
+        //set1.setColors(ColorTemplate.createColors(new int[]{Color.RED, Color.GREEN}));
+        set1.setSliceSpace(3f);
+        set1.setSelectionShift(5f);
         PieData pieData = new PieData(set1);
         pieData.setValueFormatter(new PercentFormatter());
         pieData.setValueTextColor(Color.WHITE);
+        if (!MyApp.AppPref().getBoolean(PrefsConst.ACTIVATE_DARK_MODE)){
+            pieData.setValueTextColor(Color.BLACK);
+        }
         // testing
         monthPieChart.setData(pieData);
         monthPieChart.invalidate();

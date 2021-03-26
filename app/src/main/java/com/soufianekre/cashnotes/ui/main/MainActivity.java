@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -25,7 +26,7 @@ import com.soufianekre.cashnotes.helper.AppUtils;
 import com.soufianekre.cashnotes.ui.account_edit.AccountEditorActivity;
 import com.soufianekre.cashnotes.ui.accounts.AccountsFragment;
 import com.soufianekre.cashnotes.ui.base.BaseActivity;
-import com.soufianekre.cashnotes.ui.google_sign_in.GoogleSignInActivity;
+import com.soufianekre.cashnotes.ui.google_sign_in.FirebaseSignInActivity;
 import com.soufianekre.cashnotes.ui.overview.OverViewFragment;
 import com.soufianekre.cashnotes.ui.settings.SettingsActivity;
 import com.soufianekre.cashnotes.ui.transaction_filter.TransactionFilterActivity;
@@ -96,6 +97,12 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         drawerToggle.setDrawerSlideAnimationEnabled(true);
         drawerToggle.syncState();
         mainNavView.setNavigationItemSelectedListener(this);
+        SwitchCompat drawerToggleThemeSwitch =(SwitchCompat) mainNavView.getMenu().findItem(R.id.drawer_menu_toggle_night_mode)
+                .getActionView();
+        drawerToggleThemeSwitch.setOnClickListener(v->{
+            switchTheme();
+        });
+
 
 
         newAccountFab.setOnClickListener(v -> {
@@ -108,7 +115,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
+        getMenuInflater().inflate(R.menu.main, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -145,6 +152,13 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     @Override
     protected void onResume() {
         super.onResume();
+        SwitchCompat drawerToggleThemeSwitch =(SwitchCompat) mainNavView.getMenu().findItem(R.id.drawer_menu_toggle_night_mode)
+                .getActionView();
+        if (MyApp.AppPref().getBoolean(PrefsConst.ACTIVATE_DARK_MODE)) {
+            drawerToggleThemeSwitch.setChecked(true);
+        }else{
+            drawerToggleThemeSwitch.setChecked(false);
+        }
         presenter.setBalanceForCurrentDay();
     }
 
@@ -187,17 +201,13 @@ public class MainActivity extends BaseActivity implements MainContract.View {
                     mainNavView.setCheckedItem(R.id.drawer_menu_accounts);
                     break;
                 case R.id.drawer_menu_user:
-                    Intent intent = new Intent(this, GoogleSignInActivity.class);
+                    Intent intent = new Intent(this, FirebaseSignInActivity.class);
                     startActivity(intent);
                     break;
                 case R.id.drawer_menu_filter:
                     startActivity(new Intent(this, TransactionFilterActivity.class));
 
                     break;
-                case R.id.drawer_menu_toggle_night_mode:
-                    switchTheme();
-                    break;
-
                 case R.id.drawer_menu_settings:
                     startActivity(new Intent(this, SettingsActivity.class));
                     break;
@@ -227,14 +237,14 @@ public class MainActivity extends BaseActivity implements MainContract.View {
 
 
     private void switchTheme() {
-        if (MyApp.AppPref().getBoolean(PrefsConst.ALLOW_DARK_MODE)) {
+        if (MyApp.AppPref().getBoolean(PrefsConst.ACTIVATE_DARK_MODE)) {
             AppCompatDelegate.setDefaultNightMode(
                     AppCompatDelegate.MODE_NIGHT_NO);
-            MyApp.AppPref().set(PrefsConst.ALLOW_DARK_MODE, false);
+            MyApp.AppPref().set(PrefsConst.ACTIVATE_DARK_MODE, false);
         } else {
             AppCompatDelegate.setDefaultNightMode(
                     AppCompatDelegate.MODE_NIGHT_YES);
-            MyApp.AppPref().set(PrefsConst.ALLOW_DARK_MODE, true);
+            MyApp.AppPref().set(PrefsConst.ACTIVATE_DARK_MODE, true);
         }
     }
 

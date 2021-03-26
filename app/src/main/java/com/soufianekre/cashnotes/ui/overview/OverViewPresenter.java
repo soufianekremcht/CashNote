@@ -70,12 +70,13 @@ public class OverViewPresenter<V extends OverViewContract.View> extends BasePres
                         .subscribeOn(getSchedulerProvider().io())
                         .observeOn(getSchedulerProvider().ui())
                         .subscribe(balanceHistories -> {
+                            List<BalanceHistory> results = new ArrayList<>();
                             // get Balance History Form past on certain time frame
                             int maxDays = daysBackward;
-                            Timber.e("DB History size :%s", balanceHistories.size());
-                            List<BalanceHistory> results = new ArrayList<>();
-                            int size = balanceHistories.size();
 
+                            Timber.e("DB History size :%s", balanceHistories.size());
+
+                            int size = balanceHistories.size();
                             if (maxDays > size && size > 0) maxDays = size;
                             if (maxDays < 1) maxDays = 1;
 

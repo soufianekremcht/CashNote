@@ -1,8 +1,8 @@
 package com.soufianekre.cashnotes.ui.google_sign_in;
 
+import android.annotation.SuppressLint;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,13 +11,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
+import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.soufianekre.cashnotes.R;
@@ -25,26 +23,22 @@ import com.soufianekre.cashnotes.ui.base.BaseActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import dagger.Binds;
+import es.dmoral.toasty.Toasty;
 
+@SuppressLint("NonConstantResourceId")
 public class UserProfileActivity extends BaseActivity {
+
 
     @BindView(R.id.user_profile_toolbar)
     Toolbar userProfileToolbar;
-
     @BindView(R.id.user_profile_img)
     ImageView userProfile;
-
     @BindView(R.id.user_profile_name)
     TextView userProfileName;
-
     @BindView(R.id.user_profile_email)
     TextView userProfileEmail;
-
     @BindView(R.id.user_profile_sign_out)
     Button userProfileSignOut;
-
-    private GoogleSignInClient mGoogleSignInClient;
 
     String personName;
     String personGivenName;
@@ -52,6 +46,7 @@ public class UserProfileActivity extends BaseActivity {
     String personEmail;
     String personId;
     Uri personPhoto;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,17 +54,10 @@ public class UserProfileActivity extends BaseActivity {
         setUnBinder(ButterKnife.bind(this));
 
         setSupportActionBar(userProfileToolbar);
-        if (getSupportActionBar()!= null)
+
+        if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
-        userProfileSignOut.setOnClickListener(v -> {
-            signOut();
-        });
 
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
         if (acct != null) {
@@ -88,25 +76,24 @@ public class UserProfileActivity extends BaseActivity {
                     .into(userProfile);
         }
 
+        userProfileSignOut.setOnClickListener(v -> {
+            signOut();
+        });
 
 
     }
 
     private void signOut() {
-
         new MaterialDialog.Builder(this)
                 .title("Confirm signing out :")
                 .content("Your data will not be deleted after signing out. you can recover your data with the same account.")
                 .positiveText(R.string.confirm)
                 .onPositive((dialog, which) -> {
-                    mGoogleSignInClient.signOut()
-                            .addOnCompleteListener(this, new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    // ...
-                                    showMessage("You sign out successfuly");
-                                    onBackPressed();
-                                }
+                    AuthUI.getInstance()
+                            .signOut(this)
+                            .addOnCompleteListener(task -> {
+                                showMessage("You sign out successfully");
+                                finish();
                             });
                 })
                 .negativeText(R.string.cancel)
@@ -115,8 +102,5 @@ public class UserProfileActivity extends BaseActivity {
 
     }
 
-    private void revokeAccess() {
-        mGoogleSignInClient.revokeAccess()
-                .addOnCompleteListener(this, task -> onBackPressed());
-    }
+
 }

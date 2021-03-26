@@ -85,7 +85,7 @@ public class TransactionsActivity extends BaseActivity implements TransactionsCo
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
+        getMenuInflater().inflate(R.menu.main, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -278,7 +278,7 @@ public class TransactionsActivity extends BaseActivity implements TransactionsCo
 
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            mode.getMenuInflater().inflate(R.menu.action_mode_menu, menu);
+            mode.getMenuInflater().inflate(R.menu.action_mode, menu);
             return true;
         }
 

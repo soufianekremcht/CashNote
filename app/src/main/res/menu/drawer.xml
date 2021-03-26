@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <group
         android:id="@+id/menu_top"
         android:checkableBehavior="single">
@@ -24,14 +25,13 @@
 
         <item
             android:id="@+id/drawer_menu_user"
-
             android:icon="@drawable/ic_outline_account_box_black"
-            android:title="@string/user"
-            android:visible="false" />
+            android:title="@string/user" />
         <item
             android:id="@+id/drawer_menu_toggle_night_mode"
             android:icon="@drawable/ic_toggle_night_mode"
-            android:title="@string/toggle_night_mode" />
+            android:title="@string/toggle_night_mode"
+            app:actionLayout="@layout/drawer_toggle_list_grid_view_switch"/>
         <item
             android:id="@+id/drawer_menu_settings"
             android:icon="@drawable/ic_settings_black_24dp"

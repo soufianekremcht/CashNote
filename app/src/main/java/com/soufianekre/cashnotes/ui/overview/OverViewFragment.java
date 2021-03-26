@@ -15,12 +15,10 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -41,7 +39,6 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.github.mikephil.charting.utils.MPPointF;
 import com.soufianekre.cashnotes.MyApp;
 import com.soufianekre.cashnotes.R;
 import com.soufianekre.cashnotes.data.app_preference.PrefsConst;
@@ -134,7 +131,6 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
         setRetainInstance(true);
 
 
-
     }
 
     @Nullable
@@ -177,7 +173,7 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
     @Override
     public void onResume() {
         super.onResume();
-        if (MyApp.AppPref().getBoolean(PrefsConst.ALLOW_DARK_MODE)) {
+        if (MyApp.AppPref().getBoolean(PrefsConst.ACTIVATE_DARK_MODE)) {
             summaryPieChart.setEntryLabelColor(Color.WHITE);
             summaryPieChart.getDescription().setTextColor(Color.WHITE);
             summaryPieChart.getLegend().setTextColor(Color.WHITE);
@@ -193,7 +189,6 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
                 balanceChart.getBarData().setValueTextColor(Color.WHITE);
             balanceChart.getLegend().setTextColor(Color.WHITE);
             balanceChart.getDescription().setTextColor(Color.WHITE);
-
         } else {
             summaryPieChart.setEntryLabelColor(Color.BLACK);
             summaryPieChart.getDescription().setTextColor(Color.BLACK);
@@ -228,7 +223,6 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
     }
 
 
-
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -241,31 +235,27 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
         Description desc = new Description();
         desc.setText("Summary of this month");
 
-        summaryPieChart.setDescription(desc);
-
-        summaryPieChart.setUsePercentValues(true);
         summaryPieChart.setDragDecelerationFrictionCoef(0.95f);
-        summaryPieChart.setExtraOffsets(5, 10, 5, 5);
 
         summaryPieChart.setCenterTextTypeface(tfLight);
         //summaryPieChart.setCenterText(generateCenterSpannableText());
 
-
-
         summaryPieChart.setDrawHoleEnabled(true);
         summaryPieChart.setHoleColor(Color.TRANSPARENT);
 
-        summaryPieChart.setTransparentCircleColor(Color.TRANSPARENT);
+        summaryPieChart.setTransparentCircleColor(Color.WHITE);
         summaryPieChart.setTransparentCircleAlpha(110);
 
         summaryPieChart.setHoleRadius(58f);
         summaryPieChart.setTransparentCircleRadius(61f);
-        summaryPieChart.setDrawCenterText(true);
-        summaryPieChart.setRotationAngle(0);
 
+        summaryPieChart.setDrawCenterText(true);
+
+        summaryPieChart.setRotationAngle(0);
         // enable rotation of the chart by touch
         summaryPieChart.setRotationEnabled(true);
         summaryPieChart.setHighlightPerTapEnabled(true);
+
 
         // Getting Data
         ArrayList<PieEntry> values = new ArrayList<>();
@@ -288,7 +278,7 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
         // draw a chart for the summary of total income and expenses
         values.add(new PieEntry(totalExpense, "Expense"));
         values.add(new PieEntry(totalIncome, "Income"));
-        Timber.d("Total Expense : " + totalExpense +" Income : " + totalExpense);
+        Timber.d("Total Expense : " + totalExpense + " Income : " + totalExpense);
 
         String summaryLabel = String.format(" Summary for %d-%d", currentMonth + 1, CURRENT_YEAR);
         PieDataSet dataSet = new PieDataSet(values, summaryLabel);
@@ -296,14 +286,16 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
         dataSet.setSliceSpace(3f);
         dataSet.setSelectionShift(5f);
 
-        int lightGreen = ContextCompat.getColor(getContext(),R.color.accent_light_green);
-        dataSet.setColors(ColorTemplate.createColors(new int[]{Color.RED,lightGreen}));
+        int lightGreen = ContextCompat.getColor(getContext(), R.color.accent_light_green);
+        dataSet.setColors(ColorTemplate.createColors(new int[]{Color.RED, lightGreen}));
 
         PieData data = new PieData(dataSet);
         data.setValueFormatter(new PercentFormatter());
         data.setValueTextSize(11f);
-        data.setValueTextColor(Color.WHITE);
-        //data.setValueTypeface(tfLight);
+        if (!MyApp.AppPref().getBoolean(PrefsConst.ACTIVATE_DARK_MODE)) {
+            data.setValueTextColor(Color.WHITE);
+        }
+        data.setValueTypeface(tfLight);
 
         Legend l = summaryPieChart.getLegend();
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
@@ -323,9 +315,6 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
         summaryPieChart.animateXY(1000, 1000);
         summaryPieChart.setData(data);
         summaryPieChart.invalidate();
-
-
-
 
 
     }
@@ -368,7 +357,6 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         ArrayList<Entry> ExpenseValues = new ArrayList<>();
         ArrayList<Entry> IncomeValues = new ArrayList<>();
-
 
 
         for (int i = 0; i < 7; i++) {
@@ -432,7 +420,6 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
         leftAxis.setValueFormatter(customValueFormatter);
         leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
         leftAxis.setSpaceTop(15f);
-        leftAxis.setStartAtZero(true);
         // this replaces setStartAtZero(true)
 
 
@@ -443,17 +430,23 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
 
 
         List<BarEntry> barEntryValues = new ArrayList<>();
-        if (days > balances.size()) days = balances.size();
+
+        if (days > balances.size())
+            days = balances.size();
+
         for (int i = 0; i < days; i++) {
             float value = balances.get(i).getValue();
             //values.add(new BarEntry(currentDay-days+i,value));
             barEntryValues.add(new BarEntry(currentDay - i, value));
+
         }
-
-
+        Timber.e("balance Entry Size %s", barEntryValues.size());
+        showMessage("balance Entry Size " + barEntryValues.size());
         BarDataSet bardataSet = new BarDataSet(barEntryValues, "Balance");
-        bardataSet.setColor(Color.GREEN);
+
+        bardataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
         BarData barData = new BarData(bardataSet);
+
         balanceChart.animateX(2000);
         balanceChart.setData(barData);
         balanceChart.invalidate();
@@ -509,7 +502,6 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
 
         recentAccountsAdapter.addItems(recentAccounts);
     }
-
 
 
     private SpannableString generateCenterSpannableText() {

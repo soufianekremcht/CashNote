@@ -15,5 +15,5 @@ public class PrefsConst {
     public static final String PREF_ABOUT_RATE_US = "rate_us";
 
 
-    public static final String ALLOW_DARK_MODE = "allow_dark_mode";
+    public static final String ACTIVATE_DARK_MODE = "activate_dark_mode";
 }

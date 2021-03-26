@@ -78,9 +78,9 @@
             android:name=".ui.google_sign_in.UserProfileActivity"
             android:parentActivityName=".ui.main.MainActivity" />
 
-        <activity
-            android:name=".ui.google_sign_in.GoogleSignInActivity"
-            android:parentActivityName=".ui.main.MainActivity" />
+
+        <activity android:name=".ui.google_sign_in.FirebaseSignInActivity"
+            android:parentActivityName=".ui.main.MainActivity"/>
 
 
         <meta-data

@@ -69,7 +69,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.Accoun
         holder.accountOptionsBtn.setOnClickListener(v -> {
             // pop up
             PopupMenu popupMenu = new PopupMenu(holder.itemView.getContext(), v);
-            popupMenu.inflate(R.menu.popup_menu_edit);
+            popupMenu.inflate(R.menu.popup_edit);
             popupMenu.setOnMenuItemClickListener(item -> {
                 switch (item.getItemId()) {
                     case R.id.popup_menu_edit:
