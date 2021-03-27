@@ -4,6 +4,7 @@ package com.soufianekre.cashnotes.ui.transactions.search;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
 
@@ -30,7 +31,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
     @BindView(R.id.search_result_recycler_view)
     RecyclerView searchResultRecyclerView;
     @BindView(R.id.search_empty_data_view)
-    RelativeLayout searchEmptyView;
+    LinearLayout searchEmptyView;
     @BindView(R.id.search_toolbar)
     Toolbar searchToolbar;
     @BindView(R.id.search_field)

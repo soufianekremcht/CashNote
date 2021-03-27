@@ -1,11 +1,13 @@
 package com.soufianekre.cashnotes.ui.accounts;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -43,8 +45,9 @@ public class AccountsFragment extends BaseFragment implements AccountsContract.V
 
     @BindView(R.id.accounts_recycler_view)
     RecyclerView accountsRecyclerView;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.accounts_empty_view_layout)
-    RelativeLayout emptyView;
+    LinearLayout emptyView;
 
     // Accounts General Info
     @BindView(R.id.total_balance_value_text)

@@ -232,9 +232,8 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
     public void setupSummaryPieChart(List<CashTransaction> transactions) {
         float totalExpense = 1f;
         float totalIncome = 1f;
-        Description desc = new Description();
-        desc.setText("Summary of this month");
 
+        summaryPieChart.getDescription().setEnabled(false);
         summaryPieChart.setDragDecelerationFrictionCoef(0.95f);
 
         summaryPieChart.setCenterTextTypeface(tfLight);
@@ -426,7 +425,7 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
         Description desc = new Description();
         desc.setText(String.format("Balance per day in %s",
                 MyApp.AppPref().getString(PrefsConst.PREF_DEFAULT_CURRENCY, "$")));
-        balanceChart.setDescription(desc);
+        balanceChart.getDescription().setEnabled(false);
 
 
         List<BarEntry> barEntryValues = new ArrayList<>();
@@ -441,7 +440,7 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
 
         }
         Timber.e("balance Entry Size %s", barEntryValues.size());
-        showMessage("balance Entry Size " + barEntryValues.size());
+
         BarDataSet bardataSet = new BarDataSet(barEntryValues, "Balance");
 
         bardataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
@@ -465,7 +464,6 @@ public class OverViewFragment extends BaseFragment implements OverViewContract.V
 
         });
 
-        showMessage("Transactions Size : " + allTransactions.size());
         setupSummaryPieChart(allTransactions);
         setupExpenseIncomeLineChart(allTransactions);
 

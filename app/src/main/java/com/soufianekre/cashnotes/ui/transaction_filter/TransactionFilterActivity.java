@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -61,7 +62,7 @@ public class TransactionFilterActivity extends BaseActivity implements Transacti
     @BindView(R.id.transactions_filter_recycler_view)
     RecyclerView transactionsFilteredRecyclerView;
     @BindView(R.id.filter_empty_view)
-    RelativeLayout filterEmptyView;
+    LinearLayout filterEmptyView;
     @BindView(R.id.month_summary_chart)
     PieChart monthPieChart;
     @Inject

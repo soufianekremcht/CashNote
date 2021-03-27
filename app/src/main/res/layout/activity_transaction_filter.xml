@@ -67,7 +67,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/spacing_normal"
-                android:elevation="4dp">
+                android:elevation="4dp"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -158,11 +159,7 @@
             <include
                 android:id="@+id/filter_empty_view"
                 layout="@layout/view_empty_data"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="@dimen/spacing_normal"
-                android:padding="@dimen/spacing_small"
-                android:visibility="visible"
+
 
                 />
 

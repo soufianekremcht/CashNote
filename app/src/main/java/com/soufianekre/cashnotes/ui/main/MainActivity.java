@@ -152,13 +152,14 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     @Override
     protected void onResume() {
         super.onResume();
+        if (getCurrentFragment() instanceof OverViewFragment)
+            if (newAccountFab != null)
+                newAccountFab.hide();
+
         SwitchCompat drawerToggleThemeSwitch =(SwitchCompat) mainNavView.getMenu().findItem(R.id.drawer_menu_toggle_night_mode)
                 .getActionView();
-        if (MyApp.AppPref().getBoolean(PrefsConst.ACTIVATE_DARK_MODE)) {
-            drawerToggleThemeSwitch.setChecked(true);
-        }else{
-            drawerToggleThemeSwitch.setChecked(false);
-        }
+        drawerToggleThemeSwitch.setChecked(MyApp.AppPref().getBoolean(PrefsConst.ACTIVATE_DARK_MODE));
+        // update balance database
         presenter.setBalanceForCurrentDay();
     }
 

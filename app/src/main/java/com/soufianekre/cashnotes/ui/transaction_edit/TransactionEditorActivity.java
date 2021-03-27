@@ -229,7 +229,6 @@ public class TransactionEditorActivity extends BaseActivity
 
     private void setupUi() {
         setSupportActionBar(toolbar);
-        toolbar.setTitle("Add Account");
         // change toolbar background color
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
         if (getSupportActionBar() != null) {

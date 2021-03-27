@@ -9,6 +9,7 @@ import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -50,7 +51,7 @@ public class TransactionsActivity extends BaseActivity implements TransactionsCo
     @BindView(R.id.transactions_recycler_view)
     RecyclerView transactionsRecyclerView;
     @BindView(R.id.transaction_empty_view_layout)
-    RelativeLayout emptyView;
+    LinearLayout emptyView;
     @BindView(R.id.account_balance_value_text)
     TextView accountBalanceValueText;
     @BindView(R.id.account_incomes_value_text)

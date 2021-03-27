@@ -26,8 +26,10 @@ public class AboutFragment extends PreferenceFragmentCompat implements
     }
 
     private void setupPreferences() {
+        Preference rateUsPref = findPreference(PrefsConst.PREF_ABOUT_RATE_US);
         Preference appDevPref = findPreference(PrefsConst.PREF_ABOUT_APP_DEV);
         Preference privacyPref = findPreference(PrefsConst.PREF_ABOUT_PRIVACY_POLICY);
+        rateUsPref.setOnPreferenceClickListener(this);
         appDevPref.setOnPreferenceClickListener(this);
         privacyPref.setOnPreferenceClickListener(this);
     }
@@ -69,7 +71,7 @@ public class AboutFragment extends PreferenceFragmentCompat implements
     }
 
     private void goToReportIssuesPage() {
-        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/SoufianeKreX")));
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/soufianekremcht")));
     }
 
     private void goToGooglePlayStore() {

@@ -26,7 +26,8 @@
         <item
             android:id="@+id/drawer_menu_user"
             android:icon="@drawable/ic_outline_account_box_black"
-            android:title="@string/user" />
+            android:title="@string/user"
+            android:visible="false"/>
         <item
             android:id="@+id/drawer_menu_toggle_night_mode"
             android:icon="@drawable/ic_toggle_night_mode"

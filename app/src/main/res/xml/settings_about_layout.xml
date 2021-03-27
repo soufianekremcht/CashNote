@@ -5,13 +5,14 @@
         <Preference
             android:title="App Version"
             android:key="appVersion"
-            android:summary = "1.0.1"/>
+            android:summary = "1.0.2"/>
 
         <Preference android:title="App Developer"
             android:key="app_dev"
             android:summary = "Soufiane Kremcht"/>
 
-        <Preference android:title="Rate Us on PlayStore"
+        <Preference android:title="Rate us on Play Store"
+
             android:key="rate_us" />
     </PreferenceCategory>
 
