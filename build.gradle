@@ -1,13 +1,17 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
+
+    // Gradle Version : 4.2.1
+    // Gradle Plugin : 6.7.1
     repositories {
         google()
         jcenter()
+        mavenCentral()
         
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.2'
+        classpath 'com.android.tools.build:gradle:4.2.1'
         classpath 'com.google.gms:google-services:4.3.5'
 
         // Add the Crashlytics Gradle plugin (be sure to add version
@@ -21,6 +25,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+        mavenCentral()
         maven { url 'https://jitpack.io' }
         
     }
